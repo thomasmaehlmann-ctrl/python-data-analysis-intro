@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Schreiben von wiederverwendbarem Code mithilfe von Funktionen – Programmierung und Datenanalyse mit Python: Eine Einführung</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./kapitel5.html" rel="next">
+<link href="./kapitel3.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e0fdce12ac1367d4b47c179a2935dd10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-74c88ba48ad0bebf983f0ffd06dd1671.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-e0fdce12ac1367d4b47c179a2935dd10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./kapitel4.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Schreiben von wiederverwendbarem Code mithilfe von Funktionen</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Programmierung und Datenanalyse mit Python: Eine Einführung</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Willkommen zu „Programmierung und Datenanalyse mit Python: Eine Einführung“</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Erste Schritte mit Python und Jupyter</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Eine kurze Tour durch Variablen und Datentypen in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Verzweigungen mit bedingten Anweisungen und Schleifen in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel4.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Schreiben von wiederverwendbarem Code mithilfe von Funktionen</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Numerisches Rechnen mit Python und Numpy</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Analyse tabellarischer Daten mit Python und Pandas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Datenvisualisierung mit Python, Matplotlib und Seaborn</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Explorative Datenanalyse mit Python – Eine Fallstudie</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#funktionen-erstellen-und-verwenden" id="toc-funktionen-erstellen-und-verwenden" class="nav-link active" data-scroll-target="#funktionen-erstellen-und-verwenden"><span class="header-section-number">5.1</span> Funktionen erstellen und verwenden</a>
+  <ul class="collapse">
+  <li><a href="#grundlagen" id="toc-grundlagen" class="nav-link" data-scroll-target="#grundlagen"><span class="header-section-number">5.1.1</span> Grundlagen</a></li>
+  <li><a href="#funktionsargumente" id="toc-funktionsargumente" class="nav-link" data-scroll-target="#funktionsargumente"><span class="header-section-number">5.1.2</span> Funktionsargumente</a></li>
+  </ul></li>
+  <li><a href="#erstellen-von-funktionen-in-python" id="toc-erstellen-von-funktionen-in-python" class="nav-link" data-scroll-target="#erstellen-von-funktionen-in-python"><span class="header-section-number">5.2</span> Erstellen von Funktionen in Python</a>
+  <ul class="collapse">
+  <li><a href="#lokale-variablen-und-scope" id="toc-lokale-variablen-und-scope" class="nav-link" data-scroll-target="#lokale-variablen-und-scope"><span class="header-section-number">5.2.1</span> Lokale Variablen und “Scope”</a></li>
+  <li><a href="#rückgabewerte" id="toc-rückgabewerte" class="nav-link" data-scroll-target="#rückgabewerte"><span class="header-section-number">5.2.2</span> Rückgabewerte</a></li>
+  <li><a href="#optionale-argumente" id="toc-optionale-argumente" class="nav-link" data-scroll-target="#optionale-argumente"><span class="header-section-number">5.2.3</span> Optionale Argumente</a></li>
+  <li><a href="#named-arguments" id="toc-named-arguments" class="nav-link" data-scroll-target="#named-arguments"><span class="header-section-number">5.2.4</span> Named arguments</a></li>
+  <li><a href="#module-und-bibliotheksfunktionen" id="toc-module-und-bibliotheksfunktionen" class="nav-link" data-scroll-target="#module-und-bibliotheksfunktionen"><span class="header-section-number">5.2.5</span> Module und Bibliotheksfunktionen</a></li>
+  <li><a href="#funktionen-wiederverwenden-und-verbessern" id="toc-funktionen-wiederverwenden-und-verbessern" class="nav-link" data-scroll-target="#funktionen-wiederverwenden-und-verbessern"><span class="header-section-number">5.2.6</span> Funktionen wiederverwenden und verbessern</a></li>
+  <li><a href="#exceptions-und-try-except" id="toc-exceptions-und-try-except" class="nav-link" data-scroll-target="#exceptions-und-try-except"><span class="header-section-number">5.2.7</span> Exceptions und <code>try</code>-<code>except</code></a></li>
+  <li><a href="#funktionen-mit-docstrings-dokumentieren" id="toc-funktionen-mit-docstrings-dokumentieren" class="nav-link" data-scroll-target="#funktionen-mit-docstrings-dokumentieren"><span class="header-section-number">5.2.8</span> Funktionen mit Docstrings dokumentieren</a></li>
+  </ul></li>
+  <li><a href="#übung---datenanalyse-für-die-urlaubsplanung" id="toc-übung---datenanalyse-für-die-urlaubsplanung" class="nav-link" data-scroll-target="#übung---datenanalyse-für-die-urlaubsplanung"><span class="header-section-number">5.3</span> Übung - Datenanalyse für die Urlaubsplanung</a></li>
+  <li><a href="#weiterführende-literatur-und-referenzen" id="toc-weiterführende-literatur-und-referenzen" class="nav-link" data-scroll-target="#weiterführende-literatur-und-referenzen"><span class="header-section-number">5.4</span> Weiterführende Literatur und Referenzen</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Schreiben von wiederverwendbarem Code mithilfe von Funktionen</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Dieses Tutorial ist das vierte in einer Reihe zur Einführung in die Programmierung und Datenanalyse mit der Python-Programmiersprache. Diese Tutorials basieren auf einem praktischen, programmbasierten Ansatz. Der beste Weg, das Material zu erlernen, besteht darin, den Code auszuführen und mit den Beispielen zu experimentieren.</p>
+<p>Die folgenden Themen werden in diesem Tutorial behandelt:</p>
+<ul>
+<li><a href="#funktionen-erstellen-verwenden">Funktionen erstellen und verwenden</a></li>
+<li><a href="#funktionen-erstellen">Erstellen von Funktionen in Python</a></li>
+<li><a href="#uebung">Übung - Datenanalyse für die Urlaubsplanung</a></li>
+</ul>
+<p><a id="funktionen-erstellen-verwenden"></a></p>
+<section id="funktionen-erstellen-und-verwenden" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="funktionen-erstellen-und-verwenden"><span class="header-section-number">5.1</span> Funktionen erstellen und verwenden</h2>
+<section id="grundlagen" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="grundlagen"><span class="header-section-number">5.1.1</span> Grundlagen</h3>
+<p>Eine Funktion ist ein wiederverwendbarer Satz von Anweisungen. Eine Funktion nimmt eine oder mehrere Eingaben entgegen, führt bestimmte Operationen aus und gibt häufig eine Ausgabe zurück. Python bietet viele integrierte Funktionen wie <code>print</code> und ermöglicht Ihnen auch die Definition eigener Funktionen.</p>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:359,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115395201,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="84d0c5b0-a85a-4319-9469-1d621d96a53c" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>today <span class="op">=</span> <span class="st">"Saturday"</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="bu">print</span>(<span class="st">"Today is"</span>, today)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Today is Saturday</code></pre>
+</div>
+</div>
+<p>Sie können eine neue Funktion mit dem Keyword <code>def</code> definieren.</p>
+<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:337,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115396085,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">def</span> say_hello():</span>
+<span id="cb3-2"><a href="#cb3-2"></a>    <span class="bu">print</span>(<span class="st">'Hello there!'</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a>    <span class="bu">print</span>(<span class="st">'How are you?'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Beachten Sie die runden Klammern oder Parenthesen <code>()</code> und den Doppelpunkt <code>:</code> nach dem Namen der Funktion. Beide sind wesentliche Teile der Syntax zur Definition einer Funktion. Der <em>Körper</em> der Funktion kann eine oder mehrere Anweisungen enthalten, die ausgeführt werden sollen, wenn die Funktion aufgerufen wird. Ähnlich wie bei bedingten Anweisungen und Schleifen, müssen die Anweisungen durch 4 Leerzeichen eingerückt werden.</p>
+<p>Die Anweisungen im Körper einer Funktion werden nicht ausgeführt, wenn eine Funktion definiert wird. Um die Anweisungen auszuführen, müssen wir die Funktion <em>aufrufen</em> oder <em>aktivieren</em>.</p>
+<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:369,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115397968,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="edc4fd6e-d398-4d81-d206-e72874dad0ef" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>say_hello()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hello there!
+How are you?</code></pre>
+</div>
+</div>
+</section>
+<section id="funktionsargumente" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="funktionsargumente"><span class="header-section-number">5.1.2</span> Funktionsargumente</h3>
+<p>Funktionen können auch einen oder mehrere Werte als <em>Eingaben</em> akzeptieren (auch bekannt als <em>Argumente</em> oder <em>Parameter</em>). Argumente helfen uns, flexible Funktionen zu schreiben, die dieselbe Operation für verschiedene Werte ausführen können. Darüber hinaus können Funktionen mit dem Keyword <code>return</code> auch einen Wert als Ergebnis zurückgeben, der in einer Variablen gespeichert oder in anderen Ausdrücken verwendet werden kann.</p>
+<p>Hier ist eine Funktion, die die geraden Zahlen aus einer Liste herausfiltert.</p>
+<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:312,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115399565,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">def</span> filter_even(number_list):</span>
+<span id="cb6-2"><a href="#cb6-2"></a>    result_list <span class="op">=</span> []</span>
+<span id="cb6-3"><a href="#cb6-3"></a>    <span class="cf">for</span> number <span class="kw">in</span> number_list:</span>
+<span id="cb6-4"><a href="#cb6-4"></a>        <span class="cf">if</span> number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb6-5"><a href="#cb6-5"></a>            result_list.append(number)</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    <span class="cf">return</span> result_list</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Können Sie anhand des Codes verstehen, was die Funktion bewirkt? Wenn nicht, versuchen Sie, jede Zeile der Funktion innerhalb einer Codezelle mit einer Liste von Zahlen als <code>number_list</code> auszuführen.</p>
+<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:329,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115403017,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>even_list <span class="op">=</span> filter_even([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:333,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115404941,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="fef80084-7741-4a54-8629-bc4343c806d1" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>even_list</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>[2, 4, 6]</code></pre>
+</div>
+</div>
+<p><a id="funktionen-erstellen"></a></p>
+</section>
+</section>
+<section id="erstellen-von-funktionen-in-python" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="erstellen-von-funktionen-in-python"><span class="header-section-number">5.2</span> Erstellen von Funktionen in Python</h2>
+<p>Als Programmierer verbringen Sie den Großteil Ihrer Zeit mit dem Schreiben und Verwenden von Funktionen, und Python bietet viele Funktionen, um Ihre Funktionen leistungsstark und flexibel zu gestalten. Lassen Sie uns einige davon untersuchen, indem wir ein Problem lösen:</p>
+<blockquote class="blockquote">
+<p>Radha plant den Kauf eines Hauses, das 1.260.000 Dollar kostet. Sie erwägt zwei Optionen zur Finanzierung ihres Kaufs:</p>
+<ul>
+<li>Option 1: Sofortige Anzahlung von 300.000 Dollar und einen 8-jährigen Kredit mit einem Zinssatz von 10% pro Jahr (monatlich zusammengesetzt) für den verbleibenden Betrag.</li>
+<li>Option 2: Ein 10-jähriger Kredit mit einem Zinssatz von 8% (monatlich zusammengesetzt) für den gesamten Betrag.</li>
+</ul>
+<p>Beide Kredite müssen in gleichen monatlichen Raten (EMIs) zurückgezahlt werden. Welcher Kredit hat unter den beiden die niedrigere EMI?</p>
+</blockquote>
+<p>Da wir die EMIs für zwei Kreditoptionen vergleichen müssen, könnte es hilfreich sein, eine Funktion zu definieren, die die EMI für einen Kredit berechnet, unter Berücksichtigung von Eingaben wie den Kosten des Hauses, der Anzahlung, der Dauer des Kredits, dem Zinssatz usw. Wir werden diese Funktion Schritt für Schritt aufbauen.</p>
+<p>Beginnen wir mit einer einfachen Funktion, die die EMI für die gesamten Kosten des Hauses berechnet, unter der Annahme, dass der Kredit innerhalb eines Jahres zurückgezahlt werden muss und es keine Zinsen oder Anzahlung gibt.</p>
+<div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:297,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115586614,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">def</span> loan_emi(amount):</span>
+<span id="cb10-2"><a href="#cb10-2"></a>    emi <span class="op">=</span> amount <span class="op">/</span> <span class="dv">12</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>    <span class="bu">print</span>(<span class="st">'The EMI is $</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(emi))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-16" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:344,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115588849,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="2be9213b-fc75-4127-87e1-01c7ef8c3d53" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>loan_emi(<span class="dv">1260000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The EMI is $105000.0</code></pre>
+</div>
+</div>
+<section id="lokale-variablen-und-scope" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="lokale-variablen-und-scope"><span class="header-section-number">5.2.1</span> Lokale Variablen und “Scope”</h3>
+<p>Fügen wir ein zweites Argument hinzu, um die Laufzeit des Darlehens in Monaten zu berücksichtigen.</p>
+<div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:299,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115643500,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">def</span> loan_emi(amount, duration):</span>
+<span id="cb13-2"><a href="#cb13-2"></a>    emi <span class="op">=</span> amount <span class="op">/</span> duration</span>
+<span id="cb13-3"><a href="#cb13-3"></a>    <span class="bu">print</span>(<span class="st">'The EMI is $</span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(emi))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Beachten Sie, dass die innerhalb der Funktion definierte Variable <code>emi</code> außerhalb der Funktion nicht zugänglich ist. Das Gleiche gilt für die Parameter <code>amount</code> und <code>duration</code>. Dies sind alles <em>lokale Variablen</em>, die innerhalb des <em>Geltungsbereichs</em> der Funktion liegen.</p>
+<blockquote class="blockquote">
+<p><strong>Scope</strong>: Der Geltungsbereich bezieht sich auf den Bereich innerhalb des Codes, in dem eine bestimmte Variable sichtbar ist. Jede Funktion (oder Klassendefinition) definiert einen Geltungsbereich innerhalb von Python. Variablen, die in diesem Bereich definiert sind, werden als <em>lokale Variablen</em> bezeichnet. Variablen, die überall verfügbar sind, werden als <em>globale Variablen</em> bezeichnet. Die Regeln des Geltungsbereichs ermöglichen es Ihnen, die gleichen Variablennamen in verschiedenen Funktionen zu verwenden, ohne Werte von einer zur anderen zu teilen.</p>
+</blockquote>
+<div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-outputid="3c3a1db2-1996-4913-d7d9-8eae84e61400" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>emi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[10], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">emi</span>
+
+<span class="ansi-red-fg">NameError</span>: name 'emi' is not defined</pre>
+</div>
+</div>
+</div>
+<div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-outputid="04157576-ccf9-44d8-e413-13b7b6700f7c" data-execution_count="36">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>amount</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[36], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">amount</span>
+
+<span class="ansi-red-fg">NameError</span>: name 'amount' is not defined</pre>
+</div>
+</div>
+</div>
+<div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-outputid="6efe24ef-26e3-4302-b83e-dabaae8ca6eb" data-execution_count="37">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>duration</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[37], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">duration</span>
+
+<span class="ansi-red-fg">NameError</span>: name 'duration' is not defined</pre>
+</div>
+</div>
+</div>
+<p>Wir können nun einen Kredit mit einer Laufzeit von 6 Jahren mit einem Kredit mit einer Laufzeit von 10 Jahren vergleichen (unter der Annahme, dass keine Anzahlung oder Zinsen erfolgt).</p>
+<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:317,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115786515,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="8cd3958b-7417-4779-c54c-56d8727af4cb" data-execution_count="38">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>loan_emi(<span class="dv">1260000</span>, <span class="dv">8</span><span class="op">*</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[38], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">loan_emi</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">1260000</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">8</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">12</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-red-fg">TypeError</span>: loan_emi() missing 1 required positional argument: 'rate'</pre>
+</div>
+</div>
+</div>
+<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:325,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115790834,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="67e9c3e3-6c4d-4804-ae26-d74401473d1d" data-scrolled="true" data-execution_count="39">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>loan_emi(<span class="dv">1260000</span>, <span class="dv">10</span><span class="op">*</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[39], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">loan_emi</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">1260000</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">10</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">12</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-red-fg">TypeError</span>: loan_emi() missing 1 required positional argument: 'rate'</pre>
+</div>
+</div>
+</div>
+</section>
+<section id="rückgabewerte" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="rückgabewerte"><span class="header-section-number">5.2.2</span> Rückgabewerte</h3>
+<p>Wie zu erwarten ist, ist der EMI für den 6-Jahres-Kredit höher als für den 10-Jahres-Kredit. Im Moment geben wir das Ergebnis aus, aber es wäre besser, es zurückzugeben und die Ergebnisse zum einfacheren Vergleich in Variablen zu speichern. Wir können dies mit der <code>return</code>-Anweisung tun</p>
+<div id="cell-27" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:326,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115831629,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="40">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">def</span> loan_emi(amount, duration):</span>
+<span id="cb19-2"><a href="#cb19-2"></a>    emi <span class="op">=</span> amount <span class="op">/</span> duration</span>
+<span id="cb19-3"><a href="#cb19-3"></a>    <span class="cf">return</span> emi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-28" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:382,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115833689,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="41">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>emi1 <span class="op">=</span> loan_emi(<span class="dv">1260000</span>, <span class="dv">8</span><span class="op">*</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:347,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115835762,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="42">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>emi2 <span class="op">=</span> loan_emi(<span class="dv">1260000</span>, <span class="dv">10</span><span class="op">*</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-30" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:342,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115837202,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="7f6314bd-eb24-4f99-ed7b-87f40ce6ad30" data-scrolled="true" data-execution_count="43">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>emi1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<pre><code>13125.0</code></pre>
+</div>
+</div>
+<div id="cell-31" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:334,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115839108,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="394540f5-3ddc-46ff-e576-bb6e99f62df8" data-execution_count="44">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>emi2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="44">
+<pre><code>10500.0</code></pre>
+</div>
+</div>
+</section>
+<section id="optionale-argumente" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="optionale-argumente"><span class="header-section-number">5.2.3</span> Optionale Argumente</h3>
+<p>Fügen wir nun ein weiteres Argument hinzu, um die sofortige Anzahlung zu berücksichtigen. Wir machen dies zu einem <em>optionalen Argument</em> mit dem Standardwert 0.</p>
+<div id="cell-33" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:314,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115904331,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="45">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">def</span> loan_emi(amount, duration, down_payment<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb26-2"><a href="#cb26-2"></a>    loan_amount <span class="op">=</span> amount <span class="op">-</span> down_payment</span>
+<span id="cb26-3"><a href="#cb26-3"></a>    emi <span class="op">=</span> loan_amount <span class="op">/</span> duration</span>
+<span id="cb26-4"><a href="#cb26-4"></a>    <span class="cf">return</span> emi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-34" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:438,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115906896,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="46">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>emi1 <span class="op">=</span> loan_emi(<span class="dv">1260000</span>, <span class="dv">8</span><span class="op">*</span><span class="dv">12</span>, <span class="fl">3e5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-35" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:313,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115912601,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="f22475ac-589d-4e2d-a915-13fb970bff4d" data-execution_count="47">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>emi1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<pre><code>10000.0</code></pre>
+</div>
+</div>
+<div id="cell-36" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:300,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115925050,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="48">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>emi2 <span class="op">=</span> loan_emi(<span class="dv">1260000</span>, <span class="dv">10</span><span class="op">*</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-37" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:337,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598115927436,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="cc96d5bb-e4fb-4b50-d41d-61f84882d5cf" data-execution_count="49">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>emi2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="49">
+<pre><code>10500.0</code></pre>
+</div>
+</div>
+<p>Als nächstes fügen wir die Zinsberechnung in die Funktion ein. Hier ist die Formel zur Berechnung des EMI für einen Kredit:</p>
+<p><img src="https://i.imgur.com/iKujHGK.png" style="width:240px"></p>
+<ul>
+<li><code>P</code> ist der Darlehensbetrag (Eng: principal)</li>
+<li><code>n</code> ist die Anzahl der Monate</li>
+<li><code>r</code> ist der Zinssatz pro Monat</li>
+</ul>
+<p>Die Ableitung dieser Formel würde den Rahmen dieses Tutorials sprengen.</p>
+<div id="cell-39" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:334,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116030837,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="50">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">def</span> loan_emi(amount, duration, rate, down_payment<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb33-2"><a href="#cb33-2"></a>    loan_amount <span class="op">=</span> amount <span class="op">-</span> down_payment</span>
+<span id="cb33-3"><a href="#cb33-3"></a>    emi <span class="op">=</span> loan_amount <span class="op">*</span> rate <span class="op">*</span> ((<span class="dv">1</span><span class="op">+</span>rate)<span class="op">**</span>duration) <span class="op">/</span> (((<span class="dv">1</span><span class="op">+</span>rate)<span class="op">**</span>duration)<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb33-4"><a href="#cb33-4"></a>    <span class="cf">return</span> emi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Beachten Sie, dass beim Definieren der Funktion erforderliche Argumente wie <code>cost</code>, <code>duration</code> und <code>rate</code> vor optionalen Argumenten wie <code>down_payment</code> stehen müssen.</p>
+<p>Berechnen wir den EMI für Option 1</p>
+<div id="cell-41" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:292,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116061840,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="bee344ed-6e0a-4dab-ce5b-eeff7bf2e806" data-scrolled="true" data-execution_count="51">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a>loan_emi(<span class="dv">1260000</span>, <span class="dv">8</span><span class="op">*</span><span class="dv">12</span>, <span class="fl">0.1</span><span class="op">/</span><span class="dv">12</span>, <span class="fl">3e5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="51">
+<pre><code>14567.19753389219</code></pre>
+</div>
+</div>
+<p>Bei der Berechnung des EMI für Option 2 müssen wir das Argument <code>down_payment</code> nicht einbeziehen.</p>
+<div id="cell-43" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:455,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116129020,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="8730d023-fbf9-40c7-92db-a3d1d1732a17" data-execution_count="52">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a>loan_emi(<span class="dv">1260000</span>, <span class="dv">10</span><span class="op">*</span><span class="dv">12</span>, <span class="fl">0.08</span><span class="op">/</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<pre><code>15287.276888775077</code></pre>
+</div>
+</div>
+</section>
+<section id="named-arguments" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="named-arguments"><span class="header-section-number">5.2.4</span> Named arguments</h3>
+<p>Der Aufruf einer Funktion mit vielen Argumenten kann oft verwirrend sein und ist anfällig für menschliche Fehler. Zur besseren Übersichtlichkeit bietet Python die Möglichkeit, Funktionen mit <em>named arguments</em> aufzurufen. Der Funktionsaufruf kann auch in mehrere Zeilen aufgeteilt werden.</p>
+<div id="cell-45" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:356,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116144492,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="53">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a>emi1 <span class="op">=</span> loan_emi(</span>
+<span id="cb38-2"><a href="#cb38-2"></a>    amount<span class="op">=</span><span class="dv">1260000</span>, </span>
+<span id="cb38-3"><a href="#cb38-3"></a>    duration<span class="op">=</span><span class="dv">8</span><span class="op">*</span><span class="dv">12</span>, </span>
+<span id="cb38-4"><a href="#cb38-4"></a>    rate<span class="op">=</span><span class="fl">0.1</span><span class="op">/</span><span class="dv">12</span>, </span>
+<span id="cb38-5"><a href="#cb38-5"></a>    down_payment<span class="op">=</span><span class="fl">3e5</span></span>
+<span id="cb38-6"><a href="#cb38-6"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-46" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:326,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116146612,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="5799a5ed-eb89-4a92-ce17-61ba5b2e143e" data-execution_count="54">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1"></a>emi1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="54">
+<pre><code>14567.19753389219</code></pre>
+</div>
+</div>
+<div id="cell-47" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:373,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116197038,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="55">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a>emi2 <span class="op">=</span> loan_emi(amount<span class="op">=</span><span class="dv">1260000</span>, duration<span class="op">=</span><span class="dv">10</span><span class="op">*</span><span class="dv">12</span>, rate<span class="op">=</span><span class="fl">0.08</span><span class="op">/</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-48" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:288,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116203413,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="3837760f-96a1-44de-f0a0-5349674692c7" data-execution_count="56">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1"></a>emi2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="56">
+<pre><code>15287.276888775077</code></pre>
+</div>
+</div>
+</section>
+<section id="module-und-bibliotheksfunktionen" class="level3" data-number="5.2.5">
+<h3 data-number="5.2.5" class="anchored" data-anchor-id="module-und-bibliotheksfunktionen"><span class="header-section-number">5.2.5</span> Module und Bibliotheksfunktionen</h3>
+<p>Wir können bereits erkennen, dass die EMI für Option 1 niedriger zu sein scheint als die EMI für Option 2. Es wäre jedoch schön, den Betrag auf volle Dollar aufzurunden, anstatt Ziffern nach dem Dezimalpunkt einzubeziehen. Um dies zu erreichen, könnten wir eine Funktion schreiben, die eine Zahl nehmen und auf die nächste ganze Zahl aufrunden kann (z.B. wird 1,2 auf 2 aufgerundet). Das wäre eine gute Übung zum Ausprobieren!</p>
+<p>Da das Aufrunden von Zahlen jedoch eine ziemlich häufige Operation ist, stellt Python dafür eine Funktion bereit (zusammen mit Tausenden von anderen Funktionen) als Teil der <a href="https://docs.python.org/3/library/">Python-Standardbibliothek</a>. Funktionen sind in <em>Module</em> organisiert, die importiert werden müssen, um die Funktionen, die sie enthalten, zu nutzen.</p>
+<blockquote class="blockquote">
+<p><strong>Module</strong>: Module sind Dateien, die Python-Code enthalten (Variablen, Funktionen, Klassen usw.). Sie bieten eine Möglichkeit, den Code für große Python-Projekte in Dateien und Ordnern zu organisieren. Ein Modul oder eine spezifische Funktion/Klasse/Variable aus einem Modul muss importiert werden, bevor es in einem Python-Skript oder Notebook verwendet werden kann. Dies bietet <em>Kapselung</em> (encapsulation) und vermeidet Namenskonflikte zwischen Ihrem Code und einem Modul oder zwischen Modulen.</p>
+</blockquote>
+<p>Um unsere EMI-Beträge aufzurunden, können wir die Funktion <code>ceil</code> (kurz für <em>ceiling</em>) aus dem <code>math</code> Modul verwenden. Lassen Sie uns das Modul importieren und es verwenden, um die Zahl 1,2 aufzurunden.</p>
+<div id="cell-50" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:333,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116403505,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="57">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a><span class="im">import</span> math</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-51" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:300,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116404667,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="0580a3d9-12d7-486b-bee2-f764a8aa8ecf" data-execution_count="58">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1"></a><span class="bu">help</span>(math.ceil)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Help on built-in function ceil in module math:
+
+ceil(x, /)
+    Return the ceiling of x as an Integral.
+    
+    This is the smallest integer &gt;= x.
+</code></pre>
+</div>
+</div>
+<div id="cell-52" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:307,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116408874,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="ab57d600-6054-486c-8641-e2a56c7a8b5c" data-execution_count="59">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a>math.ceil(<span class="fl">1.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="59">
+<pre><code>2</code></pre>
+</div>
+</div>
+<p>Lassen Sie uns nun die Funktion <code>math.ceil</code> innerhalb der Funktion <code>home_loan_emi</code> verwenden, um den EMI-Betrag aufzurunden.</p>
+<blockquote class="blockquote">
+<p>Die Verwendung von Funktionen zum Erstellen anderer Funktionen ist eine großartige Möglichkeit, Code wiederverzuwenden und komplexe Geschäftslogik zu implementieren, während der Code klein, verständlich und überschaubar bleibt. Idealerweise sollte eine Funktion nur eine Sache machen, und nur eine. Wenn Sie feststellen, dass Sie innerhalb einer einzigen Funktion zu viele Dinge tun, sollten Sie in Erwägung ziehen, sie in 2 oder mehr kleinere, unabhängige Funktionen aufzuteilen. Als Faustregel gilt, dass Sie versuchen sollten, Ihre Funktionen auf 10 Zeilen Code oder weniger zu beschränken. Gute Programmierer schreiben immer kleine, einfache und lesbare Funktionen.</p>
+</blockquote>
+<div id="cell-54" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:169,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116415187,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="60">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1"></a><span class="kw">def</span> loan_emi(amount, duration, rate, down_payment<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb49-2"><a href="#cb49-2"></a>    loan_amount <span class="op">=</span> amount <span class="op">-</span> down_payment</span>
+<span id="cb49-3"><a href="#cb49-3"></a>    emi <span class="op">=</span> loan_amount <span class="op">*</span> rate <span class="op">*</span> ((<span class="dv">1</span><span class="op">+</span>rate)<span class="op">**</span>duration) <span class="op">/</span> (((<span class="dv">1</span><span class="op">+</span>rate)<span class="op">**</span>duration)<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb49-4"><a href="#cb49-4"></a>    emi <span class="op">=</span> math.ceil(emi)</span>
+<span id="cb49-5"><a href="#cb49-5"></a>    <span class="cf">return</span> emi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-55" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:341,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116425353,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="61">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a>emi1 <span class="op">=</span> loan_emi(</span>
+<span id="cb50-2"><a href="#cb50-2"></a>    amount<span class="op">=</span><span class="dv">1260000</span>, </span>
+<span id="cb50-3"><a href="#cb50-3"></a>    duration<span class="op">=</span><span class="dv">8</span><span class="op">*</span><span class="dv">12</span>, </span>
+<span id="cb50-4"><a href="#cb50-4"></a>    rate<span class="op">=</span><span class="fl">0.1</span><span class="op">/</span><span class="dv">12</span>, </span>
+<span id="cb50-5"><a href="#cb50-5"></a>    down_payment<span class="op">=</span><span class="fl">3e5</span></span>
+<span id="cb50-6"><a href="#cb50-6"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-56" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:329,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116431535,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="0fc8f292-6374-48d3-b3f2-36ff155e988a" data-execution_count="62">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1"></a>emi1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="62">
+<pre><code>14568</code></pre>
+</div>
+</div>
+<div id="cell-57" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:293,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116433726,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="63">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a>emi2 <span class="op">=</span> loan_emi(amount<span class="op">=</span><span class="dv">1260000</span>, duration<span class="op">=</span><span class="dv">10</span><span class="op">*</span><span class="dv">12</span>, rate<span class="op">=</span><span class="fl">0.08</span><span class="op">/</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-58" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:319,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116434874,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="977acd28-6180-4ce2-bf34-53fc2297298b" data-execution_count="64">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1"></a>emi2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="64">
+<pre><code>15288</code></pre>
+</div>
+</div>
+<p>Vergleichen wir die EMIs und zeigen Sie eine Meldung für die Option mit dem niedrigeren EMI an.</p>
+<div id="cell-60" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:298,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116483884,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="27fa6007-616c-4b54-fce3-03d36722fd0d" data-execution_count="65">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1"></a><span class="cf">if</span> emi1 <span class="op">&lt;</span> emi2:</span>
+<span id="cb56-2"><a href="#cb56-2"></a>    <span class="bu">print</span>(<span class="st">"Option 1 has the lower EMI: $</span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(emi1))</span>
+<span id="cb56-3"><a href="#cb56-3"></a><span class="cf">else</span>:</span>
+<span id="cb56-4"><a href="#cb56-4"></a>    <span class="bu">print</span>(<span class="st">"Option 2 has the lower EMI: $</span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(emi2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Option 1 has the lower EMI: $14568</code></pre>
+</div>
+</div>
+</section>
+<section id="funktionen-wiederverwenden-und-verbessern" class="level3" data-number="5.2.6">
+<h3 data-number="5.2.6" class="anchored" data-anchor-id="funktionen-wiederverwenden-und-verbessern"><span class="header-section-number">5.2.6</span> Funktionen wiederverwenden und verbessern</h3>
+<p>Jetzt wissen wir mit Sicherheit, dass <code>Option 1</code> von den beiden Optionen die niedrigere EMI aufweist. Was aber noch besser ist, ist, dass wir jetzt eine praktische Funktion <code>loan_emi</code> haben, mit der sich viele andere ähnliche Probleme mit nur wenigen Codezeilen lösen lassen. Versuchen wir es mit ein paar weiteren Problemen.</p>
+<blockquote class="blockquote">
+<p>F: Shaun zahlt derzeit einen Wohnungsbaukredit für ein Haus zurück, das er vor einigen Jahren gekauft hat. Die Kosten für das Haus betrugen <code>$800,000</code>. Shaun leistete eine Anzahlung von <code>25%</code> der Kosten und finanzierte den verbleibenden Betrag mit einem 6-Jahres-Darlehen mit einem Zinssatz von <code>7%</code> pro Jahr (monatlich verzinst). Shaun kauft jetzt ein Auto im Wert von <code>$60,000</code>, das er plant, mit einem 1-jährigen Darlehen mit einem Zinssatz von <code>12%</code> pro Jahr zu finanzieren. Beide Kredite werden in EMIs zurückgezahlt. Wie hoch ist die gesamte monatliche Zahlung, die Shaun zur Kreditrückzahlung leistet?</p>
+</blockquote>
+<p>Diese Frage ist nun mit der von uns bereits definierten Funktion <code>loan_emi</code> einfach zu lösen.</p>
+<div id="cell-63" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:348,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116631042,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="ac5bd55e-4258-48de-8a5e-6f955be7e77d" data-execution_count="66">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1"></a>cost_of_house <span class="op">=</span> <span class="dv">800000</span></span>
+<span id="cb58-2"><a href="#cb58-2"></a>home_loan_duration <span class="op">=</span> <span class="dv">6</span><span class="op">*</span><span class="dv">12</span> <span class="co"># months</span></span>
+<span id="cb58-3"><a href="#cb58-3"></a>home_loan_rate <span class="op">=</span> <span class="fl">0.07</span><span class="op">/</span><span class="dv">12</span> <span class="co"># monthly</span></span>
+<span id="cb58-4"><a href="#cb58-4"></a>home_down_payment <span class="op">=</span> <span class="fl">.25</span> <span class="op">*</span> <span class="dv">800000</span></span>
+<span id="cb58-5"><a href="#cb58-5"></a></span>
+<span id="cb58-6"><a href="#cb58-6"></a>emi_house <span class="op">=</span> loan_emi(amount<span class="op">=</span>cost_of_house,</span>
+<span id="cb58-7"><a href="#cb58-7"></a>                     duration<span class="op">=</span>home_loan_duration,</span>
+<span id="cb58-8"><a href="#cb58-8"></a>                     rate<span class="op">=</span>home_loan_rate, </span>
+<span id="cb58-9"><a href="#cb58-9"></a>                     down_payment<span class="op">=</span>home_down_payment)</span>
+<span id="cb58-10"><a href="#cb58-10"></a></span>
+<span id="cb58-11"><a href="#cb58-11"></a>emi_house</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="66">
+<pre><code>10230</code></pre>
+</div>
+</div>
+<div id="cell-64" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:234,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116645815,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="99637891-b8bc-484f-df34-0798bfe4f639" data-execution_count="67">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1"></a>cost_of_car <span class="op">=</span> <span class="dv">60000</span></span>
+<span id="cb60-2"><a href="#cb60-2"></a>car_loan_duration <span class="op">=</span> <span class="dv">1</span><span class="op">*</span><span class="dv">12</span> <span class="co"># months</span></span>
+<span id="cb60-3"><a href="#cb60-3"></a>car_loan_rate <span class="op">=</span> <span class="fl">.12</span><span class="op">/</span><span class="dv">12</span> <span class="co"># monthly</span></span>
+<span id="cb60-4"><a href="#cb60-4"></a></span>
+<span id="cb60-5"><a href="#cb60-5"></a>emi_car <span class="op">=</span> loan_emi(amount<span class="op">=</span>cost_of_car, </span>
+<span id="cb60-6"><a href="#cb60-6"></a>                   duration<span class="op">=</span>car_loan_duration, </span>
+<span id="cb60-7"><a href="#cb60-7"></a>                   rate<span class="op">=</span>car_loan_rate)</span>
+<span id="cb60-8"><a href="#cb60-8"></a></span>
+<span id="cb60-9"><a href="#cb60-9"></a>emi_car</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="67">
+<pre><code>5331</code></pre>
+</div>
+</div>
+<div id="cell-65" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:346,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116654358,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="5eb0bf51-d99b-4a21-9d62-16af24db8ab1" data-execution_count="68">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1"></a><span class="bu">print</span>(<span class="st">"Shaun makes a total monthly payment of $</span><span class="sc">{}</span><span class="st"> towards loan repayments."</span>.<span class="bu">format</span>(emi_house<span class="op">+</span>emi_car))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shaun makes a total monthly payment of $15561 towards loan repayments.</code></pre>
+</div>
+</div>
+</section>
+<section id="exceptions-und-try-except" class="level3" data-number="5.2.7">
+<h3 data-number="5.2.7" class="anchored" data-anchor-id="exceptions-und-try-except"><span class="header-section-number">5.2.7</span> Exceptions und <code>try</code>-<code>except</code></h3>
+<blockquote class="blockquote">
+<p>F: Wenn Sie sich <code>100.000 US-Dollar</code> mit einem 10-jährigen Darlehen mit einem Zinssatz von 9 % pro Jahr leihen, wie hoch ist dann der Gesamtbetrag, den Sie am Ende als Zinsen zahlen?</p>
+</blockquote>
+<p>Eine Möglichkeit, dieses Problem zu lösen, besteht darin, die EMIs für zwei Kredite zu vergleichen: einen mit dem angegebenen Zinssatz und einen mit einem Zinssatz von 0 %. Der gezahlte Gesamtzins ist dann einfach die Summe der monatlichen Differenzen über die Laufzeit des Darlehens.</p>
+<div id="cell-67" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:325,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116698700,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="a552682d-98ea-4db8-bdd3-cc81a5aa93fc" data-execution_count="69">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1"></a>emi_with_interest <span class="op">=</span> loan_emi(amount<span class="op">=</span><span class="dv">100000</span>, duration<span class="op">=</span><span class="dv">10</span><span class="op">*</span><span class="dv">12</span>, rate<span class="op">=</span><span class="fl">0.09</span><span class="op">/</span><span class="dv">12</span>)</span>
+<span id="cb64-2"><a href="#cb64-2"></a>emi_with_interest</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="69">
+<pre><code>1267</code></pre>
+</div>
+</div>
+<div id="cell-68" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:348,&quot;status&quot;:&quot;error&quot;,&quot;timestamp&quot;:1598116779480,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="44b0bc0d-0700-41f5-ef7a-02785f98ad74" data-execution_count="70">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1"></a>emi_without_interest <span class="op">=</span> loan_emi(amount<span class="op">=</span><span class="dv">100000</span>, duration<span class="op">=</span><span class="dv">10</span><span class="op">*</span><span class="dv">12</span>, rate<span class="op">=</span><span class="fl">0.</span><span class="op">/</span><span class="dv">12</span>)</span>
+<span id="cb66-2"><a href="#cb66-2"></a>emi_without_interest</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ZeroDivisionError</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[70], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> emi_without_interest <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">loan_emi</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">amount</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">100000</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">duration</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">10</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">12</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">rate</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">0.</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">/</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">12</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">      2</span> emi_without_interest
+
+Cell <span class="ansi-green-fg">In[60], line 3</span>, in <span class="ansi-cyan-fg">loan_emi</span><span class="ansi-blue-fg">(amount, duration, rate, down_payment)</span>
+<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span> <span style="color:rgb(0,0,255)">loan_emi</span>(amount, duration, rate, down_payment<span style="color:rgb(98,98,98)">=</span><span style="color:rgb(98,98,98)">0</span>):
+<span class="ansi-green-fg ansi-bold">      2</span>     loan_amount <span style="color:rgb(98,98,98)">=</span> amount <span style="color:rgb(98,98,98)">-</span> down_payment
+<span class="ansi-green-fg">----&gt; 3</span>     emi <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">loan_amount</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">rate</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">1</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">+</span><span class="ansi-yellow-bg">rate</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">duration</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">/</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">1</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">+</span><span class="ansi-yellow-bg">rate</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">duration</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">-</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">1</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">      4</span>     emi <span style="color:rgb(98,98,98)">=</span> math<span style="color:rgb(98,98,98)">.</span>ceil(emi)
+<span class="ansi-green-fg ansi-bold">      5</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> emi
+
+<span class="ansi-red-fg">ZeroDivisionError</span>: float division by zero</pre>
+</div>
+</div>
+</div>
+<p>Etwas scheint schief gelaufen zu sein! Wenn man sich die Fehlermeldung oben genau ansieht, sagt Python uns genau, was falsch gelaufen ist. Python <em>wirft</em> einen <code>ZeroDivisionError</code> mit einer Nachricht, die anzeigt, dass wir versuchen, eine Zahl durch Null zu teilen. Dies ist eine <em>Exception</em>, die die weitere Ausführung des Programms stoppt.</p>
+<blockquote class="blockquote">
+<p><strong>Exception</strong>: Auch wenn eine Anweisung oder ein Ausdruck syntaktisch korrekt ist, kann er einen Fehler verursachen, wenn versucht wird, ihn auszuführen. Während der Ausführung erkannte Fehler werden Ausnahmen (exceptions) genannt. Exceptions stoppen typischerweise die weitere Ausführung des Programms, es sei denn, sie werden im Programm mit <code>try</code>-<code>except</code> Anweisungen behandelt.</p>
+</blockquote>
+<p>Python bietet viele built-in Exceptions, die <em>geworfen</em> werden, wenn eingebaute Operatoren, Funktionen oder Methoden auf eine falsche Weise verwendet werden (<a href="https://docs.python.org/3/library/exceptions.html#built-in-exceptions">Link</a>). Sie können auch Ihre eigene benutzerdefinierte Exception definieren, indem Sie die <code>Exception</code>-Klasse erweitern (dazu später mehr).</p>
+<p>Mit den Anweisungen <code>try</code> und <code>except</code> können Sie eine Ausnahme <em>behandeln</em>. Hier ist ein Beispiel:</p>
+<div id="cell-70" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:312,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598116969119,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="ed51d2f2-b25b-4ec0-e63f-a2e42a28cebc" data-execution_count="71">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1"></a><span class="cf">try</span>:</span>
+<span id="cb67-2"><a href="#cb67-2"></a>    <span class="bu">print</span>(<span class="st">"Now computing the result.."</span>)</span>
+<span id="cb67-3"><a href="#cb67-3"></a>    result <span class="op">=</span> <span class="dv">5</span> <span class="op">/</span> <span class="dv">0</span></span>
+<span id="cb67-4"><a href="#cb67-4"></a>    <span class="bu">print</span>(<span class="st">"Computation was completed successfully"</span>)</span>
+<span id="cb67-5"><a href="#cb67-5"></a><span class="cf">except</span> <span class="pp">ZeroDivisionError</span>:</span>
+<span id="cb67-6"><a href="#cb67-6"></a>    <span class="bu">print</span>(<span class="st">"Failed to compute result because you were trying to divide by zero"</span>)</span>
+<span id="cb67-7"><a href="#cb67-7"></a>    result <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb67-8"><a href="#cb67-8"></a></span>
+<span id="cb67-9"><a href="#cb67-9"></a><span class="bu">print</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Now computing the result..
+Failed to compute result because you were trying to divide by zero
+None</code></pre>
+</div>
+</div>
+<p>Wenn eine Ausnahme in dem Code innerhalb eines <code>try</code> Blocks auftritt, werden die restlichen Anweisungen in dem Block übersprungen und die <code>except</code> Anweisung wird ausgeführt. Wenn die Art der geworfenen Ausnahme mit der Art der Ausnahme übereinstimmt, die durch die <code>except</code> Anweisung behandelt wird, dann wird der Code innerhalb des <code>except</code> Blocks ausgeführt und die Programmausführung kehrt dann zum normalen Ablauf zurück.</p>
+<p>Sie können auch mehr als einen Typ von Ausnahme mit mehreren <code>except</code> Anweisungen behandeln. Erfahren Sie <a href="https://www.w3schools.com/python/python_try_except.asp">hier</a> mehr über Ausnahmen.</p>
+<p>Lassen Sie uns die <code>loan_emi</code> Funktion erweitern, um <code>try</code>-<code>except</code> zu verwenden, um das Szenario zu behandeln, in dem der Zinssatz 0% beträgt. Es ist üblich, Änderungen/Erweiterungen an Funktionen im Laufe der Zeit vorzunehmen, wenn neue Szenarien und Anwendungsfälle auftreten. Es macht Funktionen flexibler &amp; leistungsfähiger.</p>
+<div id="cell-72" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:318,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598117001324,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="72">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1"></a><span class="kw">def</span> loan_emi(amount, duration, rate, down_payment<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb69-2"><a href="#cb69-2"></a>    loan_amount <span class="op">=</span> amount <span class="op">-</span> down_payment</span>
+<span id="cb69-3"><a href="#cb69-3"></a>    <span class="cf">try</span>:</span>
+<span id="cb69-4"><a href="#cb69-4"></a>        emi <span class="op">=</span> loan_amount <span class="op">*</span> rate <span class="op">*</span> ((<span class="dv">1</span><span class="op">+</span>rate)<span class="op">**</span>duration) <span class="op">/</span> (((<span class="dv">1</span><span class="op">+</span>rate)<span class="op">**</span>duration)<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb69-5"><a href="#cb69-5"></a>    <span class="cf">except</span> <span class="pp">ZeroDivisionError</span>:</span>
+<span id="cb69-6"><a href="#cb69-6"></a>        emi <span class="op">=</span> loan_amount <span class="op">/</span> duration</span>
+<span id="cb69-7"><a href="#cb69-7"></a>    emi <span class="op">=</span> math.ceil(emi)</span>
+<span id="cb69-8"><a href="#cb69-8"></a>    <span class="cf">return</span> emi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Wir können die aktualisierte Funktion <code>loan_emi</code> verwenden, um unser Problem zu lösen.</p>
+<blockquote class="blockquote">
+<p>F: Wenn Sie sich <code>100.000 US-Dollar</code> mit einem 10-jährigen Darlehen mit einem Zinssatz von 9 % pro Jahr leihen, wie hoch ist dann der Gesamtbetrag, den Sie am Ende als Zinsen zahlen?</p>
+</blockquote>
+<div id="cell-74" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:346,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598117016256,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="72ff0943-595c-4f19-e783-bfdcea34854a" data-execution_count="73">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1"></a>emi_with_interest <span class="op">=</span> loan_emi(amount<span class="op">=</span><span class="dv">100000</span>, duration<span class="op">=</span><span class="dv">10</span><span class="op">*</span><span class="dv">12</span>, rate<span class="op">=</span><span class="fl">0.09</span><span class="op">/</span><span class="dv">12</span>)</span>
+<span id="cb70-2"><a href="#cb70-2"></a>emi_with_interest</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="73">
+<pre><code>1267</code></pre>
+</div>
+</div>
+<div id="cell-75" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:311,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598117017474,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="3a19aa1d-a2e6-4785-bfcd-dd41478c1943" data-execution_count="74">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1"></a>emi_without_interest <span class="op">=</span> loan_emi(amount<span class="op">=</span><span class="dv">100000</span>, duration<span class="op">=</span><span class="dv">10</span><span class="op">*</span><span class="dv">12</span>, rate<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb72-2"><a href="#cb72-2"></a>emi_without_interest</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="74">
+<pre><code>834</code></pre>
+</div>
+</div>
+<div id="cell-76" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:305,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598117031277,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="75">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1"></a>total_interest <span class="op">=</span> (emi_with_interest <span class="op">-</span> emi_without_interest) <span class="op">*</span> <span class="dv">10</span><span class="op">*</span><span class="dv">12</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-77" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:469,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598117032980,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="8e3bff46-17a5-4204-c6da-66ff18d26b81" data-execution_count="76">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1"></a><span class="bu">print</span>(<span class="st">"The total interest paid is $</span><span class="sc">{}</span><span class="st">."</span>.<span class="bu">format</span>(total_interest))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The total interest paid is $51960.</code></pre>
+</div>
+</div>
+</section>
+<section id="funktionen-mit-docstrings-dokumentieren" class="level3" data-number="5.2.8">
+<h3 data-number="5.2.8" class="anchored" data-anchor-id="funktionen-mit-docstrings-dokumentieren"><span class="header-section-number">5.2.8</span> Funktionen mit Docstrings dokumentieren</h3>
+<p>Mit einem <em>Docstring</em> können wir unserer Funktion Dokumentation hinzufügen. Ein Docstring ist einfach ein String, der als erste Anweisung im Funktionskörper erscheint und von der Funktion <code>help</code> verwendet wird. Ein guter Docstring beschreibt, was die Funktion tut, und bietet einige Erklärungen zu den Argumenten.</p>
+<div id="cell-79" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:321,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598117055733,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="77">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1"></a><span class="kw">def</span> loan_emi(amount, duration, rate, down_payment<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb77-2"><a href="#cb77-2"></a>    <span class="co">"""Calculates the equal montly installment (EMI) for a loan.</span></span>
+<span id="cb77-3"><a href="#cb77-3"></a><span class="co">    </span></span>
+<span id="cb77-4"><a href="#cb77-4"></a><span class="co">    Arguments:</span></span>
+<span id="cb77-5"><a href="#cb77-5"></a><span class="co">        amount - Total amount to be spent (loan + down payment)</span></span>
+<span id="cb77-6"><a href="#cb77-6"></a><span class="co">        duration - Duration of the loan (in months)</span></span>
+<span id="cb77-7"><a href="#cb77-7"></a><span class="co">        rate - Rate of interest (monthly)</span></span>
+<span id="cb77-8"><a href="#cb77-8"></a><span class="co">        down_payment (optional) - Optional intial payment (deducted from amount)</span></span>
+<span id="cb77-9"><a href="#cb77-9"></a><span class="co">    """</span></span>
+<span id="cb77-10"><a href="#cb77-10"></a>    loan_amount <span class="op">=</span> amount <span class="op">-</span> down_payment</span>
+<span id="cb77-11"><a href="#cb77-11"></a>    <span class="cf">try</span>:</span>
+<span id="cb77-12"><a href="#cb77-12"></a>        emi <span class="op">=</span> loan_amount <span class="op">*</span> rate <span class="op">*</span> ((<span class="dv">1</span><span class="op">+</span>rate)<span class="op">**</span>duration) <span class="op">/</span> (((<span class="dv">1</span><span class="op">+</span>rate)<span class="op">**</span>duration)<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb77-13"><a href="#cb77-13"></a>    <span class="cf">except</span> <span class="pp">ZeroDivisionError</span>:</span>
+<span id="cb77-14"><a href="#cb77-14"></a>        emi <span class="op">=</span> loan_amount <span class="op">/</span> duration</span>
+<span id="cb77-15"><a href="#cb77-15"></a>    emi <span class="op">=</span> math.ceil(emi)</span>
+<span id="cb77-16"><a href="#cb77-16"></a>    <span class="cf">return</span> emi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Im obigen docstring haben wir einige zusätzliche Informationen bereitgestellt, dass sowohl die <code>duration</code> als auch die <code>rate</code> in Monaten gemessen werden. Sie könnten sogar erwägen, die Argumente <code>duration_months</code> und <code>rate_monthly</code> zu benennen, um jegliche Verwirrung zu vermeiden. Können Sie sich andere Möglichkeiten vorstellen, wie die Funktion verbessert werden kann?</p>
+<div id="cell-81" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:303,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598117058552,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="818f2e11-35bf-41f5-d72c-9f81f037ca6a" data-execution_count="78">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1"></a><span class="bu">help</span>(loan_emi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Help on function loan_emi in module __main__:
+
+loan_emi(amount, duration, rate, down_payment=0)
+    Calculates the equal montly installment (EMI) for a loan.
+    
+    Arguments:
+        amount - Total amount to be spent (loan + down payment)
+        duration - Duration of the loan (in months)
+        rate - Rate of interest (monthly)
+        down_payment (optional) - Optional intial payment (deducted from amount)
+</code></pre>
+</div>
+</div>
+<p><a id="uebung"></a></p>
+</section>
+</section>
+<section id="übung---datenanalyse-für-die-urlaubsplanung" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="übung---datenanalyse-für-die-urlaubsplanung"><span class="header-section-number">5.3</span> Übung - Datenanalyse für die Urlaubsplanung</h2>
+<p>Sie planen eine Freizeitreise (Urlaub) und müssen entscheiden, welche Stadt Sie besuchen möchten. Sie haben 4 Städte in die engere Auswahl genommen und die Kosten für den Rückflug, die täglichen Hotelkosten und die wöchentlichen Mietwagenkosten ermittelt (ein Auto muss für ganze Wochen gemietet werden, auch wenn Sie das Auto vor Ende einer Woche zurückgeben).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 35%">
+<col style="width: 24%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stadt</th>
+<th>Rückflug (<code>$</code>)</th>
+<th>Hotel pro Tag (<code>$</code>)</th>
+<th>Wöchentliche Autovermietung (<code>$</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Paris</td>
+<td>200</td>
+<td>20</td>
+<td>200</td>
+</tr>
+<tr class="even">
+<td>London</td>
+<td>250</td>
+<td>30</td>
+<td>120</td>
+</tr>
+<tr class="odd">
+<td>Dubai</td>
+<td>370</td>
+<td>15</td>
+<td>80</td>
+</tr>
+<tr class="even">
+<td>Mumbai</td>
+<td>450</td>
+<td>10</td>
+<td>70</td>
+</tr>
+</tbody>
+</table>
+<p>Beantworten Sie die folgenden Fragen anhand der oben genannten Daten:</p>
+<ol type="1">
+<li>Wenn Sie eine 1-wöchige Reise planen, welche Stadt sollten Sie besuchen, um das wenigste Geld auszugeben?</li>
+<li>Wie ändert sich die Antwort auf die vorherige Frage, wenn Sie die Dauer der Reise auf 4 Tage, 10 Tage oder 2 Wochen ändern?</li>
+<li>Wenn Ihr Gesamtbudget für die Reise <code>$1000</code> beträgt, welche Stadt sollten Sie besuchen, um die Dauer Ihrer Reise zu maximieren? Welche Stadt sollten Sie besuchen, wenn Sie die Dauer minimieren möchten?</li>
+<li>Wie ändert sich die Antwort auf die vorherige Frage, wenn Ihr Budget <code>$600</code>, <code>$2000</code> oder <code>$1500</code> beträgt?</li>
+</ol>
+<p><em>Hinweis: Um diese Fragen zu beantworten, könnte es hilfreich sein, eine Funktion <code>cost_of_trip</code> mit relevanten Eingaben wie Flugkosten, Hotelpreis, Mietwagenpreis und Dauer der Reise zu definieren. Die Funktion <code>math.ceil</code> könnte nützlich sein, um die Gesamtkosten der Autovermietung zu berechnen.</em></p>
+<div id="cell-84" class="cell" lang="de" data-execution_count="79">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1"></a><span class="co"># Verwenden Sie diese Zellen, um die Frage zu beantworten – bauen Sie die Funktion Schritt für Schritt auf</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="weiterführende-literatur-und-referenzen" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="weiterführende-literatur-und-referenzen"><span class="header-section-number">5.4</span> Weiterführende Literatur und Referenzen</h2>
+<p>Hier sind noch einige weitere Themen, die Sie lernen könnten:</p>
+<ul>
+<li>Funktionen mit einer beliebigen Anzahl von Argumenten (<code>*args</code> und <code>**kwargs</code>)</li>
+<li>Definition von Funktionen innerhalb von Funktionen (und Closures)</li>
+<li>Eine Funktion, die sich selbst aufruft (Rekursion)</li>
+<li>Funktionen, die andere Funktionen als Argumente akzeptieren oder andere Funktionen zurückgeben</li>
+<li>Funktionen, die andere Funktionen verbessern (Dekorateure)</li>
+</ul>
+<p>Im Folgenden finden Sie einige Ressourcen, um mehr über Funktionen in Python zu erfahren:</p>
+<ul>
+<li><a href="https://www.w3schools.com/python/">Python Tutorial bei W3Schools</a></li>
+<li><a href="https://dabeaz-course.github.io/practical-python/Notes/Contents.html">Praktische Python Programmierung</a></li>
+<li><a href="https://docs.python.org/3/tutorial/index.html">Python offizielle Dokumentation</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./kapitel3.html" class="pagination-link" aria-label="Verzweigungen mit bedingten Anweisungen und Schleifen in Python">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Verzweigungen mit bedingten Anweisungen und Schleifen in Python</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./kapitel5.html" class="pagination-link" aria-label="Numerisches Rechnen mit Python und Numpy">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Numerisches Rechnen mit Python und Numpy</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

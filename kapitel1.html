@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; Erste Schritte mit Python und Jupyter – Programmierung und Datenanalyse mit Python: Eine Einführung</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./kapitel2.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e0fdce12ac1367d4b47c179a2935dd10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-74c88ba48ad0bebf983f0ffd06dd1671.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-e0fdce12ac1367d4b47c179a2935dd10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./kapitel1.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Erste Schritte mit Python und Jupyter</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Programmierung und Datenanalyse mit Python: Eine Einführung</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Willkommen zu „Programmierung und Datenanalyse mit Python: Eine Einführung“</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Erste Schritte mit Python und Jupyter</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Eine kurze Tour durch Variablen und Datentypen in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Verzweigungen mit bedingten Anweisungen und Schleifen in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Schreiben von wiederverwendbarem Code mithilfe von Funktionen</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Numerisches Rechnen mit Python und Numpy</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Analyse tabellarischer Daten mit Python und Pandas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Datenvisualisierung mit Python, Matplotlib und Seaborn</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Explorative Datenanalyse mit Python – Eine Fallstudie</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ausführen-des-codes" id="toc-ausführen-des-codes" class="nav-link active" data-scroll-target="#ausführen-des-codes"><span class="header-section-number">2.1</span> Ausführen des Codes</a></li>
+  <li><a href="#arithmetische-operationen-mit-python-ausführen" id="toc-arithmetische-operationen-mit-python-ausführen" class="nav-link" data-scroll-target="#arithmetische-operationen-mit-python-ausführen"><span class="header-section-number">2.2</span> Arithmetische Operationen mit Python ausführen</a></li>
+  <li><a href="#mehrstufige-probleme-mithilfe-von-variablen-lösen" id="toc-mehrstufige-probleme-mithilfe-von-variablen-lösen" class="nav-link" data-scroll-target="#mehrstufige-probleme-mithilfe-von-variablen-lösen"><span class="header-section-number">2.3</span> Mehrstufige Probleme mithilfe von Variablen lösen</a></li>
+  <li><a href="#bedingungen-mit-python-auswerten" id="toc-bedingungen-mit-python-auswerten" class="nav-link" data-scroll-target="#bedingungen-mit-python-auswerten"><span class="header-section-number">2.4</span> Bedingungen mit Python auswerten</a></li>
+  <li><a href="#bedingungen-mit-logischen-operatoren-verbinden" id="toc-bedingungen-mit-logischen-operatoren-verbinden" class="nav-link" data-scroll-target="#bedingungen-mit-logischen-operatoren-verbinden"><span class="header-section-number">2.5</span> Bedingungen mit logischen Operatoren verbinden</a></li>
+  <li><a href="#textstile-mit-markdown-hinzufügen" id="toc-textstile-mit-markdown-hinzufügen" class="nav-link" data-scroll-target="#textstile-mit-markdown-hinzufügen"><span class="header-section-number">2.6</span> Textstile mit Markdown hinzufügen</a></li>
+  <li><a href="#weiterführende-literatur-und-referenzen" id="toc-weiterführende-literatur-und-referenzen" class="nav-link" data-scroll-target="#weiterführende-literatur-und-referenzen"><span class="header-section-number">2.7</span> Weiterführende Literatur und Referenzen</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Erste Schritte mit Python und Jupyter</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Dieses Tutorial ist das erste einer Reihe anfängerfreundlicher Tutorials zum Programmieren und zur Datenanalyse mit Python. Diese Tutorials basieren auf einem praktischen, programmbasierten Ansatz. Der beste Weg, das Material zu erlernen, besteht darin, den Code auszuführen und mit den Beispielen zu experimentieren.</p>
+<p>Die folgenden Themen werden in diesem Tutorial behandelt:</p>
+<ul>
+<li><a href="#code-ausführen">Ausführen des Codes</a></li>
+<li><a href="#arithmetische-operationen">Arithmetische Operationen mit Python ausführen</a></li>
+<li><a href="#mehrstufige-probleme">Mehrstufige Probleme mithilfe von Variablen lösen</a></li>
+<li><a href="#bedingungen-auswerten">Bedingungen mit Python auswerten</a></li>
+<li><a href="#logische-operatoren">Bedingungen mit logischen Operatoren verbinden</a></li>
+<li><a href="#markdown">Hinzufügen von Textstilen mithilfe von Markdown</a></li>
+</ul>
+<p><a id="code-ausführen"></a></p>
+<section id="ausführen-des-codes" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="ausführen-des-codes"><span class="header-section-number">2.1</span> Ausführen des Codes</h2>
+<p>Dieses Tutorial ist ein ausführbares <a href="https://jupyter.org"><em>Jupyter Notebook</em></a>. Sie können dieses Tutorial ausführen und mit den Codebeispielen experimentieren, indem Sie es auf Ihrem eigenen Computer ausführen.</p>
+<p><strong>Ausführen auf Ihrem eigenen Computer</strong></p>
+<p>Um dieses Notebook auf Ihrem Computer auszuführen, müssen Sie Python über die Anaconda-Distribution einrichten und das Notebook herunterladen. Hier sind die Schritte, die Sie befolgen müssen, um loszulegen:</p>
+<ol type="1">
+<li><p>Laden Sie die <a href="https://www.anaconda.com/products/distribution">Anaconda-Distribution</a> herunter und installieren Sie sie auf Ihrem Computer. Anaconda ist eine kostenlose Distribution von Python und R, die sich besonders für Data Science und Machine Learning eignet. Sie enthält bereits die meisten Bibliotheken, die Sie benötigen werden.</p></li>
+<li><p>Nach der Installation können Sie den “Anaconda Navigator” öffnen, eine Art Dashboard, das Sie durch Ihre Anaconda-Installation führt. Der Navigator ermöglicht den Zugriff auf die verschiedenen Softwarepakete, Umgebungen und Tools, die Teil der Anaconda-Distribution sind.</p></li>
+<li><p>Im Anaconda Navigator, finden Sie “Jupyter Notebook” unter der Liste der installierten Anwendungen. Klicken Sie auf “Launch”, um Jupyter Notebook zu starten.</p></li>
+<li><p>Ein neues Browserfenster sollte sich öffnen, in dem Sie die Verzeichnisstruktur Ihres Computers sehen. Navigieren Sie zu dem Ordner, in dem Sie Ihr Jupyter Notebook gespeichert haben, und klicken Sie darauf, um es zu öffnen.</p></li>
+<li><p>Jetzt können Sie das Jupyter Notebook verwenden! Es besteht aus Zellen, die Text (in Markdown) oder Code (in Python) enthalten können. Sie können eine Zelle ausführen, indem Sie sie auswählen und dann <code>Shift+Enter</code> drücken. Der Code wird ausgeführt und das Ergebnis wird unter der Zelle angezeigt.</p></li>
+<li><p>Wenn Sie mit Ihrer Sitzung fertig sind, können Sie das Jupyter Notebook speichern und schließen. Vergessen Sie nicht, auch den Anaconda Navigator zu schließen.</p></li>
+</ol>
+<p>Beachten Sie, dass Sie mit Anaconda auch verschiedene Umgebungen für verschiedene Projekte erstellen können. Jede Umgebung kann ihre eigenen spezifischen Pakete und Versionen haben, sodass Sie sicherstellen können, dass Ihre Projekte isoliert voneinander laufen und nicht miteinander interferieren. Sie können Umgebungen direkt im Anaconda Navigator erstellen und verwalten.</p>
+<p><a id="arithmetische-operationen"></a></p>
+</section>
+<section id="arithmetische-operationen-mit-python-ausführen" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="arithmetische-operationen-mit-python-ausführen"><span class="header-section-number">2.2</span> Arithmetische Operationen mit Python ausführen</h2>
+<p>Beginnen wir mit der Verwendung von Python als Taschenrechner. Sie können Python mithilfe einer Codezelle in Jupyter schreiben und ausführen.</p>
+<blockquote class="blockquote">
+<p><strong>Arbeiten mit Zellen</strong>: Um eine neue Zelle in Jupyter zu erstellen, können Sie in der Menüleiste <code>Einfügen &gt; Zelle darunter einfügen</code> auswählen oder einfach die Schaltfläche <code>+</code> in der Symbolleiste drücken. Sie können auch die Tastenkombination <code>Esc+B</code> verwenden, um eine neue Zelle zu erstellen. Sobald eine Zelle erstellt wurde, klicken Sie darauf, um sie auszuwählen. Anschließend können Sie den Zelltyp mithilfe der Menüoption <code>Zelle &gt; Zelltyp</code> in <code>Code</code> oder <code>Markdown</code> (Text) ändern. Sie können auch die Tastenkombinationen <code>Esc+Y</code> und <code>Esc+M</code> verwenden. Doppelklicken Sie auf eine Zelle, um den Inhalt innerhalb der Zelle zu bearbeiten. Um Ihre Änderungen zu übernehmen und eine Zelle auszuführen, verwenden Sie die Menüoption <code>Zelle &gt; Zellen ausführen</code>, klicken Sie auf die Schaltfläche <code>Ausführen</code> in der Symbolleiste oder verwenden Sie einfach die Tastenkombination <code>Shift+Enter</code>. Eine vollständige Liste der Tastaturkürzel können Sie über die Menüoption „Hilfe &gt; Tastaturkürzel“ anzeigen.</p>
+</blockquote>
+<p>Führen Sie die folgenden Codezellen aus, um Berechnungen durchzuführen und deren Ergebnisse anzuzeigen. Versuchen Sie, die Zahlen zu ändern, und führen Sie die geänderten Zellen erneut aus, um aktualisierte Ergebnisse anzuzeigen. Können Sie erraten, wofür die Operatoren <code>//</code>, <code>%</code> und <code>**</code> verwendet werden?</p>
+<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:517,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507012892,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="d42b3607-50bd-475f-db7d-1746a3b0db2e" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="dv">2</span> <span class="op">+</span> <span class="dv">3</span> <span class="op">+</span> <span class="dv">9</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>14</code></pre>
+</div>
+</div>
+<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:493,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507012894,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="cc785316-14ed-430a-e724-5652322fbecf" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="dv">99</span> <span class="op">-</span> <span class="dv">73</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>26</code></pre>
+</div>
+</div>
+<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:485,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507012898,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="001bdfbb-dbed-4ca6-eb4d-78e475e2942c" data-scrolled="true" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="fl">23.54</span> <span class="op">*</span> <span class="op">-</span><span class="dv">1432</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>-33709.28</code></pre>
+</div>
+</div>
+<div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:479,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507012899,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="b73e1d49-b550-443f-aaa9-057ae2f36c74" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="dv">100</span> <span class="op">/</span> <span class="dv">7</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>14.285714285714286</code></pre>
+</div>
+</div>
+<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:474,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507012900,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="eaa1063c-0a48-4d00-ac23-30d5b0d3556a" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="dv">100</span> <span class="op">//</span> <span class="dv">7</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>14</code></pre>
+</div>
+</div>
+<div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:798,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507013267,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="af78210d-76e6-4a4a-866b-55a9be4d7d03" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="dv">100</span> <span class="op">%</span> <span class="dv">7</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>2</code></pre>
+</div>
+</div>
+<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:672,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507013875,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="f13d7f9a-0963-4b14-c6e4-71c592d75888" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="dv">5</span> <span class="op">**</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>125</code></pre>
+</div>
+</div>
+<p>Wie Sie vielleicht erwarten, haben bestimmte Operatoren wie <code>/</code> und <code>*</code> gemäß mathematischen Konventionen Vorrang vor anderen Operatoren wie <code>+</code> und <code>-</code>. Sie können Klammern verwenden, z.&nbsp;B. <code>(</code> und <code>)</code>, um die Reihenfolge anzugeben, in der Vorgänge ausgeführt werden.</p>
+<div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:432,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507016432,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="917bfa30-8cf3-4aec-c936-60c3535d074b" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>((<span class="dv">2</span> <span class="op">+</span> <span class="dv">5</span>) <span class="op">*</span> (<span class="dv">17</span> <span class="op">-</span> <span class="dv">3</span>)) <span class="op">/</span> (<span class="dv">4</span> <span class="op">**</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>1.53125</code></pre>
+</div>
+</div>
+<p>Python unterstützt die folgenden arithmetischen Operatoren:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Zweck</th>
+<th>Beispiel</th>
+<th>Ergebnis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>+</code></td>
+<td>Addition</td>
+<td><code>2 + 3</code></td>
+<td><code>5</code></td>
+</tr>
+<tr class="even">
+<td><code>-</code></td>
+<td>Subtraktion</td>
+<td><code>3 - 2</code></td>
+<td><code>1</code></td>
+</tr>
+<tr class="odd">
+<td><code>*</code></td>
+<td>Multiplikation</td>
+<td><code>8 * 12</code></td>
+<td><code>96</code></td>
+</tr>
+<tr class="even">
+<td><code>/</code></td>
+<td>Division</td>
+<td><code>100 / 7</code></td>
+<td><code>14.28..</code></td>
+</tr>
+<tr class="odd">
+<td><code>//</code></td>
+<td>Ganzzahlige Division</td>
+<td><code>100 // 7</code></td>
+<td><code>14</code></td>
+</tr>
+<tr class="even">
+<td><code>%</code></td>
+<td>Modulus/Rest</td>
+<td><code>100 % 7</code></td>
+<td><code>2</code></td>
+</tr>
+<tr class="odd">
+<td><code>**</code></td>
+<td>Exponent</td>
+<td><code>5 ** 3</code></td>
+<td><code>125</code></td>
+</tr>
+</tbody>
+</table>
+<p><a id="mehrstufige-probleme"></a></p>
+</section>
+<section id="mehrstufige-probleme-mithilfe-von-variablen-lösen" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="mehrstufige-probleme-mithilfe-von-variablen-lösen"><span class="header-section-number">2.3</span> Mehrstufige Probleme mithilfe von Variablen lösen</h2>
+<p>Versuchen wir, die folgende Textaufgabe mit Python zu lösen:</p>
+<blockquote class="blockquote">
+<p>Ein Lebensmittelgeschäft verkauft eine Tüte Eis für 1,25 $ und macht 20% Gewinn. Wenn es 500 Beutel Eis verkauft, wie hoch ist dann der Gesamtgewinn?</p>
+</blockquote>
+<p>Wir können die uns zur Verfügung stehenden Informationen systematisch zusammentragen und die Aufgabenstellung nach und nach in eine mathematische Formel überführen, die wir dann mithilfe von Python auswerten können.</p>
+<p><em>Cost of ice bag ($)</em> = 1.25</p>
+<p><em>Profit margin</em> = 20% = .2</p>
+<p><em>Profit per bag ($)</em> = profit margin * cost of ice bag = .2 * 1.25</p>
+<p><em>No.&nbsp;of bags</em> = 500</p>
+<p><em>Total profit</em> = no. of bags * profit per bag = 500 * (.2 * 1.25)</p>
+<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:622,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507024112,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="70057e11-474a-48b4-ae2b-e4262cbf80fa" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="dv">500</span> <span class="op">*</span> (<span class="fl">.2</span> <span class="op">*</span> <span class="fl">1.25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>125.0</code></pre>
+</div>
+</div>
+<p>Somit erzielt das Lebensmittelgeschäft einen Gesamtgewinn von 125,0 $. Obwohl dies eine vernünftige Möglichkeit ist, ein Problem zu lösen, wird aus der Codezelle nicht ganz klar, was die Zahlen darstellen. Wir können jeder Zahl einen Namen geben, indem wir Python-<em>Variablen</em> erstellen.</p>
+<blockquote class="blockquote">
+<p><strong>Variablen</strong>: Beim Arbeiten mit einer Programmiersprache wie Python werden Informationen in <em>Variablen</em> gespeichert. Sie können sich Variablen als Container zum Speichern von Daten vorstellen. Die in einer Variablen gespeicherten Daten werden als <em>Wert</em> bezeichnet.</p>
+</blockquote>
+<div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>cost_of_ice_bag <span class="op">=</span> <span class="fl">1.25</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>profit_margin <span class="op">=</span> <span class="fl">.2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>number_of_bags <span class="op">=</span> <span class="dv">500</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Die Variablen <code>cost_of_ice_bag</code>, <code>profit_margin</code> and <code>number_of_bags</code> enthalten nun die in der Textaufgabe bereitgestellten Informationen. Wir können den Wert einer Variablen überprüfen, indem wir ihren Namen in eine Zelle eingeben, und wir können Variablen mithilfe arithmetischer Operationen kombinieren, um andere Variablen zu erstellen.</p>
+<blockquote class="blockquote">
+<p>Tipp: Während Sie den Namen einer vorhandenen Variablen in eine Codezelle in Jupyter eingeben, können Sie die ersten paar Zeichen eingeben und die “Tabulatortaste“ <code>Tab</code> drücken, um den Variablennamen automatisch zu vervollständigen. Geben Sie <code>pro</code> in eine Codezelle unten ein und drücken Sie die Tabulatortaste, um die automatische Vervollständigung zu <code>profit_margin</code> durchzuführen.</p>
+</blockquote>
+<div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:585,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507030244,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="b752051d-bff7-4c9c-b190-ac6f655ed2bb" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>profit_margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>0.2</code></pre>
+</div>
+</div>
+<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>profit_per_bag <span class="op">=</span> cost_of_ice_bag <span class="op">*</span> profit_margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:330,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507035342,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="7fce2b92-13f2-4aaa-ed40-94fecbbf5d4a" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>profit_per_bag</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>0.25</code></pre>
+</div>
+</div>
+<div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="16">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>total_profit <span class="op">=</span> number_of_bags <span class="op">*</span> profit_per_bag</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-27" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:532,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507040804,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="84f0ce81-88c8-4743-ff00-f7fb4f7c4a7b" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>total_profit</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>125.0</code></pre>
+</div>
+</div>
+<p>Wenn Sie versuchen, den Wert einer Variablen anzuzeigen, die nicht <em>definiert</em> ist, d.&nbsp;h. ihr mit der Zuweisungsanweisung <code>Variablenname = Wert</code> ein Wert zugewiesen wurde, zeigt Python einen Fehler an.</p>
+<div id="cell-29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>net_profit <span class="op">=</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Das Speichern und Bearbeiten von Daten mithilfe entsprechend benannter Variablen ist eine hervorragende Möglichkeit, die Funktionsweise Ihres Codes zu erklären.</p>
+<p>Lassen Sie uns das Ergebnis der Textaufgabe mit einer freundlichen Nachricht anzeigen. Wir können dies mit der <code>print</code> <em>Funktion</em> tun.</p>
+<blockquote class="blockquote">
+<p><strong>Funktionen</strong>: Eine Funktion ist ein wiederverwendbarer Satz von Anweisungen. Eine Funktion nimmt eine oder mehrere Eingaben entgegen, führt bestimmte Operationen aus und gibt häufig eine Ausgabe zurück. Python bietet viele integrierte Funktionen wie <code>print</code> und ermöglicht uns auch die Definition unserer eigenen Funktionen.</p>
+</blockquote>
+<div id="cell-31" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:553,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507069401,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="c7a2ac50-e58c-4e39-dd5d-8617d6c8c0be" data-execution_count="19">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a><span class="bu">print</span>(<span class="st">"The grocery store makes a total profit of $"</span>, total_profit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The grocery store makes a total profit of $ 125.0</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong><code>print</code></strong>: Die Funktion <code>print</code> dient der Anzeige von Informationen. Es werden eine oder mehrere Eingaben benötigt, bei denen es sich um Text (in Anführungszeichen, z. B. <code>Das ist Text</code>), Zahlen, Variablen, mathematische Ausdrücke usw. handeln kann. Im nächsten Abschnitt erfahren Sie mehr über Variablen und Funktionen.</p>
+</blockquote>
+<p>Das Erstellen einer Codezelle für jede Variable oder mathematische Operation kann mühsam sein. Glücklicherweise können Sie mit Jupyter mehrere Codezeilen in einer einzigen Codezelle schreiben. Schreiben wir die Lösung unseres Wortproblems in einer einzigen Zelle um.</p>
+<div id="cell-33" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:727,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507371248,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="6b8c4fcf-73ce-4118-a3d2-ce99dd24ed4a" data-execution_count="20">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a><span class="co"># Speichern Sie Eingabedaten in Variablen</span></span>
+<span id="cb33-2"><a href="#cb33-2"></a>cost_of_ice_bag <span class="op">=</span> <span class="fl">1.25</span></span>
+<span id="cb33-3"><a href="#cb33-3"></a>profit_margin <span class="op">=</span> <span class="fl">.2</span></span>
+<span id="cb33-4"><a href="#cb33-4"></a>number_of_bags <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a></span>
+<span id="cb33-6"><a href="#cb33-6"></a><span class="co"># Führen Sie die erforderlichen Berechnungen durch</span></span>
+<span id="cb33-7"><a href="#cb33-7"></a>profit_per_bag <span class="op">=</span> cost_of_ice_bag <span class="op">*</span> profit_margin</span>
+<span id="cb33-8"><a href="#cb33-8"></a>total_profit <span class="op">=</span> number_of_bags <span class="op">*</span> profit_per_bag</span>
+<span id="cb33-9"><a href="#cb33-9"></a></span>
+<span id="cb33-10"><a href="#cb33-10"></a><span class="co"># Ergebnis anzeigen</span></span>
+<span id="cb33-11"><a href="#cb33-11"></a><span class="bu">print</span>(<span class="st">"The grocery store makes a total profit of $"</span>, total_profit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The grocery store makes a total profit of $ 125.0</code></pre>
+</div>
+</div>
+<p>Beachten Sie, dass wir das Zeichen <code>#</code> verwenden, um <em>Kommentare</em> in unseren Code einzufügen.</p>
+<blockquote class="blockquote">
+<p><strong>Kommentare</strong>: Kommentare und Leerzeilen werden während der Ausführung ignoriert, sind aber nützlich, um anderen Menschen (einschließlich Ihnen selbst) Informationen darüber zu geben, was der Code tut. Kommentare können inline (am Ende eines Codes), in einer separaten Zeile oder sogar über mehrere Zeilen hinweg erfolgen.</p>
+</blockquote>
+<p>Inline- und einzeilige Kommentare beginnen mit <code>#</code>, während mehrzeilige Kommentare mit drei Anführungszeichen beginnen und enden, z. B. <code>“““</code>. Hier sind einige Beispiele für Codekommentare:</p>
+<div id="cell-35" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="21">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a>my_favorite_number <span class="op">=</span> <span class="dv">1</span> <span class="co"># ein "Inline-Kommentar"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-36" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="22">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a><span class="co"># Dieser Kommentar ist in einer separaten Zeile</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a>my_least_favorite_number <span class="op">=</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-37" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a><span class="co">"""Das ist ein mehrzeiliger Kommentar.</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a><span class="co">Schreibe so wenig oder so viel wie du möchtest.</span></span>
+<span id="cb37-3"><a href="#cb37-3"></a></span>
+<span id="cb37-4"><a href="#cb37-4"></a><span class="co">Kommentare sind sehr hilfreich für Leute, die </span></span>
+<span id="cb37-5"><a href="#cb37-5"></a><span class="co">deinen Code lesen, aber versuche sie kurz und prägnant zu halten.</span></span>
+<span id="cb37-6"><a href="#cb37-6"></a></span>
+<span id="cb37-7"><a href="#cb37-7"></a><span class="co">Außerdem, wenn du gute Variablennamen verwendest, dann ist dein Code </span></span>
+<span id="cb37-8"><a href="#cb37-8"></a><span class="co">oft selbsterklärend und du benötigst vielleicht nicht einmal Kommentare!</span></span>
+<span id="cb37-9"><a href="#cb37-9"></a><span class="co">"""</span></span>
+<span id="cb37-10"><a href="#cb37-10"></a>a_neutral_number <span class="op">=</span> <span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><a id="bedingungen-auswerten"></a></p>
+</section>
+<section id="bedingungen-mit-python-auswerten" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="bedingungen-mit-python-auswerten"><span class="header-section-number">2.4</span> Bedingungen mit Python auswerten</h2>
+<p>Neben arithmetischen Operationen bietet Python auch mehrere Möglichkeiten zum Vergleichen von Zahlen und Variablen.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 83%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>==</code></td>
+<td>Überprüfen, ob die Operanden gleich sind</td>
+</tr>
+<tr class="even">
+<td><code>!=</code></td>
+<td>Überprüfen, ob die Operanden ungleich sind</td>
+</tr>
+<tr class="odd">
+<td><code>&gt;</code></td>
+<td>Überprüfen, ob der linke Operand größer als der rechte ist</td>
+</tr>
+<tr class="even">
+<td><code>&lt;</code></td>
+<td>Überprüfen, ob der linke Operand kleiner als der rechte ist</td>
+</tr>
+<tr class="odd">
+<td><code>&gt;=</code></td>
+<td>Überprüfen, ob der linke Operand größer oder gleich dem rechten ist</td>
+</tr>
+<tr class="even">
+<td><code>&lt;=</code></td>
+<td>Überprüfen, ob der linke Operand kleiner oder gleich dem rechten ist</td>
+</tr>
+</tbody>
+</table>
+<p>Das Ergebnis einer Vergleichsoperation ist entweder <code>True</code> oder <code>Falsch</code> (beachten Sie die Großbuchstaben <code>T</code> und <code>F</code>). Dies sind spezielle Schlüsselwörter in Python. Probieren wir ein Experiment mit Vergleichsoperatoren aus.</p>
+<div id="cell-40" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="24">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a>my_favorite_number <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb38-2"><a href="#cb38-2"></a>my_least_favorite_number <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb38-3"><a href="#cb38-3"></a>a_neutral_number <span class="op">=</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-41" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:774,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507381089,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="3421d1ef-185d-4084-b9e1-8338e01e6dd7" data-execution_count="25">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># Überprüfung auf Gleichheit - True</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a>my_favorite_number <span class="op">==</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="cell-42" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:412,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507381627,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="ab56af4f-aacd-4d35-f34b-59c8bcf41813" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># Überprüfung auf Gleichheit - False</span></span>
+<span id="cb41-2"><a href="#cb41-2"></a>my_favorite_number <span class="op">==</span> my_least_favorite_number</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div id="cell-43" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:249,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507382231,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="8301ac29-f70b-4b0e-e7a4-e65c4bf4ca77" data-execution_count="27">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1"></a><span class="co"># Überprüfung auf Ungleichheit - True</span></span>
+<span id="cb43-2"><a href="#cb43-2"></a>my_favorite_number <span class="op">!=</span> a_neutral_number</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="cell-44" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:585,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507383955,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="095c8508-b030-4d8b-f587-08d01b9d029e" data-execution_count="28">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1"></a><span class="co"># Überprüfung auf Ungleichheit - False</span></span>
+<span id="cb45-2"><a href="#cb45-2"></a>a_neutral_number <span class="op">!=</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div id="cell-45" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:264,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507384643,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="5b59bcac-1cfe-46b5-f493-433164306040" data-execution_count="29">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a><span class="co"># Überprüfung auf größer - True</span></span>
+<span id="cb47-2"><a href="#cb47-2"></a>my_least_favorite_number <span class="op">&gt;</span> a_neutral_number</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="cell-46" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:234,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507385516,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="36cdd462-ae60-4b1a-f459-d05e07229e72" data-execution_count="30">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1"></a><span class="co"># Überprüfung auf größer - False</span></span>
+<span id="cb49-2"><a href="#cb49-2"></a>my_favorite_number <span class="op">&gt;</span> my_least_favorite_number</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div id="cell-47" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:381,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507386725,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="92df00f4-6795-4de6-9ad5-c43f0771d118" data-execution_count="31">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1"></a><span class="co"># Überprüfung auf kleiner - True</span></span>
+<span id="cb51-2"><a href="#cb51-2"></a>my_favorite_number <span class="op">&lt;</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="cell-48" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:559,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507387921,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="c431801b-00ab-41d5-fc11-e5078ae478ac" data-execution_count="32">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a><span class="co"># Überprüfung auf kleiner - False</span></span>
+<span id="cb53-2"><a href="#cb53-2"></a>my_least_favorite_number <span class="op">&lt;</span> my_favorite_number</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div id="cell-49" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:336,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507388645,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="0efebb1c-3a61-4436-a89d-17e12c099781" data-execution_count="33">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1"></a><span class="co"># Überprüfung auf größer oder gleich - True</span></span>
+<span id="cb55-2"><a href="#cb55-2"></a>my_favorite_number <span class="op">&gt;=</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="cell-50" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:930,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507390341,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="db2fc93e-7947-4831-b1d0-eb09ec1e2a90" data-execution_count="34">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1"></a><span class="co"># Überprüfung auf größer oder gleich - False</span></span>
+<span id="cb57-2"><a href="#cb57-2"></a>my_favorite_number <span class="op">&gt;=</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div id="cell-51" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:413,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507391241,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="0cab20b6-9c3a-44db-d5e9-06e7dc0b3f31" data-execution_count="35">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1"></a><span class="co"># Überprüfung auf kleiner oder gleich - True</span></span>
+<span id="cb59-2"><a href="#cb59-2"></a><span class="dv">3</span> <span class="op">+</span> <span class="dv">6</span> <span class="op">&lt;=</span> <span class="dv">9</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="cell-52" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:353,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507392432,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="e1a1de3e-7ef4-4f92-b4b6-71cf52d72f97" data-execution_count="36">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1"></a><span class="co"># Überprüfung auf kleiner oder gleich - False</span></span>
+<span id="cb61-2"><a href="#cb61-2"></a>my_favorite_number <span class="op">+</span> a_neutral_number <span class="op">&lt;=</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>False</code></pre>
+</div>
+</div>
+<p>Ebenso wie arithmetische Operationen kann auch das Ergebnis einer Vergleichsoperation in einer Variablen gespeichert werden.</p>
+<div id="cell-54" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:397,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507394579,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="4b61557e-6c12-45d9-ec73-c3253ed8c051" data-execution_count="37">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1"></a>cost_of_ice_bag <span class="op">=</span> <span class="fl">1.25</span></span>
+<span id="cb63-2"><a href="#cb63-2"></a>is_ice_bag_expensive <span class="op">=</span> cost_of_ice_bag <span class="op">&gt;=</span> <span class="dv">10</span></span>
+<span id="cb63-3"><a href="#cb63-3"></a><span class="bu">print</span>(<span class="st">"Is the ice bag expensive?"</span>, is_ice_bag_expensive)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Is the ice bag expensive? False</code></pre>
+</div>
+</div>
+<p><a id="logische-operatoren"></a></p>
+</section>
+<section id="bedingungen-mit-logischen-operatoren-verbinden" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="bedingungen-mit-logischen-operatoren-verbinden"><span class="header-section-number">2.5</span> Bedingungen mit logischen Operatoren verbinden</h2>
+<p>Die logischen Operatoren <code>and</code>, <code>or</code> und <code>not</code> wirken auf Bedingungen und <code>True</code> &amp; <code>False</code> Werte (auch bekannt als <em>boolesche</em> Werte). <code>and</code> und <code>or</code> wirken auf zwei Bedingungen, während <code>not</code> auf eine einzelne Bedingung wirkt.</p>
+<p>Der Operator <code>and</code> gibt <code>True</code> zurück, wenn beide Bedingungen zu <code>True</code> ausgewertet werden. Andernfalls gibt er <code>False</code> zurück.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><code>a</code></th>
+<th><code>b</code></th>
+<th><code>a and b</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>True</code></td>
+<td><code>True</code></td>
+<td><code>True</code></td>
+</tr>
+<tr class="even">
+<td><code>True</code></td>
+<td><code>False</code></td>
+<td><code>False</code></td>
+</tr>
+<tr class="odd">
+<td><code>False</code></td>
+<td><code>True</code></td>
+<td><code>False</code></td>
+</tr>
+<tr class="even">
+<td><code>False</code></td>
+<td><code>False</code></td>
+<td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+<div id="cell-57" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:579,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507415320,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="d82933dd-dcaa-4d78-ec0e-a0b1583f3f80" data-scrolled="true" data-execution_count="38">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1"></a>my_favorite_number</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="38">
+<pre><code>1</code></pre>
+</div>
+</div>
+<div id="cell-58" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:559,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507433518,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="94090664-1b74-4053-cce3-578f69f7bcf3" data-execution_count="39">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1"></a>my_favorite_number <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> my_favorite_number <span class="op">&lt;=</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="cell-59" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:299,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507434686,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="e4dfe447-8aff-476f-bd77-2211f910306b" data-execution_count="40">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1"></a>my_favorite_number <span class="op">&lt;</span> <span class="dv">0</span> <span class="kw">and</span> my_favorite_number <span class="op">&lt;=</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="40">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div id="cell-60" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:331,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507435644,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="f8135999-011b-4cdd-bcaa-0bff741b04b8" data-execution_count="41">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1"></a>my_favorite_number <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> my_favorite_number <span class="op">&gt;=</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="41">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div id="cell-61" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:432,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507436973,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="24307e5d-0de5-473d-9458-f555e8cbca0a" data-execution_count="42">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1"></a><span class="va">True</span> <span class="kw">and</span> <span class="va">False</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div id="cell-62" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:454,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507438350,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="a0f3d670-04d1-472d-9381-5aff620e3d77" data-execution_count="43">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1"></a><span class="va">True</span> <span class="kw">and</span> <span class="va">True</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<pre><code>True</code></pre>
+</div>
+</div>
+<p>Der Operator <code>or</code> gibt <code>True</code> zurück, wenn mindestens eine der Bedingungen zu <code>True</code> ausgewertet wird. Er gibt <code>False</code> nur zurück, wenn beide Bedingungen <code>False</code> sind.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><code>a</code></th>
+<th><code>b</code></th>
+<th><code>a oder b</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>True</code></td>
+<td><code>True</code></td>
+<td><code>True</code></td>
+</tr>
+<tr class="even">
+<td><code>True</code></td>
+<td><code>False</code></td>
+<td><code>True</code></td>
+</tr>
+<tr class="odd">
+<td><code>False</code></td>
+<td><code>True</code></td>
+<td><code>True</code></td>
+</tr>
+<tr class="even">
+<td><code>False</code></td>
+<td><code>False</code></td>
+<td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+<div id="cell-64" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="44">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1"></a>a_neutral_number <span class="op">=</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-65" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:460,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507442115,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="619f24d6-2be9-4208-d51c-200d0b04ec77" data-execution_count="45">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1"></a>a_neutral_number <span class="op">==</span> <span class="dv">3</span> <span class="kw">or</span> my_favorite_number <span class="op">&lt;</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="45">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="cell-66" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:331,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507443403,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="2cfc2e25-9895-478e-fcfa-2ab8a20218d0" data-execution_count="46">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1"></a>a_neutral_number <span class="op">!=</span> <span class="dv">3</span> <span class="kw">or</span> my_favorite_number <span class="op">&lt;</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="46">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div id="cell-67" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:335,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507444891,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="8b52131f-7321-496d-a0b5-09aab57022f4" data-execution_count="47">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1"></a>my_favorite_number <span class="op">&lt;</span> <span class="dv">0</span> <span class="kw">or</span> <span class="va">True</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="cell-68" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:486,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507446002,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="2d7a5106-a0a5-44a8-930f-db8d795cc426" data-execution_count="48">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1"></a><span class="va">False</span> <span class="kw">or</span> <span class="va">False</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<pre><code>False</code></pre>
+</div>
+</div>
+<p>Der <code>not</code>-Operator gibt <code>False</code> zurück, wenn eine Bedingung <code>True</code> ist, und <code>True</code>, wenn die Bedingung <code>False</code> ist.</p>
+<div id="cell-70" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:540,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507448645,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="0a3aaece-4d0b-4eb1-af7c-c575bccf37d1" data-execution_count="49">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1"></a><span class="kw">not</span> a_neutral_number <span class="op">==</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="49">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div id="cell-71" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:654,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507456371,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="c6cc4d99-1518-4fc5-9154-ef6e88002797" data-execution_count="50">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1"></a><span class="kw">not</span> my_favorite_number <span class="op">&lt;</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="50">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="cell-72" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:634,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507457879,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="3ec52122-4231-4a6a-8e60-8a5adf571804" data-execution_count="51">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1"></a><span class="kw">not</span> <span class="va">False</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="51">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="cell-73" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:533,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507459069,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="02a1edd0-fbd5-4bbf-8e05-331a9d313cfa" data-execution_count="52">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1"></a><span class="kw">not</span> <span class="va">True</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<pre><code>False</code></pre>
+</div>
+</div>
+<p>Logische Operatoren können zu komplexen Bedingungen kombiniert werden. Verwenden Sie runde Klammern oder Klammern <code>(</code> und <code>)</code>, um die Reihenfolge anzugeben, in der logische Operatoren angewendet werden sollen.</p>
+<div id="cell-75" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:490,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1597507464421,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="33962b15-ae80-4431-f747-e63a83d1016d" data-execution_count="53">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1"></a>(<span class="dv">2</span> <span class="op">&gt;</span> <span class="dv">3</span> <span class="kw">and</span> <span class="dv">4</span> <span class="op">&lt;=</span> <span class="dv">5</span>) <span class="kw">or</span> <span class="kw">not</span> (my_favorite_number <span class="op">&lt;</span> <span class="dv">0</span> <span class="kw">and</span> <span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="53">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="cell-76" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="54">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1"></a><span class="kw">not</span> (<span class="va">True</span> <span class="kw">and</span> <span class="dv">0</span> <span class="op">&lt;</span> <span class="dv">1</span>) <span class="kw">or</span> (<span class="va">False</span> <span class="kw">and</span> <span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="54">
+<pre><code>False</code></pre>
+</div>
+</div>
+<p>Wenn keine Klammern verwendet werden, werden logische Operatoren von links nach rechts angewendet.</p>
+<div id="cell-78" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="55">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1"></a><span class="kw">not</span> <span class="va">True</span> <span class="kw">and</span> <span class="dv">0</span> <span class="op">&lt;</span> <span class="dv">1</span> <span class="kw">or</span> <span class="va">False</span> <span class="kw">and</span> <span class="va">True</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="55">
+<pre><code>False</code></pre>
+</div>
+</div>
+<p>Experimentieren Sie mit arithmetischen, bedingten und logischen Operatoren in Python und nutzen Sie dabei die interaktive Natur des Jupyter-Notebooks. Wir werden in zukünftigen Tutorials mehr über Variablen und Funktionen erfahren.</p>
+<p><a id="markdown"></a></p>
+</section>
+<section id="textstile-mit-markdown-hinzufügen" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="textstile-mit-markdown-hinzufügen"><span class="header-section-number">2.6</span> Textstile mit Markdown hinzufügen</h2>
+<p>Das Hinzufügen von Erklärungen mithilfe von Textzellen (wie dieser) ist eine großartige Möglichkeit, Ihr Notizbuch für andere Leser und für Sie selbst informativ zu gestalten, wenn Sie in Zukunft darauf zurückgreifen müssen. Doppelklicken Sie auf eine Textzelle in Jupyter, um sie zu bearbeiten. Im Bearbeitungsmodus werden Sie feststellen, dass der Text etwas anders aussieht (z. B. hat die Überschrift ein <code>##</code>-Präfix). Dieser Text wird mit Markdown geschrieben, einer einfachen Möglichkeit, Ihrem Text Stile hinzuzufügen. Führen Sie diese Zelle aus, um Sehen Sie sich die Ausgabe ohne Sonderzeichen an. Sie können zwischen der Quelle und der Ausgabe hin und her wechseln, um zu sehen, wie ein bestimmter Stil erstellt wird.</p>
+<p>Sie können beispielsweise ein oder mehrere <code>#</code>-Zeichen am Anfang einer Zeile verwenden, um Kopfzeilen unterschiedlicher Größe zu erstellen:</p>
+<p><code># Kopfzeile 1</code></p>
+<p><code>## Kopfzeile 2</code></p>
+<p><code>### Kopfzeile 3</code></p>
+<p><code>#### Kopfzeile 4</code></p>
+<p>Um eine Liste mit Aufzählungszeichen oder Nummern zu erstellen, beginnen Sie einfach eine Zeile mit <code>*</code> oder <code>1.</code>.</p>
+<p>Eine Liste mit Aufzählungszeichen:</p>
+<ul>
+<li>Item 1</li>
+<li>Item 2</li>
+<li>Item 3</li>
+</ul>
+<p>Eine nummerierte Liste:</p>
+<ol type="1">
+<li>Apfel</li>
+<li>Banane</li>
+<li>Ananas</li>
+</ol>
+<p>Sie können Text mit <code>**</code> fett formatieren, z.&nbsp;B. <code>**Dies ist ein fetter Text**</code>, oder machen Sie ihn kursiv mit <code>*</code>, z. B. <code>*Dies ist ein kursiver Text.*</code> Sie können auch Links erstellen, z. B. <code>[Dies ist ein Link](https://www.ku.de/wfi)</code>. Auch Bilder lassen sich ganz einfach einbetten:</p>
+<p><code>![](https://www.ku.de/fileadmin/_processed_/a/a/csm_WFI_Logo_12df3953ca.webp)</code></p>
+<p>Ein weiteres wirklich nettes Feature von Markdown ist die Möglichkeit, Codeblöcke einzubinden. Beachten Sie, dass Codeblöcke innerhalb von Markdown-Zellen nicht ausgeführt werden können.</p>
+<pre><code># Perform the required calculations
+profit_per_bag = cost_of_ice_bag * profit_margin
+total_profit = number_of_bags * profit_per_bag
+
+# Display the result
+print("The grocery store makes a total profit of $", total_profit)
+</code></pre>
+<p>Die vollständige Syntax von Markdown können Sie hier erfahren: https://learnxinyminutes.com/docs/markdown/</p>
+</section>
+<section id="weiterführende-literatur-und-referenzen" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="weiterführende-literatur-und-referenzen"><span class="header-section-number">2.7</span> Weiterführende Literatur und Referenzen</h2>
+<p>Im Folgenden finden Sie einige Ressourcen zum Erlernen weiterer arithmetischer, bedingter und logischer Operationen in Python:</p>
+<ul>
+<li><a href="https://www.w3schools.com/python/">Python-Tutorial bei W3Schools</a></li>
+<li><a href="https://dabeaz-course.github.io/practical-python/Notes/Contents.html">Praktische Python-Programmierung</a></li>
+<li><a href="https://docs.python.org/3/tutorial/index.html">Offizielle Python-Dokumentation</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Willkommen zu „Programmierung und Datenanalyse mit Python: Eine Einführung“">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Willkommen zu „Programmierung und Datenanalyse mit Python: Eine Einführung“</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./kapitel2.html" class="pagination-link" aria-label="Eine kurze Tour durch Variablen und Datentypen in Python">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Eine kurze Tour durch Variablen und Datentypen in Python</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

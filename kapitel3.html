@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; Verzweigungen mit bedingten Anweisungen und Schleifen in Python – Programmierung und Datenanalyse mit Python: Eine Einführung</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./kapitel4.html" rel="next">
+<link href="./kapitel2.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e0fdce12ac1367d4b47c179a2935dd10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-74c88ba48ad0bebf983f0ffd06dd1671.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-e0fdce12ac1367d4b47c179a2935dd10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./kapitel3.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Verzweigungen mit bedingten Anweisungen und Schleifen in Python</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Programmierung und Datenanalyse mit Python: Eine Einführung</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Willkommen zu „Programmierung und Datenanalyse mit Python: Eine Einführung“</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Erste Schritte mit Python und Jupyter</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Eine kurze Tour durch Variablen und Datentypen in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Verzweigungen mit bedingten Anweisungen und Schleifen in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Schreiben von wiederverwendbarem Code mithilfe von Funktionen</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Numerisches Rechnen mit Python und Numpy</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Analyse tabellarischer Daten mit Python und Pandas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Datenvisualisierung mit Python, Matplotlib und Seaborn</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Explorative Datenanalyse mit Python – Eine Fallstudie</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#verzweigungen-mit-if-else-und-elif" id="toc-verzweigungen-mit-if-else-und-elif" class="nav-link active" data-scroll-target="#verzweigungen-mit-if-else-und-elif"><span class="header-section-number">4.1</span> Verzweigungen mit <code>if</code>, <code>else</code> und <code>elif</code></a>
+  <ul class="collapse">
+  <li><a href="#die-if-anweisung" id="toc-die-if-anweisung" class="nav-link" data-scroll-target="#die-if-anweisung"><span class="header-section-number">4.1.1</span> Die <code>if</code> Anweisung</a></li>
+  <li><a href="#die-else-anweisung" id="toc-die-else-anweisung" class="nav-link" data-scroll-target="#die-else-anweisung"><span class="header-section-number">4.1.2</span> Die <code>else</code> Anweisung</a></li>
+  <li><a href="#die-elif-anweisung" id="toc-die-elif-anweisung" class="nav-link" data-scroll-target="#die-elif-anweisung"><span class="header-section-number">4.1.3</span> Die <code>elif</code> Anweisung</a></li>
+  <li><a href="#gemeinsame-verwendung-von-if-elif-und-else." id="toc-gemeinsame-verwendung-von-if-elif-und-else." class="nav-link" data-scroll-target="#gemeinsame-verwendung-von-if-elif-und-else."><span class="header-section-number">4.1.4</span> Gemeinsame Verwendung von <code>if</code>, <code>elif</code> und <code>else</code>.</a></li>
+  <li><a href="#nicht-boolesche-bedingungen" id="toc-nicht-boolesche-bedingungen" class="nav-link" data-scroll-target="#nicht-boolesche-bedingungen"><span class="header-section-number">4.1.5</span> Nicht-Boolesche Bedingungen</a></li>
+  <li><a href="#verschachtelte-bedingte-anweisungen" id="toc-verschachtelte-bedingte-anweisungen" class="nav-link" data-scroll-target="#verschachtelte-bedingte-anweisungen"><span class="header-section-number">4.1.6</span> Verschachtelte bedingte Anweisungen</a></li>
+  <li><a href="#abkürzung-für-den-bedingten-ausdruck-if" id="toc-abkürzung-für-den-bedingten-ausdruck-if" class="nav-link" data-scroll-target="#abkürzung-für-den-bedingten-ausdruck-if"><span class="header-section-number">4.1.7</span> Abkürzung für den bedingten Ausdruck <code>if</code></a></li>
+  <li><a href="#anweisungen-und-ausdrücke" id="toc-anweisungen-und-ausdrücke" class="nav-link" data-scroll-target="#anweisungen-und-ausdrücke"><span class="header-section-number">4.1.8</span> Anweisungen und Ausdrücke</a></li>
+  <li><a href="#die-pass-anweisung" id="toc-die-pass-anweisung" class="nav-link" data-scroll-target="#die-pass-anweisung"><span class="header-section-number">4.1.9</span> Die <code>pass</code> Anweisung</a></li>
+  </ul></li>
+  <li><a href="#iteration-mit-while-schleifen" id="toc-iteration-mit-while-schleifen" class="nav-link" data-scroll-target="#iteration-mit-while-schleifen"><span class="header-section-number">4.2</span> Iteration mit <code>while</code> Schleifen</a>
+  <ul class="collapse">
+  <li><a href="#grundlagen" id="toc-grundlagen" class="nav-link" data-scroll-target="#grundlagen"><span class="header-section-number">4.2.1</span> Grundlagen</a></li>
+  <li><a href="#endlosschleifen" id="toc-endlosschleifen" class="nav-link" data-scroll-target="#endlosschleifen"><span class="header-section-number">4.2.2</span> Endlosschleifen</a></li>
+  <li><a href="#break--und-continue-anweisungen" id="toc-break--und-continue-anweisungen" class="nav-link" data-scroll-target="#break--und-continue-anweisungen"><span class="header-section-number">4.2.3</span> <code>break</code>- und <code>continue</code>-Anweisungen</a></li>
+  </ul></li>
+  <li><a href="#iteration-mit-for-schleifen" id="toc-iteration-mit-for-schleifen" class="nav-link" data-scroll-target="#iteration-mit-for-schleifen"><span class="header-section-number">4.3</span> Iteration mit <code>for</code> Schleifen</a>
+  <ul class="collapse">
+  <li><a href="#grundlagen-1" id="toc-grundlagen-1" class="nav-link" data-scroll-target="#grundlagen-1"><span class="header-section-number">4.3.1</span> Grundlagen</a></li>
+  <li><a href="#iterieren-mit-range-und-enumerate." id="toc-iterieren-mit-range-und-enumerate." class="nav-link" data-scroll-target="#iterieren-mit-range-und-enumerate."><span class="header-section-number">4.3.2</span> Iterieren mit <code>range</code> und <code>enumerate</code>.</a></li>
+  <li><a href="#break--continue--und-pass-anweisungen" id="toc-break--continue--und-pass-anweisungen" class="nav-link" data-scroll-target="#break--continue--und-pass-anweisungen"><span class="header-section-number">4.3.3</span> <code>break</code>-, <code>continue</code>- und <code>pass</code>-Anweisungen</a></li>
+  <li><a href="#verschachtelte-for--und-while-schleifen" id="toc-verschachtelte-for--und-while-schleifen" class="nav-link" data-scroll-target="#verschachtelte-for--und-while-schleifen"><span class="header-section-number">4.3.4</span> Verschachtelte <code>for</code>- und <code>while</code>-Schleifen</a></li>
+  </ul></li>
+  <li><a href="#weiterführende-literatur-und-referenzen" id="toc-weiterführende-literatur-und-referenzen" class="nav-link" data-scroll-target="#weiterführende-literatur-und-referenzen"><span class="header-section-number">4.4</span> Weiterführende Literatur und Referenzen</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Verzweigungen mit bedingten Anweisungen und Schleifen in Python</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Dieses Tutorial ist das dritte einer Reihe zur Einführung in die Programmierung und Datenanalyse mit der Python-Programmiersprache. Diese Tutorials basieren auf einem praktischen, programmbasierten Ansatz. Der beste Weg, das Material zu erlernen, besteht darin, den Code auszuführen und mit den Beispielen zu experimentieren.</p>
+<p>Die folgenden Themen werden in diesem Tutorial behandelt:</p>
+<ul>
+<li><a href="#if-else-elif">Verzweigungen mit if, else und elif</a></li>
+<li><a href="#while">Iteration mit while Schleifen</a></li>
+<li><a href="#for">Iteration mit for Schleifen</a></li>
+</ul>
+<p><a id="if-else-elif"></a></p>
+<section id="verzweigungen-mit-if-else-und-elif" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="verzweigungen-mit-if-else-und-elif"><span class="header-section-number">4.1</span> Verzweigungen mit <code>if</code>, <code>else</code> und <code>elif</code></h2>
+<p>Eine wirklich mächtige Funktion von Programmiersprachen ist <em>Verzweigung</em>: die Fähigkeit, Entscheidungen zu treffen und abhängig davon, ob eine oder mehrere Bedingungen wahr sind, einen anderen Satz von Anweisungen auszuführen.</p>
+<section id="die-if-anweisung" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="die-if-anweisung"><span class="header-section-number">4.1.1</span> Die <code>if</code> Anweisung</h3>
+<p>In Python wird die Verzweigung mit der <code>if</code> Anweisung durchgeführt, die folgendermaßen geschrieben wird:</p>
+<pre><code>if Bedingung:
+    Anweisung1
+    Anweisung2</code></pre>
+<p>Die <code>Bedingung</code> kann entweder eine Variable oder ein Ausdruck sein. Wenn die Bedingung zu <code>True</code> auswertet, dann werden die Anweisungen innerhalb des <em><code>if</code>-Blocks</em> ausgeführt. Beachte die 4 Leerzeichen vor <code>Anweisung1</code>, <code>Anweisung2</code> usw. Die Leerzeichen informieren Python, dass diese Anweisungen mit der darüber liegenden <code>if</code> Anweisung in Verbindung stehen. Diese Technik, den Code durch Hinzufügen von Leerzeichen zu strukturieren, wird <em>Einrückung</em> genannt.</p>
+<blockquote class="blockquote">
+<p><strong>Einrückung</strong>: Python stützt sich stark auf <em>Einrückungen (indentation)</em> (Leerraum vor einer Anweisung) um die Struktur im Code zu definieren. Das macht den Python-Code leicht zu lesen und zu verstehen, aber du kannst auf Probleme stoßen, wenn du die Einrückung nicht richtig verwendest. Rücke deinen Code ein, indem du den Cursor am Anfang der Zeile platzierst und einmal die <code>Tab</code> Taste drückst, um 4 Leerzeichen hinzuzufügen. Wenn du <code>Tab</code> noch einmal drückst, wird der Code um weitere 4 Leerzeichen eingerückt, und durch Drücken von <code>Shift+Tab</code> wird die Einrückung um 4 Leerzeichen reduziert.</p>
+</blockquote>
+<p>Als Beispiel schreiben wir einen Code, um eine Nachricht auszugeben, wenn eine gegebene Zahl gerade ist.</p>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:376,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112638012,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>a_number <span class="op">=</span> <span class="dv">34</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:331,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112641903,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="b9ca7e7a-f2b7-4c1a-e118-59c59a3ca940" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb3-2"><a href="#cb3-2"></a>    <span class="bu">print</span>(<span class="st">"We're inside an if block"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a>    <span class="bu">print</span>(<span class="st">'The given number </span><span class="sc">{}</span><span class="st"> is even.'</span>.<span class="bu">format</span>(a_number))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>We're inside an if block
+The given number 34 is even.</code></pre>
+</div>
+</div>
+<p>Beachte, dass wir den Modulus-Operator <code>%</code> verwenden, um den Rest der Division von <code>a_number</code> durch <code>2</code> zu finden, und dann den Vergleichsoperator <code>==</code> verwenden, um zu überprüfen, ob der Rest <code>0</code> ist, was darauf hinweist, dass die Zahl durch 2 teilbar ist, also gerade ist.</p>
+<p>Da die Zahl <code>34</code> tatsächlich durch <code>2</code> teilbar ist, ergibt der Ausdruck <code>a_number % 2 == 0</code> den Wert <code>True</code>, sodass die <code>print</code> Anweisung unter der <code>if</code> Anweisung ausgeführt wird. Beachte auch, dass wir die String <code>format</code> Methode verwenden, um die Zahl in die Nachricht einzufügen.</p>
+<p>Versuchen wir das oben Gesagte erneut mit einer ungeraden Zahl.</p>
+<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:335,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112659266,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>another_number <span class="op">=</span> <span class="dv">33</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:387,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112661102,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="cf">if</span> another_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb6-2"><a href="#cb6-2"></a>    <span class="bu">print</span>(<span class="st">'The given number </span><span class="sc">{}</span><span class="st"> is even.'</span>.<span class="bu">format</span>(a_number))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Da die Bedingung <code>another_number % 2 == 0</code> erwartungsgemäß <code>False</code> ergibt, wird keine Meldung ausgegeben.</p>
+</section>
+<section id="die-else-anweisung" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="die-else-anweisung"><span class="header-section-number">4.1.2</span> Die <code>else</code> Anweisung</h3>
+<p>Wenn die Zahl im obigen Beispiel nicht gerade ist, möchten wir ebenfalls eine Meldung ausgeben. Dies kann durch Hinzufügen der <code>else</code>-Anweisung erfolgen.</p>
+<pre><code>if condition:
+    statement1
+    statement2
+else:
+    statement4
+    statement5</code></pre>
+<p>Wenn die <code>Bedingung</code> <code>True</code> ergibt, werden die Anweisungen im <code>if</code>-Block ausgeführt, und wenn sie <code>False</code> ergibt, werden die Anweisungen im <code>else</code>-Block ausgeführt.</p>
+<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:292,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112925243,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>a_number <span class="op">=</span> <span class="dv">34</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:300,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112926506,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="771518e8-89f5-4938-de86-c5169a1a90ac" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb9-2"><a href="#cb9-2"></a>    <span class="bu">print</span>(<span class="st">'The given number </span><span class="sc">{}</span><span class="st"> is even.'</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="cf">else</span>:</span>
+<span id="cb9-4"><a href="#cb9-4"></a>    <span class="bu">print</span>(<span class="st">'The given number </span><span class="sc">{}</span><span class="st"> is odd.'</span>.<span class="bu">format</span>(a_number))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The given number 34 is even.</code></pre>
+</div>
+</div>
+<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:328,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112929198,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>another_number <span class="op">=</span> <span class="dv">33</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:356,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112930170,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="8f6fe754-d842-43d0-d422-6754ee2fa34a" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="cf">if</span> another_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb12-2"><a href="#cb12-2"></a>    <span class="bu">print</span>(<span class="st">'The given number </span><span class="sc">{}</span><span class="st"> is even.'</span>.<span class="bu">format</span>(another_number))</span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="cf">else</span>:</span>
+<span id="cb12-4"><a href="#cb12-4"></a>    <span class="bu">print</span>(<span class="st">'The given number </span><span class="sc">{}</span><span class="st"> is odd.'</span>.<span class="bu">format</span>(another_number))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The given number 33 is odd.</code></pre>
+</div>
+</div>
+<p>Hier ist ein weiteres Beispiel, das den <code>in</code>-Operator verwendet, um die Existenz innerhalb eines Tupels zu überprüfen.</p>
+<div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:304,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112932369,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>the_3_musketeers <span class="op">=</span> (<span class="st">'Athos'</span>, <span class="st">'Porthos'</span>, <span class="st">'Aramis'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:295,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112933100,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>a_candidate <span class="op">=</span> <span class="st">"D'Artagnan"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-16" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:286,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112933813,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="16e290d1-2816-4e9f-d23c-a2517c4d98c9" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="cf">if</span> a_candidate <span class="kw">in</span> the_3_musketeers:</span>
+<span id="cb16-2"><a href="#cb16-2"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{}</span><span class="st"> is a musketeer"</span>.<span class="bu">format</span>(a_candidate))</span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="cf">else</span>:</span>
+<span id="cb16-4"><a href="#cb16-4"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{}</span><span class="st"> is not a musketeer"</span>.<span class="bu">format</span>(a_candidate))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>D'Artagnan is not a musketeer</code></pre>
+</div>
+</div>
+</section>
+<section id="die-elif-anweisung" class="level3" data-number="4.1.3">
+<h3 data-number="4.1.3" class="anchored" data-anchor-id="die-elif-anweisung"><span class="header-section-number">4.1.3</span> Die <code>elif</code> Anweisung</h3>
+<p>Python bietet auch eine <code>elif</code> Anweisung (kurz für “else if”), um eine Reihe von bedingten Blöcken zu verketten. Die Bedingungen werden nacheinander ausgewertet. Für die erste Bedingung, die <code>True</code> ergibt, werden die Anweisungen im jeweiligen Block ausgeführt und die restlichen Bedingungen werden nicht ausgewertet. So wird in einer Kette von <code>if</code>, <code>elif</code>, <code>elif</code>… Anweisungen genau ein bedingter Block ausgewertet.</p>
+<div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:282,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112937808,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>today <span class="op">=</span> <span class="st">'Wednesday'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:297,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112939684,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="e6ccbd34-b9dc-4dba-a3f1-c76e10bc8c79" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="cf">if</span> today <span class="op">==</span> <span class="st">'Sunday'</span>:</span>
+<span id="cb19-2"><a href="#cb19-2"></a>    <span class="bu">print</span>(<span class="st">"Today is the day of the sun."</span>)</span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="cf">elif</span> today <span class="op">==</span> <span class="st">'Monday'</span>:</span>
+<span id="cb19-4"><a href="#cb19-4"></a>    <span class="bu">print</span>(<span class="st">"Today is the day of the moon."</span>)</span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="cf">elif</span> today <span class="op">==</span> <span class="st">'Tuesday'</span>:</span>
+<span id="cb19-6"><a href="#cb19-6"></a>    <span class="bu">print</span>(<span class="st">"Today is the day of Tyr, the god of war."</span>)</span>
+<span id="cb19-7"><a href="#cb19-7"></a><span class="cf">elif</span> today <span class="op">==</span> <span class="st">'Wednesday'</span>:</span>
+<span id="cb19-8"><a href="#cb19-8"></a>    <span class="bu">print</span>(<span class="st">"Today is the day of Odin, the supreme diety."</span>)</span>
+<span id="cb19-9"><a href="#cb19-9"></a><span class="cf">elif</span> today <span class="op">==</span> <span class="st">'Thursday'</span>:</span>
+<span id="cb19-10"><a href="#cb19-10"></a>    <span class="bu">print</span>(<span class="st">"Today is the day of Thor, the god of thunder."</span>)</span>
+<span id="cb19-11"><a href="#cb19-11"></a><span class="cf">elif</span> today <span class="op">==</span> <span class="st">'Friday'</span>:</span>
+<span id="cb19-12"><a href="#cb19-12"></a>    <span class="bu">print</span>(<span class="st">"Today is the day of Frigga, the goddess of beauty."</span>)</span>
+<span id="cb19-13"><a href="#cb19-13"></a><span class="cf">elif</span> today <span class="op">==</span> <span class="st">'Saturday'</span>:</span>
+<span id="cb19-14"><a href="#cb19-14"></a>    <span class="bu">print</span>(<span class="st">"Today is the day of Saturn, the god of fun and feasting."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Today is the day of Odin, the supreme diety.</code></pre>
+</div>
+</div>
+<p>Im obigen Beispiel werden die ersten drei Bedingungen als <code>False</code> ausgewertet, sodass keine der ersten drei Nachrichten ausgegeben wird. Die vierte Bedingung wird mit <code>True</code> ausgewertet, sodass die entsprechende Meldung ausgegeben wird. Die übrigen Bedingungen werden übersprungen. Versuchen Sie, den Wert von <code>today</code> oben zu ändern und die Zellen erneut auszuführen, um alle verschiedenen Nachrichten zu auszugeben.</p>
+<p>Um zu überprüfen, ob die übrigen Bedingungen übersprungen werden, versuchen wir es mit einem anderen Beispiel.</p>
+<div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:289,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112944996,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>a_number <span class="op">=</span> <span class="dv">15</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:296,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112945982,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="639b4d20-71a7-492a-9310-80c44aa512b9" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb22-2"><a href="#cb22-2"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 2'</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="cf">elif</span> a_number <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb22-4"><a href="#cb22-4"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 3'</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb22-5"><a href="#cb22-5"></a><span class="cf">elif</span> a_number <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb22-6"><a href="#cb22-6"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 5'</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb22-7"><a href="#cb22-7"></a><span class="cf">elif</span> a_number <span class="op">%</span> <span class="dv">7</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb22-8"><a href="#cb22-8"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 7'</span>.<span class="bu">format</span>(a_number))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>15 is divisible by 3</code></pre>
+</div>
+</div>
+<p>Beachten Sie, dass die Nachricht <code>15 is divisible by 5</code> nicht ausgegeben wird, weil die Bedingung <code>a_number % 5 == 0</code> nicht ausgewertet wird, da die vorherige Bedingung <code>a_number % 3 == 0</code> zu <code>True</code> auswertet. Dies ist der entscheidende Unterschied zwischen einer Kette von <code>if</code>, <code>elif</code>, <code>elif</code>… Anweisungen und einfach einer Kette von <code>if</code> Anweisungen, bei denen jede Bedingung unabhängig ausgewertet wird.</p>
+<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:272,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112964527,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="1f963be8-87c6-4138-c4f5-75617d7a8266" data-execution_count="16">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb24-2"><a href="#cb24-2"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 2'</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb24-4"><a href="#cb24-4"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 3'</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb24-5"><a href="#cb24-5"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb24-6"><a href="#cb24-6"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 5'</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb24-7"><a href="#cb24-7"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">7</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb24-8"><a href="#cb24-8"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 7'</span>.<span class="bu">format</span>(a_number))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>15 is divisible by 3
+15 is divisible by 5</code></pre>
+</div>
+</div>
+</section>
+<section id="gemeinsame-verwendung-von-if-elif-und-else." class="level3" data-number="4.1.4">
+<h3 data-number="4.1.4" class="anchored" data-anchor-id="gemeinsame-verwendung-von-if-elif-und-else."><span class="header-section-number">4.1.4</span> Gemeinsame Verwendung von <code>if</code>, <code>elif</code> und <code>else</code>.</h3>
+<p>Sie können auch eine <code>else</code>-Anweisung am Ende einer Kette von <code>if</code>, <code>elif</code>…-Anweisungen einfügen. Dieser Code im <code>else</code>-Block wird ausgewertet, wenn keine der Bedingungen zutrifft.</p>
+<div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:323,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112973514,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>a_number <span class="op">=</span> <span class="dv">49</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-27" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:284,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112975510,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="8b9d2045-6e17-4118-fe1e-9dc4b5e67f0d" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb27-2"><a href="#cb27-2"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 2'</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="cf">elif</span> a_number <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb27-4"><a href="#cb27-4"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 3'</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb27-5"><a href="#cb27-5"></a><span class="cf">elif</span> a_number <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb27-6"><a href="#cb27-6"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 5'</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb27-7"><a href="#cb27-7"></a><span class="cf">else</span>:</span>
+<span id="cb27-8"><a href="#cb27-8"></a>    <span class="bu">print</span>(<span class="st">'All checks failed!'</span>)</span>
+<span id="cb27-9"><a href="#cb27-9"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is not divisible by 2, 3 or 5'</span>.<span class="bu">format</span>(a_number))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>All checks failed!
+49 is not divisible by 2, 3 or 5</code></pre>
+</div>
+</div>
+<p>Bedingungen können auch mit den logischen Operatoren <code>and</code>, <code>or</code> und <code>not</code> kombiniert werden.</p>
+<div id="cell-29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:262,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112978608,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="19">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>a_number <span class="op">=</span> <span class="dv">15</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-30" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:244,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112979632,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="75904bc4-d7e4-402c-e487-e373f5d6a324" data-execution_count="20">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span> <span class="kw">and</span> a_number <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb30-2"><a href="#cb30-2"></a>    <span class="bu">print</span>(<span class="st">"The number </span><span class="sc">{}</span><span class="st"> is divisible by 3 and 5"</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="cf">elif</span> <span class="kw">not</span> a_number <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb30-4"><a href="#cb30-4"></a>    <span class="bu">print</span>(<span class="st">"The number </span><span class="sc">{}</span><span class="st"> is not divisible by 5"</span>.<span class="bu">format</span>(a_number))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The number 15 is divisible by 3 and 5</code></pre>
+</div>
+</div>
+</section>
+<section id="nicht-boolesche-bedingungen" class="level3" data-number="4.1.5">
+<h3 data-number="4.1.5" class="anchored" data-anchor-id="nicht-boolesche-bedingungen"><span class="header-section-number">4.1.5</span> Nicht-Boolesche Bedingungen</h3>
+<p>Beachten Sie, dass Bedingungen nicht unbedingt boolesche Werte sein müssen. Tatsächlich kann eine Bedingung einen beliebigen Wert haben. Der Wert wird mithilfe des <code>bool</code> Operators automatisch in einen booleschen Wert umgewandelt. Das bedeutet, dass falsche Werte wie <code>0</code>, <code>''</code>, <code>{}</code>, <code>[]</code> usw. als <code>False</code> und alle anderen Werte als <code>True</code> ausgewertet werden.</p>
+<div id="cell-32" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:340,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112989812,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="16904511-049d-4e1c-c762-ac562f3d5e15" data-execution_count="21">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a><span class="cf">if</span> <span class="st">''</span>:</span>
+<span id="cb32-2"><a href="#cb32-2"></a>    <span class="bu">print</span>(<span class="st">'The condition evaluted to True'</span>)</span>
+<span id="cb32-3"><a href="#cb32-3"></a><span class="cf">else</span>:</span>
+<span id="cb32-4"><a href="#cb32-4"></a>    <span class="bu">print</span>(<span class="st">'The condition evaluted to False'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The condition evaluted to False</code></pre>
+</div>
+</div>
+<div id="cell-33" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:321,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112994237,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="acc66486-1989-4787-9458-8bf62f26025d" data-execution_count="22">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a><span class="cf">if</span> <span class="st">'Hello'</span>:</span>
+<span id="cb34-2"><a href="#cb34-2"></a>    <span class="bu">print</span>(<span class="st">'The condition evaluted to True'</span>)</span>
+<span id="cb34-3"><a href="#cb34-3"></a><span class="cf">else</span>:</span>
+<span id="cb34-4"><a href="#cb34-4"></a>    <span class="bu">print</span>(<span class="st">'The condition evaluted to False'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The condition evaluted to True</code></pre>
+</div>
+</div>
+<div id="cell-34" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:460,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598112996761,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="f0f1cceb-d358-486f-e388-06b4080fb0d0" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a><span class="cf">if</span> { <span class="st">'a'</span>: <span class="dv">34</span> }:</span>
+<span id="cb36-2"><a href="#cb36-2"></a>    <span class="bu">print</span>(<span class="st">'The condition evaluted to True'</span>)</span>
+<span id="cb36-3"><a href="#cb36-3"></a><span class="cf">else</span>:</span>
+<span id="cb36-4"><a href="#cb36-4"></a>    <span class="bu">print</span>(<span class="st">'The condition evaluted to False'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The condition evaluted to True</code></pre>
+</div>
+</div>
+<div id="cell-35" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:376,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113000407,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="bca10bc2-aedb-4192-c238-65451aac61c7" data-execution_count="24">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a><span class="cf">if</span> <span class="va">None</span>:</span>
+<span id="cb38-2"><a href="#cb38-2"></a>    <span class="bu">print</span>(<span class="st">'The condition evaluted to True'</span>)</span>
+<span id="cb38-3"><a href="#cb38-3"></a><span class="cf">else</span>:</span>
+<span id="cb38-4"><a href="#cb38-4"></a>    <span class="bu">print</span>(<span class="st">'The condition evaluted to False'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The condition evaluted to False</code></pre>
+</div>
+</div>
+</section>
+<section id="verschachtelte-bedingte-anweisungen" class="level3" data-number="4.1.6">
+<h3 data-number="4.1.6" class="anchored" data-anchor-id="verschachtelte-bedingte-anweisungen"><span class="header-section-number">4.1.6</span> Verschachtelte bedingte Anweisungen</h3>
+<p>Der Code in einem <code>if</code>-Block kann auch eine <code>if</code> Anweisung enthalten. Dieses Muster wird <code>Verschachtelung (nesting)</code> genannt und wird verwendet, wenn Sie nach einer anderen Bedingung suchen müssen, nachdem eine bestimmte Bedingung als wahr bewertet wurde.</p>
+<div id="cell-37" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:317,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113051317,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="25">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a>a_number <span class="op">=</span> <span class="dv">15</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-38" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:345,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113053397,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="6125d922-bf61-4cba-cedf-65f855a7cf42" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb41-2"><a href="#cb41-2"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{}</span><span class="st"> is even"</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb41-3"><a href="#cb41-3"></a>    <span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb41-4"><a href="#cb41-4"></a>        <span class="bu">print</span>(<span class="st">"</span><span class="sc">{}</span><span class="st"> is also divisible by 3"</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb41-5"><a href="#cb41-5"></a>    <span class="cf">else</span>:</span>
+<span id="cb41-6"><a href="#cb41-6"></a>        <span class="bu">print</span>(<span class="st">"</span><span class="sc">{}</span><span class="st"> is not divisibule by 3"</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb41-7"><a href="#cb41-7"></a><span class="cf">else</span>:</span>
+<span id="cb41-8"><a href="#cb41-8"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{}</span><span class="st"> is odd"</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb41-9"><a href="#cb41-9"></a>    <span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb41-10"><a href="#cb41-10"></a>        <span class="bu">print</span>(<span class="st">"</span><span class="sc">{}</span><span class="st"> is also divisible by 5"</span>.<span class="bu">format</span>(a_number))</span>
+<span id="cb41-11"><a href="#cb41-11"></a>    <span class="cf">else</span>:</span>
+<span id="cb41-12"><a href="#cb41-12"></a>        <span class="bu">print</span>(<span class="st">"</span><span class="sc">{}</span><span class="st"> is not divisibule by 5"</span>.<span class="bu">format</span>(a_number))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>15 is odd
+15 is also divisible by 5</code></pre>
+</div>
+</div>
+<p>Beachten Sie, dass die <code>print</code> Anweisungen um 8 Leerzeichen eingerückt sind, um anzuzeigen, dass sie Teil der inneren <code>if</code>/<code>else</code> Blöcke sind.</p>
+<blockquote class="blockquote">
+<p>Verschachtelte <code>if</code>- und <code>else</code>-Anweisungen sind oft verwirrend zu lesen und anfällig für menschliches Versagen. Es empfiehlt sich, die Verschachtelung nach Möglichkeit zu vermeiden oder die Verschachtelung auf 1 oder 2 Ebenen zu beschränken.</p>
+</blockquote>
+</section>
+<section id="abkürzung-für-den-bedingten-ausdruck-if" class="level3" data-number="4.1.7">
+<h3 data-number="4.1.7" class="anchored" data-anchor-id="abkürzung-für-den-bedingten-ausdruck-if"><span class="header-section-number">4.1.7</span> Abkürzung für den bedingten Ausdruck <code>if</code></h3>
+<p>Ein häufiger Anwendungsfall der <code>if</code>-Anweisung besteht darin, eine Bedingung zu testen und den Wert einer Variablen basierend auf der Bedingung festzulegen.</p>
+<div id="cell-41" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:301,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113234391,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="4016b0f4-c6bd-476d-9d34-386b819605c8" data-execution_count="27">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1"></a>a_number <span class="op">=</span> <span class="dv">13</span></span>
+<span id="cb43-2"><a href="#cb43-2"></a></span>
+<span id="cb43-3"><a href="#cb43-3"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb43-4"><a href="#cb43-4"></a>    parity <span class="op">=</span> <span class="st">'even'</span></span>
+<span id="cb43-5"><a href="#cb43-5"></a><span class="cf">else</span>:</span>
+<span id="cb43-6"><a href="#cb43-6"></a>    parity <span class="op">=</span> <span class="st">'odd'</span></span>
+<span id="cb43-7"><a href="#cb43-7"></a></span>
+<span id="cb43-8"><a href="#cb43-8"></a><span class="bu">print</span>(<span class="st">'The number </span><span class="sc">{}</span><span class="st"> is </span><span class="sc">{}</span><span class="st">.'</span>.<span class="bu">format</span>(a_number, parity))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The number 13 is odd.</code></pre>
+</div>
+</div>
+<p>Python bietet eine kürzere Syntax, die das Schreiben solcher Bedingungen in einer einzigen Codezeile ermöglicht. Es ist als <em>bedingter Ausdruck</em> bekannt, manchmal auch als <em>ternärer Operator</em>. Es hat die folgende Syntax:</p>
+<pre><code>x = true_value if condition else false_value</code></pre>
+<p>Es hat das gleiche Verhalten wie der folgende <code>if</code>-<code>else</code>-Block:</p>
+<pre><code>if condition:
+    x = true_value
+else:
+    x = false_value</code></pre>
+<p>Probieren wir es am Beispiel oben aus.</p>
+<div id="cell-43" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:322,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113236756,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="28">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a>parity <span class="op">=</span> <span class="st">'even'</span> <span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'odd'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-44" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:284,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113237504,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="7a7a71f6-d392-4eb6-aec7-de618563089d" data-execution_count="29">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1"></a><span class="bu">print</span>(<span class="st">'The number </span><span class="sc">{}</span><span class="st"> is </span><span class="sc">{}</span><span class="st">.'</span>.<span class="bu">format</span>(a_number, parity))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The number 13 is odd.</code></pre>
+</div>
+</div>
+</section>
+<section id="anweisungen-und-ausdrücke" class="level3" data-number="4.1.8">
+<h3 data-number="4.1.8" class="anchored" data-anchor-id="anweisungen-und-ausdrücke"><span class="header-section-number">4.1.8</span> Anweisungen und Ausdrücke</h3>
+<p>Der bedingte Ausdruck unterstreicht eine wichtige Unterscheidung zwischen <em>Anweisungen</em> und <em>Ausdrücken</em> in Python.</p>
+<blockquote class="blockquote">
+<p><strong>Anweisungen</strong>: Eine Anweisung (statement) ist eine ausführbare Anweisung. Jede Zeile Code, die wir bisher geschrieben haben, ist eine Anweisung, z. B. das Zuweisen einer Variable, das Aufrufen einer Funktion, bedingte Anweisungen mit <code>if</code>, <code>else</code> und <code>elif</code>, Schleifen mit <code>for</code> und <code>while</code> usw.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Ausdrücke</strong>: Ein Ausdruck (expression) ist ein Code, der zu einem Wert ausgewertet wird. Beispiele sind Werte verschiedener Datentypen, arithmetische Ausdrücke, Bedingungen, Variablen, Funktionsaufrufe, bedingte Ausdrücke usw.</p>
+</blockquote>
+<p>Die meisten Ausdrücke können als Anweisungen ausgeführt werden, aber nicht alle Anweisungen sind Ausdrücke. Zum Beispiel ist die <code>if</code>-Anweisung kein Ausdruck, da sie nicht zu einem Wert ausgewertet wird, sie führt einfach nur eine Verzweigung im Code aus. Ähnlich verhält es sich mit Schleifen und Funktionsdefinitionen, die keine Ausdrücke sind (wir werden in späteren Abschnitten mehr darüber lernen).</p>
+<p>Als Faustregel gilt: Ein Ausdruck ist alles, was auf der rechten Seite des Zuweisungsoperators <code>=</code> erscheinen kann. Sie können dies als Test verwenden, um zu überprüfen, ob etwas ein Ausdruck ist oder nicht. Sie erhalten einen Syntaxfehler, wenn Sie versuchen, etwas zuzuweisen, das kein Ausdruck ist.</p>
+<div id="cell-46" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:295,&quot;status&quot;:&quot;error&quot;,&quot;timestamp&quot;:1598113244662,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="1f47e441-0b9f-4eac-975c-166cb6d67ef9" data-execution_count="30">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a><span class="co"># if statement</span></span>
+<span id="cb50-2"><a href="#cb50-2"></a>result <span class="op">=</span> <span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>: </span>
+<span id="cb50-3"><a href="#cb50-3"></a>    <span class="co">'even'</span></span>
+<span id="cb50-4"><a href="#cb50-4"></a><span class="cf">else</span>:</span>
+<span id="cb50-5"><a href="#cb50-5"></a>    <span class="co">'odd'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-cyan-fg">  Cell </span><span class="ansi-green-fg">In[30], line 2</span>
+<span class="ansi-red-fg">    result = if a_number % 2 == 0:</span>
+             ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+</pre>
+</div>
+</div>
+</div>
+<div id="cell-47" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:353,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113246944,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="31">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1"></a><span class="co"># if expression</span></span>
+<span id="cb51-2"><a href="#cb51-2"></a>result <span class="op">=</span> <span class="st">'even'</span> <span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'odd'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="die-pass-anweisung" class="level3" data-number="4.1.9">
+<h3 data-number="4.1.9" class="anchored" data-anchor-id="die-pass-anweisung"><span class="header-section-number">4.1.9</span> Die <code>pass</code> Anweisung</h3>
+<p><code>if</code> Anweisungen können nicht leer sein, es muss mindestens eine Anweisung in jedem <code>if</code> und <code>elif</code> Block geben. Sie können die <code>pass</code> Anweisung verwenden, um nichts zu tun und einen Fehler zu vermeiden.</p>
+<div id="cell-49" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:305,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113251398,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="32">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1"></a>a_number <span class="op">=</span> <span class="dv">9</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-50" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:354,&quot;status&quot;:&quot;error&quot;,&quot;timestamp&quot;:1598113252303,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="80cdff90-9935-4db7-fef1-3715f672ba8e" data-execution_count="33">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb53-2"><a href="#cb53-2"></a><span class="cf">elif</span> a_number <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb53-3"><a href="#cb53-3"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 3 but not divisible by 2'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-cyan-fg">  Cell </span><span class="ansi-green-fg">In[33], line 2</span>
+<span class="ansi-red-fg">    elif a_number % 3 == 0:</span>
+    ^
+<span class="ansi-red-fg">IndentationError</span><span class="ansi-red-fg">:</span> expected an indented block after 'if' statement on line 1
+</pre>
+</div>
+</div>
+</div>
+<div id="cell-51" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:299,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113254510,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="d7d5feee-b817-4392-fb0d-b298a1d48608" data-execution_count="34">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1"></a><span class="cf">if</span> a_number <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb54-2"><a href="#cb54-2"></a>    <span class="cf">pass</span></span>
+<span id="cb54-3"><a href="#cb54-3"></a><span class="cf">elif</span> a_number <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb54-4"><a href="#cb54-4"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st"> is divisible by 3 but not divisible by 2'</span>.<span class="bu">format</span>(a_number))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>9 is divisible by 3 but not divisible by 2</code></pre>
+</div>
+</div>
+<p><a id="while"></a></p>
+</section>
+</section>
+<section id="iteration-mit-while-schleifen" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="iteration-mit-while-schleifen"><span class="header-section-number">4.2</span> Iteration mit <code>while</code> Schleifen</h2>
+<section id="grundlagen" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="grundlagen"><span class="header-section-number">4.2.1</span> Grundlagen</h3>
+<p>Eine weitere leistungsstarke Funktion von Programmiersprachen, die eng mit Verzweigungen verbunden ist, ist die Fähigkeit, eine oder mehrere Anweisungen mehrmals auszuführen. Diese Funktion wird oft als <em>Iteration</em> oder <em>Schleifenbildung</em> bezeichnet, und es gibt zwei Möglichkeiten, dies in Python zu tun: Mit <code>while</code> Schleifen und <code>for</code> Schleifen.</p>
+<p><code>while</code> Schleifen haben die folgende Syntax:</p>
+<pre><code>while Bedingung:
+    Anweisung(en)</code></pre>
+<p>Die Anweisungen im Block unter <code>while</code> werden wiederholt ausgeführt, solange die <code>Bedingung</code> zu <code>True</code> ausgewertet wird. In den meisten Fällen bewirkt der Block von Anweisungen eine Änderung einer Variablen, die dazu führt, dass die Bedingung nach einer bestimmten Anzahl von Iterationen zu <code>False</code> ausgewertet wird.</p>
+<p>Versuchen wir als Beispiel, die Fakultät von <code>100</code> mit einer <code>while</code> Schleife zu berechnen. Die Fakultät einer Zahl <code>n</code> ist definiert als das Produkt oder die Multiplikation aller Zahlen von <code>1</code> bis <code>n</code>, also <code>1*2*3*...*(n-2)*(n-1)*n</code>.</p>
+<div id="cell-54" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:300,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113406355,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="4993cfdf-63ef-4f11-f602-89250312f284" data-execution_count="35">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1"></a>result <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb57-2"><a href="#cb57-2"></a>i <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb57-3"><a href="#cb57-3"></a></span>
+<span id="cb57-4"><a href="#cb57-4"></a><span class="cf">while</span> i <span class="op">&lt;=</span> <span class="dv">100</span>:</span>
+<span id="cb57-5"><a href="#cb57-5"></a>    result <span class="op">=</span> result <span class="op">*</span> i</span>
+<span id="cb57-6"><a href="#cb57-6"></a>    i <span class="op">=</span> i<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb57-7"><a href="#cb57-7"></a></span>
+<span id="cb57-8"><a href="#cb57-8"></a><span class="bu">print</span>(<span class="st">'The factorial of 100 is: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(result))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The factorial of 100 is: 93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000</code></pre>
+</div>
+</div>
+<p>So funktioniert der obige Code:</p>
+<ul>
+<li><p>Wir initialisieren zwei Variablen <code>result</code> und <code>i</code>. <code>result</code> enthält das endgültige Ergebnis der Berechnung. Und <code>i</code> wird verwendet, um die nächste zu <code>result</code> zu multiplizierende Zahl zu verfolgen. Beide werden auf 1 initialisiert (können Sie erklären warum?)</p></li>
+<li><p>Die Bedingung <code>i&lt;=100</code> gilt als wahr (da <code>i</code> zunächst <code>1</code> ist), daher werden die Anweisungen im Block unter <code>while</code> ausgeführt.</p></li>
+<li><p>Das <code>result</code> wird auf <code>result * i</code> aktualisiert, und <code>i</code> wird um <code>1</code> erhöht und hat nun den Wert <code>2</code>.</p></li>
+<li><p>An diesem Punkt wird die Bedingung <code>i&lt;=100</code> erneut ausgeführt, und da sie weiterhin als wahr gilt, wird das <code>result</code> erneut auf <code>result * i</code> aktualisiert und <code>i</code> wird auf <code>3</code> erhöht.</p></li>
+<li><p>Dieser Prozess wird wiederholt, bis die Bedingung falsch wird, was passiert, wenn <code>i</code> den Wert <code>101</code> hat. Sobald die Bedingung zu <code>False</code> ausgewertet wird, endet die Ausführung der Schleife und die darunter liegende <code>print</code> Anweisung wird ausgeführt.</p></li>
+</ul>
+<p>Können Sie sehen, warum <code>result</code> am Ende der Schleife den Wert der Fakultät von 100 hat? Wenn nicht, versuchen Sie, <code>print</code> Anweisungen innerhalb der Schleife hinzuzufügen, um die Werte von <code>result</code> und <code>i</code> am Ende jeder Schleife auszugeben.</p>
+<blockquote class="blockquote">
+<p><code>Iteration</code> ist eine wirklich mächtige Technik, denn sie gibt Computern einen großen Vorteil gegenüber Menschen, wenn es darum geht, Hunderte oder Millionen von wiederholten Operationen sehr schnell auszuführen. Mit nur 4-5 Zeilen Code konnten wir fast sofort 100 Zahlen multiplizieren. Was noch interessanter ist, ist, dass der gleiche Code verwendet werden kann, um tausend Zahlen zu multiplizieren (ändern Sie einfach die Bedingung auf <code>i &lt;= 1000</code>) in nur wenigen Sekunden.</p>
+</blockquote>
+<p>Sie können überprüfen, wie lange eine Zelle zur Ausführung braucht, indem Sie den speziellen <em>magic</em> Befehl <code>%%time</code> an den Anfang einer Zelle setzen. Versuchen Sie zu überprüfen, wie lange es dauert, die Fakultät von <code>100</code>, <code>1000</code>, <code>10000</code>, <code>100000</code> usw. zu berechnen.</p>
+<div id="cell-56" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:329,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113428192,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="cc8f9dca-5ae9-4067-cb1e-db594ff2b7a1" data-execution_count="36">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1"></a><span class="op">%%</span>time</span>
+<span id="cb59-2"><a href="#cb59-2"></a></span>
+<span id="cb59-3"><a href="#cb59-3"></a>result <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb59-4"><a href="#cb59-4"></a>i <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb59-5"><a href="#cb59-5"></a></span>
+<span id="cb59-6"><a href="#cb59-6"></a><span class="cf">while</span> i <span class="op">&lt;=</span> <span class="dv">1000</span>:</span>
+<span id="cb59-7"><a href="#cb59-7"></a>    result <span class="op">*=</span> i <span class="co"># same as result = result * i</span></span>
+<span id="cb59-8"><a href="#cb59-8"></a>    i <span class="op">+=</span> <span class="dv">1</span> <span class="co"># same as i = i+1</span></span>
+<span id="cb59-9"><a href="#cb59-9"></a></span>
+<span id="cb59-10"><a href="#cb59-10"></a><span class="bu">print</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>402387260077093773543702433923003985719374864210714632543799910429938512398629020592044208486969404800479988610197196058631666872994808558901323829669944590997424504087073759918823627727188732519779505950995276120874975462497043601418278094646496291056393887437886487337119181045825783647849977012476632889835955735432513185323958463075557409114262417474349347553428646576611667797396668820291207379143853719588249808126867838374559731746136085379534524221586593201928090878297308431392844403281231558611036976801357304216168747609675871348312025478589320767169132448426236131412508780208000261683151027341827977704784635868170164365024153691398281264810213092761244896359928705114964975419909342221566832572080821333186116811553615836546984046708975602900950537616475847728421889679646244945160765353408198901385442487984959953319101723355556602139450399736280750137837615307127761926849034352625200015888535147331611702103968175921510907788019393178114194545257223865541461062892187960223838971476088506276862967146674697562911234082439208160153780889893964518263243671616762179168909779911903754031274622289988005195444414282012187361745992642956581746628302955570299024324153181617210465832036786906117260158783520751516284225540265170483304226143974286933061690897968482590125458327168226458066526769958652682272807075781391858178889652208164348344825993266043367660176999612831860788386150279465955131156552036093988180612138558600301435694527224206344631797460594682573103790084024432438465657245014402821885252470935190620929023136493273497565513958720559654228749774011413346962715422845862377387538230483865688976461927383814900140767310446640259899490222221765904339901886018566526485061799702356193897017860040811889729918311021171229845901641921068884387121855646124960798722908519296819372388642614839657382291123125024186649353143970137428531926649875337218940694281434118520158014123344828015051399694290153483077644569099073152433278288269864602789864321139083506217095002597389863554277196742822248757586765752344220207573630569498825087968928162753848863396909959826280956121450994871701244516461260379029309120889086942028510640182154399457156805941872748998094254742173582401063677404595741785160829230135358081840096996372524230560855903700624271243416909004153690105933983835777939410970027753472000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+CPU times: user 956 µs, sys: 82 µs, total: 1.04 ms
+Wall time: 1.06 ms</code></pre>
+</div>
+</div>
+<p>Hier ist ein weiteres Beispiel, das zwei <code>while</code>-Schleifen verwendet, um ein interessantes Muster zu erstellen.</p>
+<div id="cell-58" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:321,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113446364,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="8831c067-846f-432c-8407-3e2e5651e31d" data-execution_count="37">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1"></a>line <span class="op">=</span> <span class="st">'*'</span></span>
+<span id="cb61-2"><a href="#cb61-2"></a>max_length <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb61-3"><a href="#cb61-3"></a></span>
+<span id="cb61-4"><a href="#cb61-4"></a><span class="cf">while</span> <span class="bu">len</span>(line) <span class="op">&lt;=</span> max_length:</span>
+<span id="cb61-5"><a href="#cb61-5"></a>    <span class="bu">print</span>(line)</span>
+<span id="cb61-6"><a href="#cb61-6"></a>    line <span class="op">+=</span> <span class="st">"*"</span></span>
+<span id="cb61-7"><a href="#cb61-7"></a>    </span>
+<span id="cb61-8"><a href="#cb61-8"></a><span class="cf">while</span> <span class="bu">len</span>(line) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb61-9"><a href="#cb61-9"></a>    <span class="bu">print</span>(line)</span>
+<span id="cb61-10"><a href="#cb61-10"></a>    line <span class="op">=</span> line[:<span class="op">-</span><span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>*
+**
+***
+****
+*****
+******
+*******
+********
+*********
+**********
+***********
+**********
+*********
+********
+*******
+******
+*****
+****
+***
+**
+*</code></pre>
+</div>
+</div>
+</section>
+<section id="endlosschleifen" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="endlosschleifen"><span class="header-section-number">4.2.2</span> Endlosschleifen</h3>
+<p>Wenn die Bedingung in einer <code>while</code>-Schleife immer wahr ist, führt Python den Code innerhalb der Schleife immer wieder aus und die Ausführung des Codes wird nie abgeschlossen. Diese Situation wird als Endlosschleife bezeichnet und weist im Allgemeinen darauf hin, dass Sie einen Fehler in Ihrem Code gemacht haben, z. B. Verwenden der falschen Bedingung oder Vergessen, eine Variable mit einer Schleife zu aktualisieren, wodurch die Bedingung letztendlich falsch wird.</p>
+<p>Wenn Ihr Code während der Ausführung in einer Endlosschleife <em>stecken bleibt</em>, klicken Sie einfach auf die Schaltfläche <code>Stop</code> in der Symbolleiste (neben <code>Run</code>) oder wählen Sie <code>Kernel &gt; Interrupt</code> aus der Jupyter-Menüleiste, um die Ausführung zu stoppen bzw <em>unterbricht</em> die Ausführung des Codes. Die nächsten beiden Zellen führen beide zu Endlosschleifen und müssen unterbrochen werden.</p>
+<div id="cell-60" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="38">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1"></a><span class="co"># INFINITE LOOP - INTERRUPT THIS CELL</span></span>
+<span id="cb63-2"><a href="#cb63-2"></a></span>
+<span id="cb63-3"><a href="#cb63-3"></a>result <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb63-4"><a href="#cb63-4"></a>i <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb63-5"><a href="#cb63-5"></a></span>
+<span id="cb63-6"><a href="#cb63-6"></a><span class="cf">while</span> i <span class="op">&lt;=</span> <span class="dv">100</span>:</span>
+<span id="cb63-7"><a href="#cb63-7"></a>    result <span class="op">=</span> result <span class="op">*</span> i</span>
+<span id="cb63-8"><a href="#cb63-8"></a>    <span class="co"># forgot to increment i</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[38], line 6</span>
+<span class="ansi-green-fg ansi-bold">      3</span> result <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(98,98,98)">1</span>
+<span class="ansi-green-fg ansi-bold">      4</span> i <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(98,98,98)">1</span>
+<span class="ansi-green-fg">----&gt; 6</span> <span style="font-weight:bold;color:rgb(0,135,0)">while</span> i <span style="color:rgb(98,98,98)">&lt;</span><span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(98,98,98)">100</span>:
+<span class="ansi-green-fg ansi-bold">      7</span>     result <span style="color:rgb(98,98,98)">=</span> result <span style="color:rgb(98,98,98)">*</span> i
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>: </pre>
+</div>
+</div>
+</div>
+<div id="cell-61" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1"></a><span class="co"># INFINITE LOOP - INTERRUPT THIS CELL</span></span>
+<span id="cb64-2"><a href="#cb64-2"></a></span>
+<span id="cb64-3"><a href="#cb64-3"></a>result <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb64-4"><a href="#cb64-4"></a>i <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb64-5"><a href="#cb64-5"></a></span>
+<span id="cb64-6"><a href="#cb64-6"></a><span class="cf">while</span> i <span class="op">&gt;</span> <span class="dv">0</span> : <span class="co"># wrong condition</span></span>
+<span id="cb64-7"><a href="#cb64-7"></a>    result <span class="op">*=</span> i</span>
+<span id="cb64-8"><a href="#cb64-8"></a>    i <span class="op">+=</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="break--und-continue-anweisungen" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="break--und-continue-anweisungen"><span class="header-section-number">4.2.3</span> <code>break</code>- und <code>continue</code>-Anweisungen</h3>
+<p>Sie können die <code>break</code>-Anweisung im Hauptteil der Schleife verwenden, um die Ausführung sofort zu stoppen und die Schleife zu <em>break</em> zu verlassen (auch wenn die für <code>while</code> angegebene Bedingung immer noch wahr ist).</p>
+<div id="cell-63" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:295,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113664824,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="1fdb697e-51b0-4ffb-c3c8-e8f2ffb92cfc" data-execution_count="39">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1"></a>i <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb65-2"><a href="#cb65-2"></a>result <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb65-3"><a href="#cb65-3"></a></span>
+<span id="cb65-4"><a href="#cb65-4"></a><span class="cf">while</span> i <span class="op">&lt;=</span> <span class="dv">100</span>:</span>
+<span id="cb65-5"><a href="#cb65-5"></a>    result <span class="op">*=</span> i</span>
+<span id="cb65-6"><a href="#cb65-6"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">42</span>:</span>
+<span id="cb65-7"><a href="#cb65-7"></a>        <span class="bu">print</span>(<span class="st">'Magic number 42 reached! Stopping execution..'</span>)</span>
+<span id="cb65-8"><a href="#cb65-8"></a>        <span class="cf">break</span></span>
+<span id="cb65-9"><a href="#cb65-9"></a>    i <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb65-10"><a href="#cb65-10"></a>    </span>
+<span id="cb65-11"><a href="#cb65-11"></a><span class="bu">print</span>(<span class="st">'i:'</span>, i)</span>
+<span id="cb65-12"><a href="#cb65-12"></a><span class="bu">print</span>(<span class="st">'result:'</span>, result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Magic number 42 reached! Stopping execution..
+i: 42
+result: 1405006117752879898543142606244511569936384000000000</code></pre>
+</div>
+</div>
+<p>Wie Sie oben sehen können, beträgt der Wert von <code>i</code> am Ende der Ausführung 42. Dieses Beispiel zeigt auch, wie Sie eine <code>if</code>-Anweisung innerhalb einer <code>while</code>-Schleife verwenden können.</p>
+<p>Manchmal möchten Sie vielleicht nicht die gesamte Schleife beenden, sondern einfach die verbleibenden Anweisungen in der Schleife überspringen und <em>weiter</em> zur nächsten Schleife gehen. Dies können Sie mit der <code>continue</code>-Anweisung erreichen.</p>
+<div id="cell-65" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:342,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113785411,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="7c3e15df-86c9-420f-e1dd-551f6e11616b" data-execution_count="40">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1"></a>i <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb67-2"><a href="#cb67-2"></a>result <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb67-3"><a href="#cb67-3"></a></span>
+<span id="cb67-4"><a href="#cb67-4"></a><span class="cf">while</span> i <span class="op">&lt;</span> <span class="dv">20</span>:</span>
+<span id="cb67-5"><a href="#cb67-5"></a>    i <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb67-6"><a href="#cb67-6"></a>    <span class="cf">if</span> i <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb67-7"><a href="#cb67-7"></a>        <span class="bu">print</span>(<span class="st">'Skipping </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(i))</span>
+<span id="cb67-8"><a href="#cb67-8"></a>        <span class="cf">continue</span></span>
+<span id="cb67-9"><a href="#cb67-9"></a>    <span class="bu">print</span>(<span class="st">'Multiplying with </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(i))</span>
+<span id="cb67-10"><a href="#cb67-10"></a>    result <span class="op">=</span> result <span class="op">*</span> i</span>
+<span id="cb67-11"><a href="#cb67-11"></a>    </span>
+<span id="cb67-12"><a href="#cb67-12"></a><span class="bu">print</span>(<span class="st">'i:'</span>, i)</span>
+<span id="cb67-13"><a href="#cb67-13"></a><span class="bu">print</span>(<span class="st">'result:'</span>, result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Skipping 2
+Multiplying with 3
+Skipping 4
+Multiplying with 5
+Skipping 6
+Multiplying with 7
+Skipping 8
+Multiplying with 9
+Skipping 10
+Multiplying with 11
+Skipping 12
+Multiplying with 13
+Skipping 14
+Multiplying with 15
+Skipping 16
+Multiplying with 17
+Skipping 18
+Multiplying with 19
+Skipping 20
+i: 20
+result: 654729075</code></pre>
+</div>
+</div>
+<p>Im obigen Beispiel wird die letzte Anweisung der Schleife <code>result = result * i</code> übersprungen, wenn <code>i</code> gerade ist, wie durch die während der Ausführung ausgegebenen Meldungen angezeigt.</p>
+<blockquote class="blockquote">
+<p><strong>Logging</strong>: Der Vorgang des Hinzufügens von <code>print</code>-Anweisungen an verschiedenen Punkten im Code (oft innerhalb von Schleifen und bedingten Anweisungen) zur Überprüfung der Werte von Variablen in verschiedenen Ausführungsstadien wird als Logging bezeichnet. Da unsere Programme mit zunehmender Komplexität naturgemäß anfällig für menschliche Fehler werden, kann Logging dabei helfen, zu überprüfen, ob das Programm wie erwartet funktioniert. In vielen Fällen werden <code>print</code>-Anweisungen hinzugefügt, während Code geschrieben und getestet wird, und am Ende wieder entfernt.</p>
+</blockquote>
+<p><a id="for"></a></p>
+</section>
+</section>
+<section id="iteration-mit-for-schleifen" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="iteration-mit-for-schleifen"><span class="header-section-number">4.3</span> Iteration mit <code>for</code> Schleifen</h2>
+<section id="grundlagen-1" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="grundlagen-1"><span class="header-section-number">4.3.1</span> Grundlagen</h3>
+<p>Ein <code>for</code>-Loop wird zum Iterieren oder Schleifen über Sequenzen verwendet, d.h. Listen, Tupel, Wörterbücher, Strings und <em>Ranges</em>. For-Schleifen haben die folgende Syntax:</p>
+<pre><code>for value in sequence:
+    statement(s)</code></pre>
+<p>Die Anweisungen innerhalb der Schleife werden einmal für jedes Element in <code>Sequenz</code> ausgeführt. Hier ist ein Beispiel, das alle Elemente einer Liste ausgibt.</p>
+<div id="cell-69" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:303,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113954535,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="72e0fec0-c098-49b0-99dd-bd75153a65ca" data-execution_count="41">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1"></a>days <span class="op">=</span> [<span class="st">'Monday'</span>, <span class="st">'Tuesday'</span>, <span class="st">'Wednesday'</span>, <span class="st">'Thursday'</span>, <span class="st">'Friday'</span>]</span>
+<span id="cb70-2"><a href="#cb70-2"></a></span>
+<span id="cb70-3"><a href="#cb70-3"></a><span class="cf">for</span> day <span class="kw">in</span> days:</span>
+<span id="cb70-4"><a href="#cb70-4"></a>    <span class="bu">print</span>(day)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Monday
+Tuesday
+Wednesday
+Thursday
+Friday</code></pre>
+</div>
+</div>
+<p>Versuchen wir, <code>for</code> Schleifen mit einigen anderen Datentypen zu verwenden.</p>
+<div id="cell-71" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:342,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113971717,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="cdb487ff-7c3d-4121-ec3b-1acb40bc1b0f" data-execution_count="42">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1"></a><span class="co"># Looping over a string</span></span>
+<span id="cb72-2"><a href="#cb72-2"></a><span class="cf">for</span> char <span class="kw">in</span> <span class="st">'Monday'</span>:</span>
+<span id="cb72-3"><a href="#cb72-3"></a>    <span class="bu">print</span>(char)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>M
+o
+n
+d
+a
+y</code></pre>
+</div>
+</div>
+<div id="cell-72" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:330,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113974143,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="0b8ff37a-01cc-4300-d588-af70d75b0a95" data-execution_count="43">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1"></a><span class="co"># Looping over a tuple</span></span>
+<span id="cb74-2"><a href="#cb74-2"></a><span class="cf">for</span> fruit <span class="kw">in</span> [<span class="st">'Apple'</span>, <span class="st">'Banana'</span>, <span class="st">'Guava'</span>]:</span>
+<span id="cb74-3"><a href="#cb74-3"></a>    <span class="bu">print</span>(<span class="st">"Here's a fruit:"</span>, fruit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Here's a fruit: Apple
+Here's a fruit: Banana
+Here's a fruit: Guava</code></pre>
+</div>
+</div>
+<div id="cell-73" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:292,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113980165,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="fd91ce1b-01a9-4c7c-df52-2336cc76446e" data-execution_count="44">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1"></a><span class="co"># Looping over a dictionary</span></span>
+<span id="cb76-2"><a href="#cb76-2"></a>person <span class="op">=</span> {</span>
+<span id="cb76-3"><a href="#cb76-3"></a>    <span class="st">'name'</span>: <span class="st">'John Doe'</span>,</span>
+<span id="cb76-4"><a href="#cb76-4"></a>    <span class="st">'sex'</span>: <span class="st">'Male'</span>,</span>
+<span id="cb76-5"><a href="#cb76-5"></a>    <span class="st">'age'</span>: <span class="dv">32</span>,</span>
+<span id="cb76-6"><a href="#cb76-6"></a>    <span class="st">'married'</span>: <span class="va">True</span></span>
+<span id="cb76-7"><a href="#cb76-7"></a>}</span>
+<span id="cb76-8"><a href="#cb76-8"></a></span>
+<span id="cb76-9"><a href="#cb76-9"></a><span class="cf">for</span> key <span class="kw">in</span> person:</span>
+<span id="cb76-10"><a href="#cb76-10"></a>    <span class="bu">print</span>(<span class="st">"Key:"</span>, key, <span class="st">","</span>, <span class="st">"Value:"</span>, person[key])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Key: name , Value: John Doe
+Key: sex , Value: Male
+Key: age , Value: 32
+Key: married , Value: True</code></pre>
+</div>
+</div>
+<p>Beachten Sie, dass bei der Verwendung eines Dictionaries mit einer <code>for</code>-Schleife die Iteration über Schlüssel(keys) im Dictionary erfolgt. Der Schlüssel kann innerhalb der Schleife verwendet werden, um auf den Wert zuzugreifen. Sie können auch direkt über die Werte mit der <code>.values</code> Methode des Dictionaries iterieren, oder über Schlüssel-Wert-Paare mit der <code>.items</code> Methode.</p>
+<div id="cell-75" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:297,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113990401,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="baef91e4-a09d-4750-ead6-41ed17e43b75" data-execution_count="45">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1"></a><span class="cf">for</span> value <span class="kw">in</span> person.values():</span>
+<span id="cb78-2"><a href="#cb78-2"></a>    <span class="bu">print</span>(value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>John Doe
+Male
+32
+True</code></pre>
+</div>
+</div>
+<div id="cell-76" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:324,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598113993929,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="b170f76a-0de7-4c0f-ee99-ade4a9062282" data-execution_count="46">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1"></a><span class="cf">for</span> key_value_pair <span class="kw">in</span> person.items():</span>
+<span id="cb80-2"><a href="#cb80-2"></a>    <span class="bu">print</span>(key_value_pair)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>('name', 'John Doe')
+('sex', 'Male')
+('age', 32)
+('married', True)</code></pre>
+</div>
+</div>
+<p>Da es sich bei einem Schlüssel-Wert-Paar um ein Tupel handelt, können wir Schlüssel und Wert auch in separate Variablen extrahieren.</p>
+<div id="cell-78" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:307,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598114005073,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="f3552b89-0c30-4d0c-b250-f6767fb2ed00" data-execution_count="47">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1"></a><span class="cf">for</span> key, value <span class="kw">in</span> person.items():</span>
+<span id="cb82-2"><a href="#cb82-2"></a>    <span class="bu">print</span>(<span class="st">"Key:"</span>, key, <span class="st">","</span>, <span class="st">"Value:"</span>, value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Key: name , Value: John Doe
+Key: sex , Value: Male
+Key: age , Value: 32
+Key: married , Value: True</code></pre>
+</div>
+</div>
+</section>
+<section id="iterieren-mit-range-und-enumerate." class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="iterieren-mit-range-und-enumerate."><span class="header-section-number">4.3.2</span> Iterieren mit <code>range</code> und <code>enumerate</code>.</h3>
+<p>Die <code>range</code> Funktion wird verwendet, um eine Sequenz von Zahlen zu erzeugen, über die mit einer <code>for</code>-Schleife iteriert werden kann. Sie kann auf 3 Arten verwendet werden:</p>
+<ul>
+<li><code>range(n)</code> - Erstellt eine Sequenz von Zahlen von <code>0</code> bis <code>n-1</code></li>
+<li><code>range(a, b)</code> - Erstellt eine Sequenz von Zahlen von <code>a</code> bis <code>b-1</code></li>
+<li><code>range(a, b, step)</code> - Erstellt eine Sequenz von Zahlen von <code>a</code> bis <code>b-1</code> mit Schritten von <code>step</code></li>
+</ul>
+<p>Lassen Sie es uns ausprobieren.</p>
+<div id="cell-80" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:302,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598114016220,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="ad97711d-35b2-41f0-a5a4-bc2d202b96c4" data-execution_count="48">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">7</span>):</span>
+<span id="cb84-2"><a href="#cb84-2"></a>    <span class="bu">print</span>(i)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>0
+1
+2
+3
+4
+5
+6</code></pre>
+</div>
+</div>
+<div id="cell-81" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:323,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598114018429,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="1bda1dc6-226d-4965-ab78-c44f54deec9c" data-execution_count="49">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>, <span class="dv">10</span>):</span>
+<span id="cb86-2"><a href="#cb86-2"></a>    <span class="bu">print</span>(i)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>3
+4
+5
+6
+7
+8
+9</code></pre>
+</div>
+</div>
+<p>Um Inkremente einer bestimmten Länge durchzuführen, verwenden Sie das dritte Argument in <code>range()</code>, z. B. <code>range(3, 14, 4)</code>. Dies führt zu einer Schleife von 3 bis 13 in Schritten von 4</p>
+<div id="cell-83" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:419,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598114024139,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="e3587be2-e498-4175-c208-d4f71ee0834c" data-execution_count="50">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>, <span class="dv">14</span>, <span class="dv">4</span>): </span>
+<span id="cb88-2"><a href="#cb88-2"></a>    <span class="bu">print</span>(i)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>3
+7
+11</code></pre>
+</div>
+</div>
+<p>Bereiche werden für die Iteration über Listen verwendet, wenn Sie während der Iteration den Index von Elementen verfolgen müssen.</p>
+<div id="cell-85" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:301,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598114280657,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="f8b43200-dd74-417b-b4a8-5b3e1aa5e3ef" data-execution_count="51">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1"></a>a_list <span class="op">=</span> [<span class="st">'Monday'</span>, <span class="st">'Tuesday'</span>, <span class="st">'Wednesday'</span>, <span class="st">'Thursday'</span>, <span class="st">'Friday'</span>]</span>
+<span id="cb90-2"><a href="#cb90-2"></a></span>
+<span id="cb90-3"><a href="#cb90-3"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(a_list)):</span>
+<span id="cb90-4"><a href="#cb90-4"></a>    <span class="bu">print</span>(<span class="st">'The value at position </span><span class="sc">{}</span><span class="st"> is </span><span class="sc">{}</span><span class="st">.'</span>.<span class="bu">format</span>(i, a_list[i]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The value at position 0 is Monday.
+The value at position 1 is Tuesday.
+The value at position 2 is Wednesday.
+The value at position 3 is Thursday.
+The value at position 4 is Friday.</code></pre>
+</div>
+</div>
+<p>Eine andere Möglichkeit, das gleiche Ergebnis wie oben zu erzielen, ist die Verwendung der Funktion <code>enumerate</code> mit <code>a_list</code> als Eingabe, die ein Tupel zurückgibt, das den Index und das entsprechende Element enthält.</p>
+<div id="cell-87" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:296,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598114286748,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="82b0fdb3-265a-4ac0-8fba-033de5c77942" data-execution_count="52">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1"></a><span class="cf">for</span> i, val <span class="kw">in</span> <span class="bu">enumerate</span>(a_list):</span>
+<span id="cb92-2"><a href="#cb92-2"></a>    <span class="bu">print</span>(<span class="st">'The value at position </span><span class="sc">{}</span><span class="st"> is </span><span class="sc">{}</span><span class="st">.'</span>.<span class="bu">format</span>(i, val))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The value at position 0 is Monday.
+The value at position 1 is Tuesday.
+The value at position 2 is Wednesday.
+The value at position 3 is Thursday.
+The value at position 4 is Friday.</code></pre>
+</div>
+</div>
+</section>
+<section id="break--continue--und-pass-anweisungen" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="break--continue--und-pass-anweisungen"><span class="header-section-number">4.3.3</span> <code>break</code>-, <code>continue</code>- und <code>pass</code>-Anweisungen</h3>
+<p>Ähnlich wie <code>while</code>-Schleifen unterstützen <code>for</code>-Schleifen auch die Anweisung <code>break</code>, um aus der Schleife auszubrechen, und <code>continue</code>, um zur nächsten Iteration zu springen.</p>
+<div id="cell-89" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:309,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598114296024,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="53">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1"></a>weekdays <span class="op">=</span> [<span class="st">'Monday'</span>, <span class="st">'Tuesday'</span>, <span class="st">'Wednesday'</span>, <span class="st">'Thursday'</span>, <span class="st">'Friday'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-90" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:380,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598114296998,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="97ad501f-996b-463c-93cb-55868367340e" data-execution_count="54">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1"></a><span class="cf">for</span> day <span class="kw">in</span> weekdays:</span>
+<span id="cb95-2"><a href="#cb95-2"></a>    <span class="bu">print</span>(<span class="st">'Today is </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(day))</span>
+<span id="cb95-3"><a href="#cb95-3"></a>    <span class="cf">if</span> (day <span class="op">==</span> <span class="st">'Wednesday'</span>):</span>
+<span id="cb95-4"><a href="#cb95-4"></a>        <span class="bu">print</span>(<span class="st">"I don't work beyond Wednesday!"</span>)</span>
+<span id="cb95-5"><a href="#cb95-5"></a>        <span class="cf">break</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Today is Monday
+Today is Tuesday
+Today is Wednesday
+I don't work beyond Wednesday!</code></pre>
+</div>
+</div>
+<div id="cell-91" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:307,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598114299656,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="2026bbc4-2f62-4dc8-84a1-e9b1aeb916c5" data-execution_count="55">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1"></a><span class="cf">for</span> day <span class="kw">in</span> weekdays:</span>
+<span id="cb97-2"><a href="#cb97-2"></a>    <span class="cf">if</span> (day <span class="op">==</span> <span class="st">'Wednesday'</span>):</span>
+<span id="cb97-3"><a href="#cb97-3"></a>        <span class="bu">print</span>(<span class="st">"I don't work on Wednesday!"</span>)</span>
+<span id="cb97-4"><a href="#cb97-4"></a>        <span class="cf">continue</span></span>
+<span id="cb97-5"><a href="#cb97-5"></a>    <span class="bu">print</span>(<span class="st">'Today is </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(day))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Today is Monday
+Today is Tuesday
+I don't work on Wednesday!
+Today is Thursday
+Today is Friday</code></pre>
+</div>
+</div>
+<p>Ähnlich wie <code>if</code>-Anweisungen dürfen <code>for</code>-Schleifen nicht leer sein. Sie können also eine <code>pass</code>-Anweisung verwenden, falls Sie keine Anweisungen innerhalb der Schleife ausführen möchten.</p>
+<div id="cell-93" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:274,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598114302876,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="56">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1"></a><span class="cf">for</span> day <span class="kw">in</span> weekdays:</span>
+<span id="cb99-2"><a href="#cb99-2"></a>    <span class="cf">pass</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="verschachtelte-for--und-while-schleifen" class="level3" data-number="4.3.4">
+<h3 data-number="4.3.4" class="anchored" data-anchor-id="verschachtelte-for--und-while-schleifen"><span class="header-section-number">4.3.4</span> Verschachtelte <code>for</code>- und <code>while</code>-Schleifen</h3>
+<p>Ähnlich wie bedingte Anweisungen können Schleifen in anderen Schleifen verschachtelt werden. Dies ist nützlich, um jedes Element in einer Liste von Listen, einer Liste von Wörterbüchern usw. zu durchlaufen.</p>
+<div id="cell-95" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:347,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598114308822,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="126513c8-c9a5-4713-a67c-0e25ce0c6f7f" data-execution_count="57">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1"></a>persons <span class="op">=</span> [{<span class="st">'name'</span>: <span class="st">'John'</span>, <span class="st">'sex'</span>: <span class="st">'Male'</span>}, {<span class="st">'name'</span>: <span class="st">'Jane'</span>, <span class="st">'sex'</span>: <span class="st">'Female'</span>}]</span>
+<span id="cb100-2"><a href="#cb100-2"></a></span>
+<span id="cb100-3"><a href="#cb100-3"></a><span class="cf">for</span> person <span class="kw">in</span> persons:</span>
+<span id="cb100-4"><a href="#cb100-4"></a>    <span class="cf">for</span> key <span class="kw">in</span> person:</span>
+<span id="cb100-5"><a href="#cb100-5"></a>        <span class="bu">print</span>(key, <span class="st">":"</span>, person[key])</span>
+<span id="cb100-6"><a href="#cb100-6"></a>    <span class="bu">print</span>(<span class="st">" "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>name : John
+sex : Male
+ 
+name : Jane
+sex : Female
+ </code></pre>
+</div>
+</div>
+<div id="cell-96" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:362,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1598114315441,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="17a86c6e-7d5e-4d21-fa17-e61272cedf72" data-execution_count="58">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1"></a>days <span class="op">=</span> [<span class="st">'Monday'</span>, <span class="st">'Tuesday'</span>, <span class="st">'Wednesday'</span>]</span>
+<span id="cb102-2"><a href="#cb102-2"></a>fruits <span class="op">=</span> [<span class="st">'apple'</span>, <span class="st">'banana'</span>, <span class="st">'guava'</span>]</span>
+<span id="cb102-3"><a href="#cb102-3"></a></span>
+<span id="cb102-4"><a href="#cb102-4"></a><span class="cf">for</span> day <span class="kw">in</span> days:</span>
+<span id="cb102-5"><a href="#cb102-5"></a>    <span class="cf">for</span> fruit <span class="kw">in</span> fruits:</span>
+<span id="cb102-6"><a href="#cb102-6"></a>        <span class="bu">print</span>(day, fruit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Monday apple
+Monday banana
+Monday guava
+Tuesday apple
+Tuesday banana
+Tuesday guava
+Wednesday apple
+Wednesday banana
+Wednesday guava</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="weiterführende-literatur-und-referenzen" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="weiterführende-literatur-und-referenzen"><span class="header-section-number">4.4</span> Weiterführende Literatur und Referenzen</h2>
+<p>Im Folgenden finden Sie einige Ressourcen, um mehr über bedingte Anweisungen und Schleifen in Python zu erfahren:</p>
+<ul>
+<li><a href="https://www.w3schools.com/python/">Python-Tutorial bei W3Schools</a></li>
+<li><a href="https://dabeaz-course.github.io/practical-python/Notes/Contents.html">Praktische Python-Programmierung</a></li>
+<li><a href="https://docs.python.org/3/tutorial/index.html">Offizielle Python-Dokumentation</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./kapitel2.html" class="pagination-link" aria-label="Eine kurze Tour durch Variablen und Datentypen in Python">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Eine kurze Tour durch Variablen und Datentypen in Python</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./kapitel4.html" class="pagination-link" aria-label="Schreiben von wiederverwendbarem Code mithilfe von Funktionen">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Schreiben von wiederverwendbarem Code mithilfe von Funktionen</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -1,0 +1,2836 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8&nbsp; Datenvisualisierung mit Python, Matplotlib und Seaborn – Programmierung und Datenanalyse mit Python: Eine Einführung</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./kapitel8.html" rel="next">
+<link href="./kapitel6.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e0fdce12ac1367d4b47c179a2935dd10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-74c88ba48ad0bebf983f0ffd06dd1671.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-e0fdce12ac1367d4b47c179a2935dd10.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./kapitel7.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Datenvisualisierung mit Python, Matplotlib und Seaborn</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Programmierung und Datenanalyse mit Python: Eine Einführung</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Willkommen zu „Programmierung und Datenanalyse mit Python: Eine Einführung“</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Erste Schritte mit Python und Jupyter</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Eine kurze Tour durch Variablen und Datentypen in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Verzweigungen mit bedingten Anweisungen und Schleifen in Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Schreiben von wiederverwendbarem Code mithilfe von Funktionen</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Numerisches Rechnen mit Python und Numpy</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Analyse tabellarischer Daten mit Python und Pandas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel7.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Datenvisualisierung mit Python, Matplotlib und Seaborn</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kapitel8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Explorative Datenanalyse mit Python – Eine Fallstudie</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#einführung" id="toc-einführung" class="nav-link active" data-scroll-target="#einführung"><span class="header-section-number">8.1</span> Einführung</a></li>
+  <li><a href="#liniendiagramm" id="toc-liniendiagramm" class="nav-link" data-scroll-target="#liniendiagramm"><span class="header-section-number">8.2</span> Liniendiagramm</a>
+  <ul class="collapse">
+  <li><a href="#anpassen-der-x-achse" id="toc-anpassen-der-x-achse" class="nav-link" data-scroll-target="#anpassen-der-x-achse"><span class="header-section-number">8.2.1</span> Anpassen der X-Achse</a></li>
+  <li><a href="#achsenbeschriftungen" id="toc-achsenbeschriftungen" class="nav-link" data-scroll-target="#achsenbeschriftungen"><span class="header-section-number">8.2.2</span> Achsenbeschriftungen</a></li>
+  <li><a href="#mehrere-linien-plotten" id="toc-mehrere-linien-plotten" class="nav-link" data-scroll-target="#mehrere-linien-plotten"><span class="header-section-number">8.2.3</span> Mehrere Linien plotten</a></li>
+  <li><a href="#diagrammtitel-und-legende" id="toc-diagrammtitel-und-legende" class="nav-link" data-scroll-target="#diagrammtitel-und-legende"><span class="header-section-number">8.2.4</span> Diagrammtitel und Legende</a></li>
+  <li><a href="#linienmarkierungen" id="toc-linienmarkierungen" class="nav-link" data-scroll-target="#linienmarkierungen"><span class="header-section-number">8.2.5</span> Linienmarkierungen</a></li>
+  <li><a href="#linien-und-markierungen-gestalten" id="toc-linien-und-markierungen-gestalten" class="nav-link" data-scroll-target="#linien-und-markierungen-gestalten"><span class="header-section-number">8.2.6</span> Linien und Markierungen gestalten</a></li>
+  <li><a href="#ändern-der-figurengröße" id="toc-ändern-der-figurengröße" class="nav-link" data-scroll-target="#ändern-der-figurengröße"><span class="header-section-number">8.2.7</span> Ändern der Figurengröße</a></li>
+  <li><a href="#verbesserung-der-standardstile-mit-seaborn" id="toc-verbesserung-der-standardstile-mit-seaborn" class="nav-link" data-scroll-target="#verbesserung-der-standardstile-mit-seaborn"><span class="header-section-number">8.2.8</span> Verbesserung der Standardstile mit Seaborn</a></li>
+  </ul></li>
+  <li><a href="#streudiagramm" id="toc-streudiagramm" class="nav-link" data-scroll-target="#streudiagramm"><span class="header-section-number">8.3</span> Streudiagramm</a>
+  <ul class="collapse">
+  <li><a href="#farbtöne-hinzufügen" id="toc-farbtöne-hinzufügen" class="nav-link" data-scroll-target="#farbtöne-hinzufügen"><span class="header-section-number">8.3.1</span> Farbtöne hinzufügen</a></li>
+  <li><a href="#anpassen-von-seaborn-figuren" id="toc-anpassen-von-seaborn-figuren" class="nav-link" data-scroll-target="#anpassen-von-seaborn-figuren"><span class="header-section-number">8.3.2</span> Anpassen von Seaborn-Figuren</a></li>
+  <li><a href="#plotten-mit-pandas-data-frames" id="toc-plotten-mit-pandas-data-frames" class="nav-link" data-scroll-target="#plotten-mit-pandas-data-frames"><span class="header-section-number">8.3.3</span> Plotten mit Pandas Data Frames</a></li>
+  </ul></li>
+  <li><a href="#histogramm" id="toc-histogramm" class="nav-link" data-scroll-target="#histogramm"><span class="header-section-number">8.4</span> Histogramm</a>
+  <ul class="collapse">
+  <li><a href="#kontrolle-der-größe-und-anzahl-der-bins" id="toc-kontrolle-der-größe-und-anzahl-der-bins" class="nav-link" data-scroll-target="#kontrolle-der-größe-und-anzahl-der-bins"><span class="header-section-number">8.4.1</span> Kontrolle der Größe und Anzahl der Bins</a></li>
+  <li><a href="#mehrere-histogramme" id="toc-mehrere-histogramme" class="nav-link" data-scroll-target="#mehrere-histogramme"><span class="header-section-number">8.4.2</span> Mehrere Histogramme</a></li>
+  </ul></li>
+  <li><a href="#balkendiagramm" id="toc-balkendiagramm" class="nav-link" data-scroll-target="#balkendiagramm"><span class="header-section-number">8.5</span> Balkendiagramm</a>
+  <ul class="collapse">
+  <li><a href="#grundlagen" id="toc-grundlagen" class="nav-link" data-scroll-target="#grundlagen"><span class="header-section-number">8.5.1</span> Grundlagen</a></li>
+  <li><a href="#balkendiagramme-mit-durchschnittswerten" id="toc-balkendiagramme-mit-durchschnittswerten" class="nav-link" data-scroll-target="#balkendiagramme-mit-durchschnittswerten"><span class="header-section-number">8.5.2</span> Balkendiagramme mit Durchschnittswerten</a></li>
+  </ul></li>
+  <li><a href="#heatmap" id="toc-heatmap" class="nav-link" data-scroll-target="#heatmap"><span class="header-section-number">8.6</span> Heatmap</a></li>
+  <li><a href="#bilder" id="toc-bilder" class="nav-link" data-scroll-target="#bilder"><span class="header-section-number">8.7</span> Bilder</a></li>
+  <li><a href="#mehrere-diagramme-in-einem-raster-darstellen" id="toc-mehrere-diagramme-in-einem-raster-darstellen" class="nav-link" data-scroll-target="#mehrere-diagramme-in-einem-raster-darstellen"><span class="header-section-number">8.8</span> Mehrere Diagramme in einem Raster darstellen</a>
+  <ul class="collapse">
+  <li><a href="#grundlagen-1" id="toc-grundlagen-1" class="nav-link" data-scroll-target="#grundlagen-1"><span class="header-section-number">8.8.1</span> Grundlagen</a></li>
+  <li><a href="#parzellen-mit-seaborn-koppeln" id="toc-parzellen-mit-seaborn-koppeln" class="nav-link" data-scroll-target="#parzellen-mit-seaborn-koppeln"><span class="header-section-number">8.8.2</span> Parzellen mit Seaborn koppeln</a></li>
+  </ul></li>
+  <li><a href="#weiterführende-literatur" id="toc-weiterführende-literatur" class="nav-link" data-scroll-target="#weiterführende-literatur"><span class="header-section-number">8.9</span> Weiterführende Literatur</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Datenvisualisierung mit Python, Matplotlib und Seaborn</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Dieses Tutorial ist das siebte einer Reihe zur Einführung in die Programmierung und Datenanalyse mithilfe der Python-Programmiersprache. Diese Tutorials basieren auf einem praktischen, programmbasierten Ansatz. Der beste Weg, das Material zu erlernen, besteht darin, den Code auszuführen und mit den Beispielen zu experimentieren.</p>
+<p>Die folgenden Themen werden in diesem Tutorial behandelt:</p>
+<ul>
+<li><a href="#liniendiagramm">Liniendiagramm</a></li>
+<li><a href="#streudiagramm">Streudiagramm</a></li>
+<li><a href="#histogramm">Histogramm</a></li>
+<li><a href="#balkendiagramm">Balkendiagramm</a></li>
+<li><a href="#heatmap">Heatmap</a></li>
+<li><a href="#bilder">Bilder</a></li>
+<li><a href="#raster">Mehrere Diagramme in einem Raster darstellen</a></li>
+</ul>
+<section id="einführung" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="einführung"><span class="header-section-number">8.1</span> Einführung</h2>
+<p>Unter Datenvisualisierung versteht man die grafische Darstellung von Daten. Dabei geht es um die Erstellung von Bildern, die dem Betrachter Beziehungen zwischen den dargestellten Daten vermitteln. Die Visualisierung von Daten ist ein wesentlicher Bestandteil der Datenanalyse und des maschinellen Lernens. In diesem Tutorial verwenden wir die Python-Bibliotheken <a href="https://matplotlib.org">Matplotlib</a> und <a href="https://seaborn.pydata.org">Seaborn</a>, um einige beliebte Datenvisualisierungstechniken zu erlernen und anzuwenden.</p>
+<p>Zunächst importieren wir die Bibliotheken. Wir verwenden <code>matplotlib.pyplot</code> für grundlegende Diagramme wie Linien- und Balkendiagramme. Es wird oft mit dem Alias <code>plt</code> importiert. Das Modul <code>seaborn</code> wird für fortgeschrittenere Plots verwendet und mit dem Alias <code>sns</code> importiert.</p>
+<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Uncomment the next line to install the required libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># !pip install matplotlib seaborn --upgrade --quiet</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:940,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925127961,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="9184478c-d80b-489b-d37a-f077fa9f1534" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="op">%</span>matplotlib inline</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Beachten Sie, dass wir auch den speziellen Befehl <code>%matplotlib inline</code> einschließen, um sicherzustellen, dass Diagramme im Jupyter-Notebook selbst angezeigt und eingebettet werden. Ohne diesen Befehl werden Diagramme manchmal in Popup-Fenstern angezeigt.</p>
+<p><a id="liniendiagramm"></a></p>
+</section>
+<section id="liniendiagramm" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="liniendiagramm"><span class="header-section-number">8.2</span> Liniendiagramm</h2>
+<p>Liniendiagramme sind eine der einfachsten und am weitesten verbreiteten Techniken zur Datenvisualisierung. Ein Liniendiagramm zeigt Informationen als eine Reihe von Datenpunkten oder Markierungen an, die durch gerade Linien verbunden sind. Für eine bessere visuelle Klarheit können Sie Form, Größe, Farbe und andere ästhetische Elemente der Markierungen und Linien anpassen.</p>
+<p>Hier ist eine Python-Liste, die den Apfelertrag (Tonnen pro Hektar) über 6 Jahre in einem imaginären Land namens Kanto zeigt.</p>
+<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:738,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925229525,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>yield_apples <span class="op">=</span> [<span class="fl">0.895</span>, <span class="fl">0.91</span>, <span class="fl">0.919</span>, <span class="fl">0.926</span>, <span class="fl">0.929</span>, <span class="fl">0.931</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Mithilfe eines Liniendiagramms können wir visualisieren, wie sich der Ertrag von Äpfeln im Laufe der Zeit verändert. Um ein Liniendiagramm zu zeichnen, können wir die Funktion <code>plt.plot</code> verwenden.</p>
+<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:689,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925318364,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="ca7c7a31-175d-445d-fcb9-48bd1bb83b63" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>plt.plot(yield_apples)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Durch Aufrufen der Funktion <code>plt.plot</code> wird das Liniendiagramm wie erwartet gezeichnet und außerdem eine Liste der gezeichneten Diagramme <code>[&lt;matplotlib.lines.Line2D at 0x7ff70aa20760&gt;]</code> zurückgegeben, die in der Ausgabe angezeigt wird. Wir können am Ende der letzten Anweisung in der Zelle ein Semikolon (<code>;</code>) einfügen, um die Ausgabe zu vermeiden und nur das Diagramm anzuzeigen.</p>
+<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:641,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925353944,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="7303ea1c-8d79-4e9c-c2a8-eaa22fe2ddbd" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># The semicolumn hides the output </span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co"># "[&lt;matplotlib.lines.Line2D at 0x7fd6609106d8&gt;]"</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>plt.plot(yield_apples)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Lassen Sie uns diese Handlung Schritt für Schritt verbessern, um sie informativer und schöner zu machen.</p>
+<section id="anpassen-der-x-achse" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="anpassen-der-x-achse"><span class="header-section-number">8.2.1</span> Anpassen der X-Achse</h3>
+<p>Die X-Achse des Diagramms zeigt derzeit die Listenelementindizes 0 bis 5. Das Diagramm wäre aussagekräftiger, wenn wir das Jahr anzeigen könnten, für das die Daten aufgezeichnet werden. Wir können dies durch zwei Argumente <code>plt.plot</code> tun.</p>
+<div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:649,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925370344,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>years <span class="op">=</span> [<span class="dv">2010</span>, <span class="dv">2011</span>, <span class="dv">2012</span>, <span class="dv">2013</span>, <span class="dv">2014</span>, <span class="dv">2015</span>]</span>
+<span id="cb6-2"><a href="#cb6-2"></a>yield_apples <span class="op">=</span> [<span class="fl">0.895</span>, <span class="fl">0.91</span>, <span class="fl">0.919</span>, <span class="fl">0.926</span>, <span class="fl">0.929</span>, <span class="fl">0.931</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:640,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925371406,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="156519c2-24ad-40eb-9870-4a57d8dc3679" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>plt.plot(years, yield_apples)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="achsenbeschriftungen" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="achsenbeschriftungen"><span class="header-section-number">8.2.2</span> Achsenbeschriftungen</h3>
+<p>Mit den Methoden <code>plt.xlabel</code> und <code>plt.ylabel</code> können wir den Achsen Beschriftungen hinzufügen, um zu zeigen, was jede Achse darstellt.</p>
+<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:793,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925386580,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="b0f244fa-5beb-42ab-e6ca-72ee5ec36b47" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>plt.plot(years, yield_apples)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>plt.xlabel(<span class="st">'Year'</span>)</span>
+<span id="cb8-3"><a href="#cb8-3"></a>plt.ylabel(<span class="st">'Yield (tons per hectare)'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="mehrere-linien-plotten" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="mehrere-linien-plotten"><span class="header-section-number">8.2.3</span> Mehrere Linien plotten</h3>
+<p>Es ist wirklich einfach, mehrere Linien im selben Diagramm darzustellen. Rufen Sie einfach mehrmals die Funktion <code>plt.plot</code> auf. Vergleichen wir die Erträge von Äpfeln und Orangen in Kanto.</p>
+<div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:722,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925460330,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>years <span class="op">=</span> <span class="bu">range</span>(<span class="dv">2000</span>, <span class="dv">2012</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a>apples <span class="op">=</span> [<span class="fl">0.895</span>, <span class="fl">0.91</span>, <span class="fl">0.919</span>, <span class="fl">0.926</span>, <span class="fl">0.929</span>, <span class="fl">0.931</span>, <span class="fl">0.934</span>, <span class="fl">0.936</span>, <span class="fl">0.937</span>, <span class="fl">0.9375</span>, <span class="fl">0.9372</span>, <span class="fl">0.939</span>]</span>
+<span id="cb9-3"><a href="#cb9-3"></a>oranges <span class="op">=</span> [<span class="fl">0.962</span>, <span class="fl">0.941</span>, <span class="fl">0.930</span>, <span class="fl">0.923</span>, <span class="fl">0.918</span>, <span class="fl">0.908</span>, <span class="fl">0.907</span>, <span class="fl">0.904</span>, <span class="fl">0.901</span>, <span class="fl">0.898</span>, <span class="fl">0.9</span>, <span class="fl">0.896</span>, ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:662,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925476509,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="5fa9c841-4df4-46be-ca71-5d5be2609e77" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>plt.plot(years, apples)</span>
+<span id="cb10-2"><a href="#cb10-2"></a>plt.plot(years, oranges)</span>
+<span id="cb10-3"><a href="#cb10-3"></a>plt.xlabel(<span class="st">'Year'</span>)</span>
+<span id="cb10-4"><a href="#cb10-4"></a>plt.ylabel(<span class="st">'Yield (tons per hectare)'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="diagrammtitel-und-legende" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="diagrammtitel-und-legende"><span class="header-section-number">8.2.4</span> Diagrammtitel und Legende</h3>
+<p>Um zwischen mehreren Linien zu unterscheiden, können wir mit der Funktion <code>plt.legend</code> eine Legende in das Diagramm einfügen. Außerdem geben wir dem gesamten Diagramm mit der Funktion <code>plt.title</code> einen Titel.</p>
+<div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:763,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925575772,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="a9320b01-8ef5-41c6-8156-341f14bc830a" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>plt.plot(years, apples)</span>
+<span id="cb11-2"><a href="#cb11-2"></a>plt.plot(years, oranges)</span>
+<span id="cb11-3"><a href="#cb11-3"></a></span>
+<span id="cb11-4"><a href="#cb11-4"></a>plt.xlabel(<span class="st">'Year'</span>)</span>
+<span id="cb11-5"><a href="#cb11-5"></a>plt.ylabel(<span class="st">'Yield (tons per hectare)'</span>)</span>
+<span id="cb11-6"><a href="#cb11-6"></a></span>
+<span id="cb11-7"><a href="#cb11-7"></a>plt.title(<span class="st">"Crop Yields in Kanto"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8"></a>plt.legend([<span class="st">'Apples'</span>, <span class="st">'Oranges'</span>])<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="linienmarkierungen" class="level3" data-number="8.2.5">
+<h3 data-number="8.2.5" class="anchored" data-anchor-id="linienmarkierungen"><span class="header-section-number">8.2.5</span> Linienmarkierungen</h3>
+<p>Wir können auch Markierungen für die Datenpunkte auf jeder Zeile anzeigen, indem wir das Argument <code>marker</code> von <code>plt.plot</code> verwenden. Matplotlib unterstützt viele verschiedene Arten von Markierungen wie Kreis, Kreuz, Quadrat, Raute usw. Die vollständige Liste der Markierungstypen finden Sie <a href="https://matplotlib.org/3.1.1/api/markers_api.html">hier</a></p>
+<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:917,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925635397,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="947c73fe-d90c-4e4c-85a5-66f8966ef1a8" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>plt.plot(years, apples, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a>plt.plot(years, oranges, marker<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb12-3"><a href="#cb12-3"></a></span>
+<span id="cb12-4"><a href="#cb12-4"></a>plt.xlabel(<span class="st">'Year'</span>)</span>
+<span id="cb12-5"><a href="#cb12-5"></a>plt.ylabel(<span class="st">'Yield (tons per hectare)'</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a></span>
+<span id="cb12-7"><a href="#cb12-7"></a>plt.title(<span class="st">"Crop Yields in Kanto"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8"></a>plt.legend([<span class="st">'Apples'</span>, <span class="st">'Oranges'</span>])<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="linien-und-markierungen-gestalten" class="level3" data-number="8.2.6">
+<h3 data-number="8.2.6" class="anchored" data-anchor-id="linien-und-markierungen-gestalten"><span class="header-section-number">8.2.6</span> Linien und Markierungen gestalten</h3>
+<p>Die Funktion <code>plt.plot</code> unterstützt viele Argumente zur Gestaltung von Linien und Markierungen:</p>
+<ul>
+<li><code>color</code> oder <code>c</code>: Legt die Farbe der Linie fest (<a href="https://matplotlib.org/3.1.0/gallery/color/named_colors.html">unterstützte Farben</a>)</li>
+<li><code>linestyle</code> oder <code>ls</code>: Wahl zwischen einer durchgezogenen oder gestrichelten Linie</li>
+<li><code>linewidth</code> oder <code>lw</code>: Legt die Breite einer Linie fest</li>
+<li><code>markersize</code> oder <code>ms</code>: Legt die Größe der Markierungen fest</li>
+<li><code>markeredgecolor</code> oder <code>mec</code>: Legt die Randfarbe für Markierungen fest</li>
+<li><code>markeredgewidth</code> oder <code>mew</code>: Legt die Randbreite für Markierungen fest</li>
+<li><code>markerfacecolor</code> oder <code>mfc</code>: Legt die Füllfarbe für Markierungen fest</li>
+<li><code>alpha</code>: Deckkraft des Plots</li>
+</ul>
+<p>Schau dir die <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot">Dokumentation</a> für <code>plt.plot</code> an, um mehr zu erfahren.</p>
+<div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:821,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925801080,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="6f2ee79c-3b17-41db-cfd0-9307e8527d80" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>plt.plot(years, apples, marker<span class="op">=</span><span class="st">'s'</span>, c<span class="op">=</span><span class="st">'b'</span>, ls<span class="op">=</span><span class="st">'-'</span>, lw<span class="op">=</span><span class="dv">2</span>, ms<span class="op">=</span><span class="dv">8</span>, mew<span class="op">=</span><span class="dv">2</span>, mec<span class="op">=</span><span class="st">'navy'</span>)</span>
+<span id="cb13-2"><a href="#cb13-2"></a>plt.plot(years, oranges, marker<span class="op">=</span><span class="st">'o'</span>, c<span class="op">=</span><span class="st">'r'</span>, ls<span class="op">=</span><span class="st">'--'</span>, lw<span class="op">=</span><span class="dv">3</span>, ms<span class="op">=</span><span class="dv">10</span>, alpha<span class="op">=</span><span class="fl">.5</span>)</span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a>plt.xlabel(<span class="st">'Year'</span>)</span>
+<span id="cb13-5"><a href="#cb13-5"></a>plt.ylabel(<span class="st">'Yield (tons per hectare)'</span>)</span>
+<span id="cb13-6"><a href="#cb13-6"></a></span>
+<span id="cb13-7"><a href="#cb13-7"></a>plt.title(<span class="st">"Crop Yields in Kanto"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8"></a>plt.legend([<span class="st">'Apples'</span>, <span class="st">'Oranges'</span>])<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Das Argument <code>fmt</code> bietet eine Abkürzung für die Angabe des Linienstils, der Markierung und der Linienfarbe. Es kann als drittes Argument für <code>plt.plot</code> bereitgestellt werden.</p>
+<pre><code>fmt = '[marker][line][color]'</code></pre>
+<div id="cell-28" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:734,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925918757,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="84314dcb-a6b6-45d1-dc39-fbda23cae334" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>plt.plot(years, apples, <span class="st">'s-b'</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a>plt.plot(years, oranges, <span class="st">'o--r'</span>)</span>
+<span id="cb15-3"><a href="#cb15-3"></a></span>
+<span id="cb15-4"><a href="#cb15-4"></a>plt.xlabel(<span class="st">'Year'</span>)</span>
+<span id="cb15-5"><a href="#cb15-5"></a>plt.ylabel(<span class="st">'Yield (tons per hectare)'</span>)</span>
+<span id="cb15-6"><a href="#cb15-6"></a></span>
+<span id="cb15-7"><a href="#cb15-7"></a>plt.title(<span class="st">"Crop Yields in Kanto"</span>)</span>
+<span id="cb15-8"><a href="#cb15-8"></a>plt.legend([<span class="st">'Apples'</span>, <span class="st">'Oranges'</span>])<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wenn in <code>fmt</code> kein Linienstil angegeben ist, werden nur Markierungen gezeichnet.</p>
+<div id="cell-30" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:679,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599925992464,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="18412d22-7964-45c4-9799-9123f4fbaecc" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>plt.plot(years, oranges, <span class="st">'or'</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>plt.title(<span class="st">"Yield of Oranges (tons per hectare)"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ändern-der-figurengröße" class="level3" data-number="8.2.7">
+<h3 data-number="8.2.7" class="anchored" data-anchor-id="ändern-der-figurengröße"><span class="header-section-number">8.2.7</span> Ändern der Figurengröße</h3>
+<p>Mit der Funktion <code>plt.figure</code> können Sie die Größe der Figur ändern.</p>
+<div id="cell-32" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:679,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926005049,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="45a90b64-6a79-4a80-e649-69b1a7851afb" data-execution_count="16">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb17-2"><a href="#cb17-2"></a></span>
+<span id="cb17-3"><a href="#cb17-3"></a>plt.plot(years, oranges, <span class="st">'or'</span>)</span>
+<span id="cb17-4"><a href="#cb17-4"></a>plt.title(<span class="st">"Yield of Oranges (tons per hectare)"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="verbesserung-der-standardstile-mit-seaborn" class="level3" data-number="8.2.8">
+<h3 data-number="8.2.8" class="anchored" data-anchor-id="verbesserung-der-standardstile-mit-seaborn"><span class="header-section-number">8.2.8</span> Verbesserung der Standardstile mit Seaborn</h3>
+<p>Eine einfache Möglichkeit, Ihren Diagrammen ein ansprechendes Aussehen zu verleihen, besteht darin, einige in der Seaborn-Bibliothek bereitgestellte Standardstile zu verwenden. Diese können global mit der Funktion <code>sns.set_style</code> angewendet werden. Eine vollständige Liste der vordefinierten Stile finden Sie <a href="https://seaborn.pydata.org/generated/seaborn.set_style.html">hier</a>.</p>
+<div id="cell-34" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1070,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926065803,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>sns.set_style(<span class="st">"whitegrid"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-35" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1097,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926068158,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="72b367af-15f6-4f10-d989-0190caaf7c0d" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>plt.plot(years, apples, <span class="st">'s-b'</span>)</span>
+<span id="cb19-2"><a href="#cb19-2"></a>plt.plot(years, oranges, <span class="st">'o--r'</span>)</span>
+<span id="cb19-3"><a href="#cb19-3"></a></span>
+<span id="cb19-4"><a href="#cb19-4"></a>plt.xlabel(<span class="st">'Year'</span>)</span>
+<span id="cb19-5"><a href="#cb19-5"></a>plt.ylabel(<span class="st">'Yield (tons per hectare)'</span>)</span>
+<span id="cb19-6"><a href="#cb19-6"></a></span>
+<span id="cb19-7"><a href="#cb19-7"></a>plt.title(<span class="st">"Crop Yields in Kanto"</span>)</span>
+<span id="cb19-8"><a href="#cb19-8"></a>plt.legend([<span class="st">'Apples'</span>, <span class="st">'Oranges'</span>])<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-36" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:818,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926077358,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="19">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>sns.set_style(<span class="st">"darkgrid"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-37" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1335,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926079535,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="0cf74e0d-65ac-41d6-9a4d-95d516f887f4" data-execution_count="20">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>plt.plot(years, apples, <span class="st">'s-b'</span>)</span>
+<span id="cb21-2"><a href="#cb21-2"></a>plt.plot(years, oranges, <span class="st">'o--r'</span>)</span>
+<span id="cb21-3"><a href="#cb21-3"></a></span>
+<span id="cb21-4"><a href="#cb21-4"></a>plt.xlabel(<span class="st">'Year'</span>)</span>
+<span id="cb21-5"><a href="#cb21-5"></a>plt.ylabel(<span class="st">'Yield (tons per hectare)'</span>)</span>
+<span id="cb21-6"><a href="#cb21-6"></a></span>
+<span id="cb21-7"><a href="#cb21-7"></a>plt.title(<span class="st">"Crop Yields in Kanto"</span>)</span>
+<span id="cb21-8"><a href="#cb21-8"></a>plt.legend([<span class="st">'Apples'</span>, <span class="st">'Oranges'</span>])<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-21-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-38" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:754,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926089514,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="3bf75eda-1960-44b7-8945-d20d56fb50de" data-execution_count="21">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>plt.plot(years, oranges, <span class="st">'or'</span>)</span>
+<span id="cb22-2"><a href="#cb22-2"></a>plt.title(<span class="st">"Yield of Oranges (tons per hectare)"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Sie können Standardstile auch direkt bearbeiten, indem Sie das Wörterbuch <code>matplotlib.rcParams</code> ändern. Erfahren Sie mehr <a href="https://matplotlib.org/3.2.1/tutorials/introductory/customizing.html#matplotlib-rcparams">hier</a>.</p>
+<div id="cell-40" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:601,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926263784,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="22">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="im">import</span> matplotlib</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-41" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:616,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926265199,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="14dfe57b-dbc7-41a8-d81c-ee62a49aefd9" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>matplotlib.rcParams</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>RcParams({'_internal.classic_mode': False,
+          'agg.path.chunksize': 0,
+          'animation.bitrate': -1,
+          'animation.codec': 'h264',
+          'animation.convert_args': ['-layers', 'OptimizePlus'],
+          'animation.convert_path': 'convert',
+          'animation.embed_limit': 20.0,
+          'animation.ffmpeg_args': [],
+          'animation.ffmpeg_path': 'ffmpeg',
+          'animation.frame_format': 'png',
+          'animation.html': 'none',
+          'animation.writer': 'ffmpeg',
+          'axes.autolimit_mode': 'data',
+          'axes.axisbelow': True,
+          'axes.edgecolor': 'white',
+          'axes.facecolor': '#EAEAF2',
+          'axes.formatter.limits': [-5, 6],
+          'axes.formatter.min_exponent': 0,
+          'axes.formatter.offset_threshold': 4,
+          'axes.formatter.use_locale': False,
+          'axes.formatter.use_mathtext': False,
+          'axes.formatter.useoffset': True,
+          'axes.grid': True,
+          'axes.grid.axis': 'both',
+          'axes.grid.which': 'major',
+          'axes.labelcolor': '.15',
+          'axes.labelpad': 4.0,
+          'axes.labelsize': 'medium',
+          'axes.labelweight': 'normal',
+          'axes.linewidth': 0.8,
+          'axes.prop_cycle': cycler('color', ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']),
+          'axes.spines.bottom': True,
+          'axes.spines.left': True,
+          'axes.spines.right': True,
+          'axes.spines.top': True,
+          'axes.titlecolor': 'auto',
+          'axes.titlelocation': 'center',
+          'axes.titlepad': 6.0,
+          'axes.titlesize': 'large',
+          'axes.titleweight': 'normal',
+          'axes.titley': None,
+          'axes.unicode_minus': True,
+          'axes.xmargin': 0.05,
+          'axes.ymargin': 0.05,
+          'axes.zmargin': 0.05,
+          'axes3d.grid': True,
+          'axes3d.xaxis.panecolor': (0.95, 0.95, 0.95, 0.5),
+          'axes3d.yaxis.panecolor': (0.9, 0.9, 0.9, 0.5),
+          'axes3d.zaxis.panecolor': (0.925, 0.925, 0.925, 0.5),
+          'backend': 'module://matplotlib_inline.backend_inline',
+          'backend_fallback': True,
+          'boxplot.bootstrap': None,
+          'boxplot.boxprops.color': 'black',
+          'boxplot.boxprops.linestyle': '-',
+          'boxplot.boxprops.linewidth': 1.0,
+          'boxplot.capprops.color': 'black',
+          'boxplot.capprops.linestyle': '-',
+          'boxplot.capprops.linewidth': 1.0,
+          'boxplot.flierprops.color': 'black',
+          'boxplot.flierprops.linestyle': 'none',
+          'boxplot.flierprops.linewidth': 1.0,
+          'boxplot.flierprops.marker': 'o',
+          'boxplot.flierprops.markeredgecolor': 'black',
+          'boxplot.flierprops.markeredgewidth': 1.0,
+          'boxplot.flierprops.markerfacecolor': 'none',
+          'boxplot.flierprops.markersize': 6.0,
+          'boxplot.meanline': False,
+          'boxplot.meanprops.color': 'C2',
+          'boxplot.meanprops.linestyle': '--',
+          'boxplot.meanprops.linewidth': 1.0,
+          'boxplot.meanprops.marker': '^',
+          'boxplot.meanprops.markeredgecolor': 'C2',
+          'boxplot.meanprops.markerfacecolor': 'C2',
+          'boxplot.meanprops.markersize': 6.0,
+          'boxplot.medianprops.color': 'C1',
+          'boxplot.medianprops.linestyle': '-',
+          'boxplot.medianprops.linewidth': 1.0,
+          'boxplot.notch': False,
+          'boxplot.patchartist': False,
+          'boxplot.showbox': True,
+          'boxplot.showcaps': True,
+          'boxplot.showfliers': True,
+          'boxplot.showmeans': False,
+          'boxplot.vertical': True,
+          'boxplot.whiskerprops.color': 'black',
+          'boxplot.whiskerprops.linestyle': '-',
+          'boxplot.whiskerprops.linewidth': 1.0,
+          'boxplot.whiskers': 1.5,
+          'contour.algorithm': 'mpl2014',
+          'contour.corner_mask': True,
+          'contour.linewidth': None,
+          'contour.negative_linestyle': 'dashed',
+          'date.autoformatter.day': '%Y-%m-%d',
+          'date.autoformatter.hour': '%m-%d %H',
+          'date.autoformatter.microsecond': '%M:%S.%f',
+          'date.autoformatter.minute': '%d %H:%M',
+          'date.autoformatter.month': '%Y-%m',
+          'date.autoformatter.second': '%H:%M:%S',
+          'date.autoformatter.year': '%Y',
+          'date.converter': 'auto',
+          'date.epoch': '1970-01-01T00:00:00',
+          'date.interval_multiples': True,
+          'docstring.hardcopy': False,
+          'errorbar.capsize': 0.0,
+          'figure.autolayout': False,
+          'figure.constrained_layout.h_pad': 0.04167,
+          'figure.constrained_layout.hspace': 0.02,
+          'figure.constrained_layout.use': False,
+          'figure.constrained_layout.w_pad': 0.04167,
+          'figure.constrained_layout.wspace': 0.02,
+          'figure.dpi': 100.0,
+          'figure.edgecolor': 'white',
+          'figure.facecolor': 'white',
+          'figure.figsize': [6.4, 4.8],
+          'figure.frameon': True,
+          'figure.hooks': [],
+          'figure.labelsize': 'large',
+          'figure.labelweight': 'normal',
+          'figure.max_open_warning': 20,
+          'figure.raise_window': True,
+          'figure.subplot.bottom': 0.11,
+          'figure.subplot.hspace': 0.2,
+          'figure.subplot.left': 0.125,
+          'figure.subplot.right': 0.9,
+          'figure.subplot.top': 0.88,
+          'figure.subplot.wspace': 0.2,
+          'figure.titlesize': 'large',
+          'figure.titleweight': 'normal',
+          'font.cursive': ['Apple Chancery',
+                           'Textile',
+                           'Zapf Chancery',
+                           'Sand',
+                           'Script MT',
+                           'Felipa',
+                           'Comic Neue',
+                           'Comic Sans MS',
+                           'cursive'],
+          'font.family': ['sans-serif'],
+          'font.fantasy': ['Chicago',
+                           'Charcoal',
+                           'Impact',
+                           'Western',
+                           'Humor Sans',
+                           'xkcd',
+                           'fantasy'],
+          'font.monospace': ['DejaVu Sans Mono',
+                             'Bitstream Vera Sans Mono',
+                             'Computer Modern Typewriter',
+                             'Andale Mono',
+                             'Nimbus Mono L',
+                             'Courier New',
+                             'Courier',
+                             'Fixed',
+                             'Terminal',
+                             'monospace'],
+          'font.sans-serif': ['Arial',
+                              'DejaVu Sans',
+                              'Liberation Sans',
+                              'Bitstream Vera Sans',
+                              'sans-serif'],
+          'font.serif': ['DejaVu Serif',
+                         'Bitstream Vera Serif',
+                         'Computer Modern Roman',
+                         'New Century Schoolbook',
+                         'Century Schoolbook L',
+                         'Utopia',
+                         'ITC Bookman',
+                         'Bookman',
+                         'Nimbus Roman No9 L',
+                         'Times New Roman',
+                         'Times',
+                         'Palatino',
+                         'Charter',
+                         'serif'],
+          'font.size': 10.0,
+          'font.stretch': 'normal',
+          'font.style': 'normal',
+          'font.variant': 'normal',
+          'font.weight': 'normal',
+          'grid.alpha': 1.0,
+          'grid.color': 'white',
+          'grid.linestyle': '-',
+          'grid.linewidth': 0.8,
+          'hatch.color': 'black',
+          'hatch.linewidth': 1.0,
+          'hist.bins': 10,
+          'image.aspect': 'equal',
+          'image.cmap': 'rocket',
+          'image.composite_image': True,
+          'image.interpolation': 'antialiased',
+          'image.lut': 256,
+          'image.origin': 'upper',
+          'image.resample': True,
+          'interactive': True,
+          'keymap.back': ['left', 'c', 'backspace', 'MouseButton.BACK'],
+          'keymap.copy': ['ctrl+c', 'cmd+c'],
+          'keymap.forward': ['right', 'v', 'MouseButton.FORWARD'],
+          'keymap.fullscreen': ['f', 'ctrl+f'],
+          'keymap.grid': ['g'],
+          'keymap.grid_minor': ['G'],
+          'keymap.help': ['f1'],
+          'keymap.home': ['h', 'r', 'home'],
+          'keymap.pan': ['p'],
+          'keymap.quit': ['ctrl+w', 'cmd+w', 'q'],
+          'keymap.quit_all': [],
+          'keymap.save': ['s', 'ctrl+s'],
+          'keymap.xscale': ['k', 'L'],
+          'keymap.yscale': ['l'],
+          'keymap.zoom': ['o'],
+          'legend.borderaxespad': 0.5,
+          'legend.borderpad': 0.4,
+          'legend.columnspacing': 2.0,
+          'legend.edgecolor': '0.8',
+          'legend.facecolor': 'inherit',
+          'legend.fancybox': True,
+          'legend.fontsize': 'medium',
+          'legend.framealpha': 0.8,
+          'legend.frameon': True,
+          'legend.handleheight': 0.7,
+          'legend.handlelength': 2.0,
+          'legend.handletextpad': 0.8,
+          'legend.labelcolor': 'None',
+          'legend.labelspacing': 0.5,
+          'legend.loc': 'best',
+          'legend.markerscale': 1.0,
+          'legend.numpoints': 1,
+          'legend.scatterpoints': 1,
+          'legend.shadow': False,
+          'legend.title_fontsize': None,
+          'lines.antialiased': True,
+          'lines.color': 'C0',
+          'lines.dash_capstyle': &lt;CapStyle.butt: 'butt'&gt;,
+          'lines.dash_joinstyle': &lt;JoinStyle.round: 'round'&gt;,
+          'lines.dashdot_pattern': [6.4, 1.6, 1.0, 1.6],
+          'lines.dashed_pattern': [3.7, 1.6],
+          'lines.dotted_pattern': [1.0, 1.65],
+          'lines.linestyle': '-',
+          'lines.linewidth': 1.5,
+          'lines.marker': 'None',
+          'lines.markeredgecolor': 'auto',
+          'lines.markeredgewidth': 1.0,
+          'lines.markerfacecolor': 'auto',
+          'lines.markersize': 6.0,
+          'lines.scale_dashes': True,
+          'lines.solid_capstyle': &lt;CapStyle.round: 'round'&gt;,
+          'lines.solid_joinstyle': &lt;JoinStyle.round: 'round'&gt;,
+          'markers.fillstyle': 'full',
+          'mathtext.bf': 'sans:bold',
+          'mathtext.cal': 'cursive',
+          'mathtext.default': 'it',
+          'mathtext.fallback': 'cm',
+          'mathtext.fontset': 'dejavusans',
+          'mathtext.it': 'sans:italic',
+          'mathtext.rm': 'sans',
+          'mathtext.sf': 'sans',
+          'mathtext.tt': 'monospace',
+          'patch.antialiased': True,
+          'patch.edgecolor': 'w',
+          'patch.facecolor': 'C0',
+          'patch.force_edgecolor': True,
+          'patch.linewidth': 1.0,
+          'path.effects': [],
+          'path.simplify': True,
+          'path.simplify_threshold': 0.111111111111,
+          'path.sketch': None,
+          'path.snap': True,
+          'pcolor.shading': 'auto',
+          'pcolormesh.snap': True,
+          'pdf.compression': 6,
+          'pdf.fonttype': 3,
+          'pdf.inheritcolor': False,
+          'pdf.use14corefonts': False,
+          'pgf.preamble': '',
+          'pgf.rcfonts': True,
+          'pgf.texsystem': 'xelatex',
+          'polaraxes.grid': True,
+          'ps.distiller.res': 6000,
+          'ps.fonttype': 3,
+          'ps.papersize': 'letter',
+          'ps.useafm': False,
+          'ps.usedistiller': None,
+          'savefig.bbox': None,
+          'savefig.directory': '~',
+          'savefig.dpi': 'figure',
+          'savefig.edgecolor': 'auto',
+          'savefig.facecolor': 'auto',
+          'savefig.format': 'png',
+          'savefig.orientation': 'portrait',
+          'savefig.pad_inches': 0.1,
+          'savefig.transparent': False,
+          'scatter.edgecolors': 'face',
+          'scatter.marker': 'o',
+          'svg.fonttype': 'path',
+          'svg.hashsalt': None,
+          'svg.image_inline': True,
+          'text.antialiased': True,
+          'text.color': '.15',
+          'text.hinting': 'force_autohint',
+          'text.hinting_factor': 8,
+          'text.kerning_factor': 0,
+          'text.latex.preamble': '',
+          'text.parse_math': True,
+          'text.usetex': False,
+          'timezone': 'UTC',
+          'tk.window_focus': False,
+          'toolbar': 'toolbar2',
+          'webagg.address': '127.0.0.1',
+          'webagg.open_in_browser': True,
+          'webagg.port': 8988,
+          'webagg.port_retries': 50,
+          'xaxis.labellocation': 'center',
+          'xtick.alignment': 'center',
+          'xtick.bottom': False,
+          'xtick.color': '.15',
+          'xtick.direction': 'out',
+          'xtick.labelbottom': True,
+          'xtick.labelcolor': 'inherit',
+          'xtick.labelsize': 'medium',
+          'xtick.labeltop': False,
+          'xtick.major.bottom': True,
+          'xtick.major.pad': 3.5,
+          'xtick.major.size': 3.5,
+          'xtick.major.top': True,
+          'xtick.major.width': 0.8,
+          'xtick.minor.bottom': True,
+          'xtick.minor.pad': 3.4,
+          'xtick.minor.size': 2.0,
+          'xtick.minor.top': True,
+          'xtick.minor.visible': False,
+          'xtick.minor.width': 0.6,
+          'xtick.top': False,
+          'yaxis.labellocation': 'center',
+          'ytick.alignment': 'center_baseline',
+          'ytick.color': '.15',
+          'ytick.direction': 'out',
+          'ytick.labelcolor': 'inherit',
+          'ytick.labelleft': True,
+          'ytick.labelright': False,
+          'ytick.labelsize': 'medium',
+          'ytick.left': False,
+          'ytick.major.left': True,
+          'ytick.major.pad': 3.5,
+          'ytick.major.right': True,
+          'ytick.major.size': 3.5,
+          'ytick.major.width': 0.8,
+          'ytick.minor.left': True,
+          'ytick.minor.pad': 3.4,
+          'ytick.minor.right': True,
+          'ytick.minor.size': 2.0,
+          'ytick.minor.visible': False,
+          'ytick.minor.width': 0.6,
+          'ytick.right': False})</code></pre>
+</div>
+</div>
+<div id="cell-42" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:639,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926290446,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="24">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>matplotlib.rcParams[<span class="st">'font.size'</span>] <span class="op">=</span> <span class="dv">14</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>matplotlib.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> (<span class="dv">9</span>, <span class="dv">5</span>)</span>
+<span id="cb26-3"><a href="#cb26-3"></a>matplotlib.rcParams[<span class="st">'figure.facecolor'</span>] <span class="op">=</span> <span class="st">'#00000000'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><a id="streudiagramm"></a></p>
+</section>
+</section>
+<section id="streudiagramm" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="streudiagramm"><span class="header-section-number">8.3</span> Streudiagramm</h2>
+<p>In einem Streudiagramm werden die Werte von zwei Variablen als Punkte in einem zweidimensionalen Gitter dargestellt. Darüber hinaus können Sie auch eine dritte Variable verwenden, um die Größe oder Farbe der Punkte zu bestimmen. Probieren wir es an einem Beispiel aus.</p>
+<p>Der <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Irisblütendatensatz</a> bietet Beispielmessungen von Kelch- und Blütenblättern für drei Blumenarten. Der Iris-Datensatz ist in der Seaborn-Bibliothek enthalten und kann als Pandas Data Frame geladen werden.</p>
+<div id="cell-45" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:645,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926417348,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="25">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># Load data into a Pandas dataframe</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>flowers_df <span class="op">=</span> sns.load_dataset(<span class="st">"iris"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-46" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:762,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926421021,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="36a54dd5-5fe9-4868-d3fd-e48986935213" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>flowers_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">sepal_length</th>
+<th data-quarto-table-cell-role="th">sepal_width</th>
+<th data-quarto-table-cell-role="th">petal_length</th>
+<th data-quarto-table-cell-role="th">petal_width</th>
+<th data-quarto-table-cell-role="th">species</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>5.1</td>
+<td>3.5</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>4.9</td>
+<td>3.0</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>4.7</td>
+<td>3.2</td>
+<td>1.3</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4.6</td>
+<td>3.1</td>
+<td>1.5</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5.0</td>
+<td>3.6</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">145</th>
+<td>6.7</td>
+<td>3.0</td>
+<td>5.2</td>
+<td>2.3</td>
+<td>virginica</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">146</th>
+<td>6.3</td>
+<td>2.5</td>
+<td>5.0</td>
+<td>1.9</td>
+<td>virginica</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">147</th>
+<td>6.5</td>
+<td>3.0</td>
+<td>5.2</td>
+<td>2.0</td>
+<td>virginica</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">148</th>
+<td>6.2</td>
+<td>3.4</td>
+<td>5.4</td>
+<td>2.3</td>
+<td>virginica</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">149</th>
+<td>5.9</td>
+<td>3.0</td>
+<td>5.1</td>
+<td>1.8</td>
+<td>virginica</td>
+</tr>
+</tbody>
+</table>
+
+<p>150 rows × 5 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-47" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:654,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926487888,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="8f4207ec-259c-4c5e-fb7d-15a53ededa6f" data-execution_count="27">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>flowers_df.species.unique()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>array(['setosa', 'versicolor', 'virginica'], dtype=object)</code></pre>
+</div>
+</div>
+<p>Versuchen wir, die Beziehung zwischen Kelchblattlänge und Kelchblattbreite zu veranschaulichen. Unser erster Instinkt könnte sein, mit <code>plt.plot</code> ein Liniendiagramm zu erstellen. Allerdings ist die Ausgabe nicht sehr aussagekräftig, da der Datensatz zu viele Kombinationen der beiden Eigenschaften enthält und es scheinbar keine einfache Beziehung zwischen ihnen gibt.</p>
+<div id="cell-49" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1491,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926514115,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="7ba57aa5-54e6-4319-db50-306ae54fa06a" data-execution_count="28">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>plt.plot(flowers_df.sepal_length, flowers_df.sepal_width)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Mit der <code>Scatterplot</code>-Funktion von <code>seaborn</code> (importiert als <code>sns</code>) können wir ein Streudiagramm verwenden, um zu visualisieren, wie sich sepal length und sepal width unterscheiden.</p>
+<div id="cell-51" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1023,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926621915,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="91676b35-1ac8-4252-8074-ce36b46ad081" data-execution_count="29">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>sns.scatterplot(x<span class="op">=</span>flowers_df.sepal_length, y<span class="op">=</span>flowers_df.sepal_width)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-30-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="farbtöne-hinzufügen" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="farbtöne-hinzufügen"><span class="header-section-number">8.3.1</span> Farbtöne hinzufügen</h3>
+<p>Beachten Sie, dass die Punkte im obigen Diagramm mit einigen Ausreißern unterschiedliche Cluster zu bilden scheinen. Wir können die Punkte einfärben, indem wir die Blumenart als <code>hue</code> verwenden. Wir können die Punkte auch mit dem Argument <code>s</code> vergrößern.</p>
+<div id="cell-53" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1417,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926819760,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="87311e4d-d747-4903-894b-7c3e23fb4b40" data-execution_count="30">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>sns.scatterplot(x<span class="op">=</span>flowers_df.sepal_length, y<span class="op">=</span>flowers_df.sepal_width, hue<span class="op">=</span>flowers_df.species, s<span class="op">=</span><span class="dv">100</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-31-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Durch das Hinzufügen von Farbtönen wird die Handlung informativer. Wir können sofort erkennen, dass die Blüten der Setosa-Art eine geringere Kelchlänge, aber eine größere Kelchbreite haben, während bei der Virginica-Art das Gegenteil der Fall ist.</p>
+</section>
+<section id="anpassen-von-seaborn-figuren" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="anpassen-von-seaborn-figuren"><span class="header-section-number">8.3.2</span> Anpassen von Seaborn-Figuren</h3>
+<p>Da Seaborn intern die Plotfunktionen von Matplotlib verwendet, können wir Funktionen wie <code>plt.figure</code> und <code>plt.title</code> verwenden, um die Figur zu ändern.</p>
+<div id="cell-56" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1150,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599926834020,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="fb63882d-1431-432b-d986-e3f0edcc4464" data-execution_count="31">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb34-2"><a href="#cb34-2"></a>plt.title(<span class="st">'Sepal Dimensions'</span>)</span>
+<span id="cb34-3"><a href="#cb34-3"></a></span>
+<span id="cb34-4"><a href="#cb34-4"></a>sns.scatterplot(x<span class="op">=</span>flowers_df.sepal_length, </span>
+<span id="cb34-5"><a href="#cb34-5"></a>                y<span class="op">=</span>flowers_df.sepal_width, </span>
+<span id="cb34-6"><a href="#cb34-6"></a>                hue<span class="op">=</span>flowers_df.species,</span>
+<span id="cb34-7"><a href="#cb34-7"></a>                s<span class="op">=</span><span class="dv">100</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-32-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="plotten-mit-pandas-data-frames" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="plotten-mit-pandas-data-frames"><span class="header-section-number">8.3.3</span> Plotten mit Pandas Data Frames</h3>
+<p>Seaborn bietet integrierte Unterstützung für Pandas Data Frames. Anstatt jede Spalte als Reihe zu übergeben, können Sie auch Spaltennamen übergeben und das Argument <code>data</code> verwenden, um das Data Frame zu übergeben.</p>
+<div id="cell-58" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1221,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599927029552,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="73e482a0-2f94-4287-eb6b-ec8b86bef711" data-execution_count="32">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a>plt.title(<span class="st">'Sepal Dimensions'</span>)</span>
+<span id="cb35-2"><a href="#cb35-2"></a>sns.scatterplot(x<span class="op">=</span><span class="st">'sepal_length'</span>, </span>
+<span id="cb35-3"><a href="#cb35-3"></a>                y<span class="op">=</span><span class="st">'sepal_width'</span>, </span>
+<span id="cb35-4"><a href="#cb35-4"></a>                hue<span class="op">=</span><span class="st">'species'</span>,</span>
+<span id="cb35-5"><a href="#cb35-5"></a>                s<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb35-6"><a href="#cb35-6"></a>                data<span class="op">=</span>flowers_df)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-33-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><a id="histogramm"></a></p>
+</section>
+</section>
+<section id="histogramm" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="histogramm"><span class="header-section-number">8.4</span> Histogramm</h2>
+<p>Ein Histogramm stellt die Verteilung von Daten dar, indem es Abschnitte entlang des Datenbereichs bildet und dann Balken zeichnet, um die Anzahl der Beobachtungen anzuzeigen, die in jeden Abschnitt fallen.</p>
+<p>Lassen Sie uns als Beispiel visualisieren, wie die Werte der Kelchblattbreite im Blumendatensatz verteilt sind. Wir können die Funktion <code>plt.hist</code> verwenden, um ein Histogramm zu erstellen.</p>
+<div id="cell-61" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:692,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599927161917,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="33">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a><span class="co"># Load data into a Pandas dataframe</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a>flowers_df <span class="op">=</span> sns.load_dataset(<span class="st">"iris"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-62" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:765,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599927164482,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="20c2c7be-9ff4-4f21-a6bc-d1bd08e144eb" data-execution_count="34">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a>flowers_df.sepal_width</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<pre><code>0      3.5
+1      3.0
+2      3.2
+3      3.1
+4      3.6
+      ... 
+145    3.0
+146    2.5
+147    3.0
+148    3.4
+149    3.0
+Name: sepal_width, Length: 150, dtype: float64</code></pre>
+</div>
+</div>
+<div id="cell-63" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:610,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599927196727,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="deb68b51-6aac-4d64-87fa-c8f0a3da9e84" data-execution_count="35">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1"></a>flowers_df.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">sepal_length</th>
+<th data-quarto-table-cell-role="th">sepal_width</th>
+<th data-quarto-table-cell-role="th">petal_length</th>
+<th data-quarto-table-cell-role="th">petal_width</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">count</th>
+<td>150.000000</td>
+<td>150.000000</td>
+<td>150.000000</td>
+<td>150.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">mean</th>
+<td>5.843333</td>
+<td>3.057333</td>
+<td>3.758000</td>
+<td>1.199333</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">std</th>
+<td>0.828066</td>
+<td>0.435866</td>
+<td>1.765298</td>
+<td>0.762238</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">min</th>
+<td>4.300000</td>
+<td>2.000000</td>
+<td>1.000000</td>
+<td>0.100000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">25%</th>
+<td>5.100000</td>
+<td>2.800000</td>
+<td>1.600000</td>
+<td>0.300000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">50%</th>
+<td>5.800000</td>
+<td>3.000000</td>
+<td>4.350000</td>
+<td>1.300000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">75%</th>
+<td>6.400000</td>
+<td>3.300000</td>
+<td>5.100000</td>
+<td>1.800000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">max</th>
+<td>7.900000</td>
+<td>4.400000</td>
+<td>6.900000</td>
+<td>2.500000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-64" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:956,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599927168813,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="2caed1cd-58e9-4c5e-83d0-16b3f5af84e1" data-execution_count="36">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a>plt.title(<span class="st">"Distribution of Sepal Width"</span>)</span>
+<span id="cb40-2"><a href="#cb40-2"></a>plt.hist(flowers_df.sepal_width)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-37-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wir können sofort erkennen, dass die Werte der Kelchblattbreite im Bereich von 2,0 bis 4,5 liegen und etwa 35 Werte im Bereich von 2,9 bis 3,1 liegen, was der größte Bereich zu sein scheint.</p>
+<section id="kontrolle-der-größe-und-anzahl-der-bins" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="kontrolle-der-größe-und-anzahl-der-bins"><span class="header-section-number">8.4.1</span> Kontrolle der Größe und Anzahl der Bins</h3>
+<p>Mit dem Argument <code>bins</code> können wir die Anzahl der Bins oder die Größe jedes Bins steuern.</p>
+<div id="cell-67" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:949,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599927393585,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="97d5b572-113b-4253-a5b6-0791537e6dd0" data-execution_count="37">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># Specifying the number of bins</span></span>
+<span id="cb41-2"><a href="#cb41-2"></a>plt.hist(flowers_df.sepal_width, bins<span class="op">=</span><span class="dv">5</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-38-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-68" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:796,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599927479166,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="6a0fd27c-5c54-4095-abaa-4e04deba14ca" data-execution_count="38">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb42-2"><a href="#cb42-2"></a>np.arange(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">0.25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="38">
+<pre><code>array([2.  , 2.25, 2.5 , 2.75, 3.  , 3.25, 3.5 , 3.75, 4.  , 4.25, 4.5 ,
+       4.75])</code></pre>
+</div>
+</div>
+<div id="cell-69" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:967,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599927461774,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="1986dc03-c865-4acd-9bf3-9afca91ebd00" data-execution_count="39">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb44-2"><a href="#cb44-2"></a></span>
+<span id="cb44-3"><a href="#cb44-3"></a><span class="co"># Specifying the boundaries of each bin</span></span>
+<span id="cb44-4"><a href="#cb44-4"></a>plt.hist(flowers_df.sepal_width, bins<span class="op">=</span>np.arange(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">0.25</span>))<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-40-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-70" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1082,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599927487305,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="cd9e647c-50e5-4cb8-8b14-35383ec4a072" data-execution_count="40">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1"></a><span class="co"># Bins of unequal sizes</span></span>
+<span id="cb45-2"><a href="#cb45-2"></a>plt.hist(flowers_df.sepal_width, bins<span class="op">=</span>[<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="fl">4.5</span>])<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-41-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="mehrere-histogramme" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="mehrere-histogramme"><span class="header-section-number">8.4.2</span> Mehrere Histogramme</h3>
+<p>Ähnlich wie bei Liniendiagrammen können wir mehrere Histogramme in einem einzigen Diagramm zeichnen. Wir können die Deckkraft jedes Histogramms verringern, sodass die Balken eines Histogramms die Balken anderer nicht verbergen.</p>
+<p>Lassen Sie uns für jede Blumenart separate Histogramme zeichnen.</p>
+<div id="cell-72" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:588,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599927574735,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="41">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1"></a><span class="co"># Filter the datasets and put them apart</span></span>
+<span id="cb46-2"><a href="#cb46-2"></a>setosa_df <span class="op">=</span> flowers_df[flowers_df.species <span class="op">==</span> <span class="st">'setosa'</span>]</span>
+<span id="cb46-3"><a href="#cb46-3"></a>versicolor_df <span class="op">=</span> flowers_df[flowers_df.species <span class="op">==</span> <span class="st">'versicolor'</span>]</span>
+<span id="cb46-4"><a href="#cb46-4"></a>virginica_df <span class="op">=</span> flowers_df[flowers_df.species <span class="op">==</span> <span class="st">'virginica'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-73" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1166,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599927641325,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="57677faa-95cf-45b9-ab5a-d7699937cec5" data-execution_count="42">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a>plt.hist(setosa_df.sepal_width, alpha<span class="op">=</span><span class="fl">0.3</span>, bins<span class="op">=</span>np.arange(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">0.25</span>))<span class="op">;</span></span>
+<span id="cb47-2"><a href="#cb47-2"></a>plt.hist(versicolor_df.sepal_width, alpha<span class="op">=</span><span class="fl">0.4</span>, bins<span class="op">=</span>np.arange(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">0.25</span>))<span class="op">;</span></span>
+<span id="cb47-3"><a href="#cb47-3"></a></span>
+<span id="cb47-4"><a href="#cb47-4"></a>plt.legend([<span class="st">'Setosa'</span>, <span class="st">'Versicolor'</span>])<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-43-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wir können auch mehrere Histogramme übereinander stapeln.</p>
+<div id="cell-75" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1266,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599927695730,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="a3b06b36-4a27-467b-9421-23db49f8bd63" data-execution_count="43">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1"></a>plt.title(<span class="st">'Distribution of Sepal Width'</span>)</span>
+<span id="cb48-2"><a href="#cb48-2"></a></span>
+<span id="cb48-3"><a href="#cb48-3"></a><span class="co"># Pass on the same argumment the 3 datasets</span></span>
+<span id="cb48-4"><a href="#cb48-4"></a>plt.hist([setosa_df.sepal_width, versicolor_df.sepal_width, virginica_df.sepal_width], </span>
+<span id="cb48-5"><a href="#cb48-5"></a>         bins<span class="op">=</span>np.arange(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">0.25</span>), </span>
+<span id="cb48-6"><a href="#cb48-6"></a>         stacked<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span>
+<span id="cb48-7"><a href="#cb48-7"></a></span>
+<span id="cb48-8"><a href="#cb48-8"></a>plt.legend([<span class="st">'Setosa'</span>, <span class="st">'Versicolor'</span>, <span class="st">'Virginica'</span>])<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-44-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><a id="balkendiagramm"></a></p>
+</section>
+</section>
+<section id="balkendiagramm" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="balkendiagramm"><span class="header-section-number">8.5</span> Balkendiagramm</h2>
+<section id="grundlagen" class="level3" data-number="8.5.1">
+<h3 data-number="8.5.1" class="anchored" data-anchor-id="grundlagen"><span class="header-section-number">8.5.1</span> Grundlagen</h3>
+<p>Balkendiagramme sind Liniendiagrammen sehr ähnlich, d.&nbsp;h. sie zeigen eine Abfolge von Werten, allerdings wird für jeden Wert ein Balken angezeigt und nicht die durch Linien verbundenen Punkte. Wir können die Funktion <code>plt.bar</code> verwenden, um ein Balkendiagramm zu zeichnen.</p>
+<div id="cell-78" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:633,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599928713963,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="44">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1"></a>years <span class="op">=</span> <span class="bu">range</span>(<span class="dv">2000</span>, <span class="dv">2006</span>)</span>
+<span id="cb49-2"><a href="#cb49-2"></a>apples <span class="op">=</span> [<span class="fl">0.35</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span>, <span class="fl">0.8</span>, <span class="fl">0.65</span>, <span class="fl">0.8</span>]</span>
+<span id="cb49-3"><a href="#cb49-3"></a>oranges <span class="op">=</span> [<span class="fl">0.4</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>, <span class="fl">0.7</span>, <span class="fl">0.6</span>, <span class="fl">0.8</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-79" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1226,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599928715415,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="cb229ca7-eb8c-494f-f91d-5e7b81bca387" data-execution_count="45">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a>plt.bar(years, oranges)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-46-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wie Histogramme können auch Balken übereinander gestapelt werden. Um dies zu erreichen, verwenden wir das Argument <code>bottom</code> für <code>plt.bar</code>.</p>
+<div id="cell-81" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:994,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599928715857,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="6557a6d0-4fbe-4b5a-8268-5f5a66c7551a" data-execution_count="46">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1"></a>plt.bar(years, apples)</span>
+<span id="cb51-2"><a href="#cb51-2"></a>plt.bar(years, oranges, bottom<span class="op">=</span>apples)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-47-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="balkendiagramme-mit-durchschnittswerten" class="level3" data-number="8.5.2">
+<h3 data-number="8.5.2" class="anchored" data-anchor-id="balkendiagramme-mit-durchschnittswerten"><span class="header-section-number">8.5.2</span> Balkendiagramme mit Durchschnittswerten</h3>
+<p>Schauen wir uns einen weiteren Beispieldatensatz an, der in Seaborn enthalten ist und <code>tips</code> heißt. Der Datensatz enthält Informationen zu Geschlecht, Tageszeit, Gesamtrechnung und Trinkgeldbetrag für Kunden, die über eine Woche hinweg ein Restaurant besuchen.</p>
+<div id="cell-83" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:927,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599928719131,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="47">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1"></a>tips_df <span class="op">=</span> sns.load_dataset(<span class="st">"tips"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-84" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1476,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599928719694,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="a07124ab-cb79-4d95-8ce5-9e23068db948" data-execution_count="48">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a>tips_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">total_bill</th>
+<th data-quarto-table-cell-role="th">tip</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">smoker</th>
+<th data-quarto-table-cell-role="th">day</th>
+<th data-quarto-table-cell-role="th">time</th>
+<th data-quarto-table-cell-role="th">size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>16.99</td>
+<td>1.01</td>
+<td>Female</td>
+<td>No</td>
+<td>Sun</td>
+<td>Dinner</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>10.34</td>
+<td>1.66</td>
+<td>Male</td>
+<td>No</td>
+<td>Sun</td>
+<td>Dinner</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>21.01</td>
+<td>3.50</td>
+<td>Male</td>
+<td>No</td>
+<td>Sun</td>
+<td>Dinner</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>23.68</td>
+<td>3.31</td>
+<td>Male</td>
+<td>No</td>
+<td>Sun</td>
+<td>Dinner</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>24.59</td>
+<td>3.61</td>
+<td>Female</td>
+<td>No</td>
+<td>Sun</td>
+<td>Dinner</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">239</th>
+<td>29.03</td>
+<td>5.92</td>
+<td>Male</td>
+<td>No</td>
+<td>Sat</td>
+<td>Dinner</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">240</th>
+<td>27.18</td>
+<td>2.00</td>
+<td>Female</td>
+<td>Yes</td>
+<td>Sat</td>
+<td>Dinner</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">241</th>
+<td>22.67</td>
+<td>2.00</td>
+<td>Male</td>
+<td>Yes</td>
+<td>Sat</td>
+<td>Dinner</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">242</th>
+<td>17.82</td>
+<td>1.75</td>
+<td>Male</td>
+<td>No</td>
+<td>Sat</td>
+<td>Dinner</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">243</th>
+<td>18.78</td>
+<td>3.00</td>
+<td>Female</td>
+<td>No</td>
+<td>Thur</td>
+<td>Dinner</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+
+<p>244 rows × 7 columns</p>
+</div>
+</div>
+</div>
+<p>Möglicherweise möchten wir ein Balkendiagramm zeichnen, um zu veranschaulichen, wie der durchschnittliche Rechnungsbetrag an verschiedenen Wochentagen variiert. Eine Möglichkeit, dies zu tun, wäre, die Tagesdurchschnitte zu berechnen und dann <code>plt.bar</code> zu verwenden (versuchen Sie es als Übung).</p>
+<p>Da dies jedoch ein sehr häufiger Anwendungsfall ist, bietet die Seaborn-Bibliothek eine <code>Barplot</code>-Funktion, mit der Durchschnittswerte automatisch berechnet werden können.</p>
+<div id="cell-86" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1468,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599928719695,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="63e59ae7-60ae-42d5-fc94-a0cdb642e16e" data-execution_count="49">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1"></a>sns.barplot(x<span class="op">=</span><span class="st">'day'</span>, y<span class="op">=</span><span class="st">'total_bill'</span>, data<span class="op">=</span>tips_df)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-50-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die Linien, die jeden Balken schneiden, stellen das Ausmaß der Variation in den Werten dar. So scheint es zum Beispiel so zu sein, dass die Schwankung der Gesamtrechnung freitags recht hoch und am Samstag geringer war.</p>
+<p>Wir können auch ein <code>hue</code>-Argument angeben, um Balkendiagramme nebeneinander zu vergleichen, basierend auf einem dritten Merkmal, z. B. Sex.</p>
+<div id="cell-88" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:2057,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599928720291,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="ce1f7ba5-8688-4eea-e0c3-783324d8c015" data-execution_count="50">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1"></a>sns.barplot(x<span class="op">=</span><span class="st">'day'</span>, y<span class="op">=</span><span class="st">'total_bill'</span>, hue<span class="op">=</span><span class="st">'sex'</span>, data<span class="op">=</span>tips_df)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-51-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Sie können die Balken einfach durch Vertauschen der Achsen horizontal machen.</p>
+<div id="cell-90" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:2989,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599928721237,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="4b6f38ba-9f27-4f74-d03a-eb4bf867c3f2" data-execution_count="51">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1"></a>sns.barplot(x<span class="op">=</span><span class="st">'total_bill'</span>, y<span class="op">=</span><span class="st">'day'</span>, hue<span class="op">=</span><span class="st">'sex'</span>, data<span class="op">=</span>tips_df)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-52-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><a id="heatmap"></a></p>
+</section>
+</section>
+<section id="heatmap" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="heatmap"><span class="header-section-number">8.6</span> Heatmap</h2>
+<p>Eine Heatmap wird verwendet, um zweidimensionale Daten wie eine Matrix oder eine Tabelle mithilfe von Farben zu visualisieren. Der beste Weg, es zu verstehen, ist, sich ein Beispiel anzusehen. Wir verwenden einen weiteren Beispieldatensatz von Seaborn mit der Bezeichnung „flights“, um die monatliche Passagierfrequenz an einem Flughafen über einen Zeitraum von 12 Jahren zu visualisieren.</p>
+<div id="cell-93" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:876,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599928727272,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="52">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1"></a>flights_df <span class="op">=</span> sns.load_dataset(<span class="st">"flights"</span>).pivot(index<span class="op">=</span><span class="st">"month"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"passengers"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-94" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:625,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599928762237,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="9968e90e-2ca9-427c-9aa4-de112d3c7901" data-execution_count="53">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1"></a>flights_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="53">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">1949</th>
+<th data-quarto-table-cell-role="th">1950</th>
+<th data-quarto-table-cell-role="th">1951</th>
+<th data-quarto-table-cell-role="th">1952</th>
+<th data-quarto-table-cell-role="th">1953</th>
+<th data-quarto-table-cell-role="th">1954</th>
+<th data-quarto-table-cell-role="th">1955</th>
+<th data-quarto-table-cell-role="th">1956</th>
+<th data-quarto-table-cell-role="th">1957</th>
+<th data-quarto-table-cell-role="th">1958</th>
+<th data-quarto-table-cell-role="th">1959</th>
+<th data-quarto-table-cell-role="th">1960</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">month</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Jan</th>
+<td>112</td>
+<td>115</td>
+<td>145</td>
+<td>171</td>
+<td>196</td>
+<td>204</td>
+<td>242</td>
+<td>284</td>
+<td>315</td>
+<td>340</td>
+<td>360</td>
+<td>417</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Feb</th>
+<td>118</td>
+<td>126</td>
+<td>150</td>
+<td>180</td>
+<td>196</td>
+<td>188</td>
+<td>233</td>
+<td>277</td>
+<td>301</td>
+<td>318</td>
+<td>342</td>
+<td>391</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Mar</th>
+<td>132</td>
+<td>141</td>
+<td>178</td>
+<td>193</td>
+<td>236</td>
+<td>235</td>
+<td>267</td>
+<td>317</td>
+<td>356</td>
+<td>362</td>
+<td>406</td>
+<td>419</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Apr</th>
+<td>129</td>
+<td>135</td>
+<td>163</td>
+<td>181</td>
+<td>235</td>
+<td>227</td>
+<td>269</td>
+<td>313</td>
+<td>348</td>
+<td>348</td>
+<td>396</td>
+<td>461</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">May</th>
+<td>121</td>
+<td>125</td>
+<td>172</td>
+<td>183</td>
+<td>229</td>
+<td>234</td>
+<td>270</td>
+<td>318</td>
+<td>355</td>
+<td>363</td>
+<td>420</td>
+<td>472</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Jun</th>
+<td>135</td>
+<td>149</td>
+<td>178</td>
+<td>218</td>
+<td>243</td>
+<td>264</td>
+<td>315</td>
+<td>374</td>
+<td>422</td>
+<td>435</td>
+<td>472</td>
+<td>535</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Jul</th>
+<td>148</td>
+<td>170</td>
+<td>199</td>
+<td>230</td>
+<td>264</td>
+<td>302</td>
+<td>364</td>
+<td>413</td>
+<td>465</td>
+<td>491</td>
+<td>548</td>
+<td>622</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Aug</th>
+<td>148</td>
+<td>170</td>
+<td>199</td>
+<td>242</td>
+<td>272</td>
+<td>293</td>
+<td>347</td>
+<td>405</td>
+<td>467</td>
+<td>505</td>
+<td>559</td>
+<td>606</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Sep</th>
+<td>136</td>
+<td>158</td>
+<td>184</td>
+<td>209</td>
+<td>237</td>
+<td>259</td>
+<td>312</td>
+<td>355</td>
+<td>404</td>
+<td>404</td>
+<td>463</td>
+<td>508</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Oct</th>
+<td>119</td>
+<td>133</td>
+<td>162</td>
+<td>191</td>
+<td>211</td>
+<td>229</td>
+<td>274</td>
+<td>306</td>
+<td>347</td>
+<td>359</td>
+<td>407</td>
+<td>461</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Nov</th>
+<td>104</td>
+<td>114</td>
+<td>146</td>
+<td>172</td>
+<td>180</td>
+<td>203</td>
+<td>237</td>
+<td>271</td>
+<td>305</td>
+<td>310</td>
+<td>362</td>
+<td>390</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Dec</th>
+<td>118</td>
+<td>140</td>
+<td>166</td>
+<td>194</td>
+<td>201</td>
+<td>229</td>
+<td>278</td>
+<td>306</td>
+<td>336</td>
+<td>337</td>
+<td>405</td>
+<td>432</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><code>flights_df</code> ist eine Matrix mit einer Zeile für jeden Monat und einer Spalte für jedes Jahr. Die Werte in der Matrix zeigen die Anzahl der Passagiere (in Tausend), die den Flughafen in einem bestimmten Monat eines bestimmten Jahres besuchten. Mit der Funktion <code>sns.heatmap</code> können wir die Passantenfrequenz am Flughafen visualisieren.</p>
+<div id="cell-96" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1031,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599928765653,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="af9e6cef-e32f-4550-e119-3118df8d8a11" data-execution_count="54">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1"></a>plt.title(<span class="st">"No. of Passengers (1000s)"</span>)</span>
+<span id="cb59-2"><a href="#cb59-2"></a>sns.heatmap(flights_df)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-55-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die helleren Farben weisen auf eine höhere Passantenfrequenz am Flughafen hin. Wenn wir uns die Grafik ansehen, können wir zwei Dinge ableiten:</p>
+<ul>
+<li>Die Besucherfrequenz am Flughafen ist in jedem Jahr im Juli und August am höchsten.</li>
+<li>Die Besucherfrequenz am Flughafen nimmt in jedem Monat von Jahr zu Jahr zu.</li>
+</ul>
+<p>Wir können auch die tatsächlichen Werte in jedem Block anzeigen, indem wir <code>annot=True</code> angeben und das Argument <code>cmap</code> verwenden, um die Farbpalette zu ändern.</p>
+<div id="cell-98" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:2203,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599929002083,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="d9e31b7c-73c2-4b31-a2e9-9a2403218541" data-execution_count="55">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1"></a>plt.title(<span class="st">"No. of Passengers (1000s)"</span>)</span>
+<span id="cb60-2"><a href="#cb60-2"></a>sns.heatmap(flights_df, fmt<span class="op">=</span><span class="st">"d"</span>, annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-56-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><a id="bilder"></a></p>
+</section>
+<section id="bilder" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="bilder"><span class="header-section-number">8.7</span> Bilder</h2>
+<p>Matplotlib kann auch zum Anzeigen von Bildern verwendet werden.</p>
+<p>Bevor ein Bild angezeigt werden kann, muss es mit dem Modul <code>PIL</code> in den Speicher eingelesen werden. Nutzen wir hierfür das Bild aus dem Data Ordner <code>chart.jpg</code>.</p>
+<div id="cell-102" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:661,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599929008503,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="56">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-103" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:601,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599929009805,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="57">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1"></a>img <span class="op">=</span> Image.<span class="bu">open</span>(<span class="st">'data/chart.jpg'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Ein mit PIL geladenes Bild ist einfach ein dreidimensionales Numpy-Array, das Pixelintensitäten für die roten, grünen und blauen (RGB) Kanäle des Bildes enthält. Wir können das Bild mit <code>np.array</code> in ein Array konvertieren.</p>
+<div id="cell-105" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:588,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599929012671,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-execution_count="58">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1"></a>img_array <span class="op">=</span> np.array(img)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="cell-106" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:625,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599929014731,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="77797b59-350b-47d5-e0b6-c80ac438172b" data-execution_count="59">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1"></a>img_array.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="59">
+<pre><code>(481, 640, 3)</code></pre>
+</div>
+</div>
+<p>Wir können das PIL-Bild mit <code>plt.imshow</code> anzeigen.</p>
+<div id="cell-108" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1263,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599929021031,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="89f87bfb-9497-4815-dbed-08b57e0615d3" data-execution_count="60">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1"></a>plt.imshow(img)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-61-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Mit den entsprechenden Funktionen können wir die Achsen und Gitterlinien ausschalten und einen Titel anzeigen.</p>
+<div id="cell-110" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1055,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599929233373,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="a48cee3b-1dca-43d8-c7d2-a78b8d6b1b21" data-execution_count="61">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1"></a>plt.grid(<span class="va">False</span>)</span>
+<span id="cb67-2"><a href="#cb67-2"></a>plt.title(<span class="st">'A data science meme'</span>)</span>
+<span id="cb67-3"><a href="#cb67-3"></a>plt.axis(<span class="st">'off'</span>)</span>
+<span id="cb67-4"><a href="#cb67-4"></a>plt.imshow(img)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-62-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Um einen Teil des Bildes anzuzeigen, können wir einfach ein Segment aus dem Numpy-Array auswählen.</p>
+<div id="cell-112" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:886,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599929238639,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="e31b468c-f13e-4356-fd68-0a39c542380f" data-execution_count="62">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1"></a>plt.grid(<span class="va">False</span>)</span>
+<span id="cb68-2"><a href="#cb68-2"></a>plt.axis(<span class="st">'off'</span>)</span>
+<span id="cb68-3"><a href="#cb68-3"></a>plt.imshow(img_array[<span class="dv">125</span>:<span class="dv">325</span>,<span class="dv">105</span>:<span class="dv">305</span>])<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-63-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><a id="raster"></a></p>
+</section>
+<section id="mehrere-diagramme-in-einem-raster-darstellen" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="mehrere-diagramme-in-einem-raster-darstellen"><span class="header-section-number">8.8</span> Mehrere Diagramme in einem Raster darstellen</h2>
+<section id="grundlagen-1" class="level3" data-number="8.8.1">
+<h3 data-number="8.8.1" class="anchored" data-anchor-id="grundlagen-1"><span class="header-section-number">8.8.1</span> Grundlagen</h3>
+<p>Matplotlib und Seaborn unterstützen auch das Plotten mehrerer Diagramme in einem Raster mithilfe von <code>plt.subplots</code>, das einen Satz von Achsen zurückgibt, die zum Plotten verwendet werden können.</p>
+<p>Hier ist ein einzelnes Raster, das die verschiedenen Arten von Diagrammen zeigt, die wir in diesem Tutorial behandelt haben.</p>
+<div id="cell-115" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:3048,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599929821039,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="46b22510-52a4-4167-a5e8-6906ebf98f3a" data-execution_count="63">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">8</span>))</span>
+<span id="cb69-2"><a href="#cb69-2"></a></span>
+<span id="cb69-3"><a href="#cb69-3"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(years, apples, <span class="st">'s--b'</span>)</span>
+<span id="cb69-4"><a href="#cb69-4"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(years, oranges, <span class="st">'o--r'</span>)</span>
+<span id="cb69-5"><a href="#cb69-5"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_xlabel(<span class="st">'Year'</span>)</span>
+<span id="cb69-6"><a href="#cb69-6"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'Yield (tons per hectar)'</span>)</span>
+<span id="cb69-7"><a href="#cb69-7"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">'Yield or Oranges'</span>)</span>
+<span id="cb69-8"><a href="#cb69-8"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].legend([<span class="st">'Apples'</span>, <span class="st">'Oranges'</span>])</span>
+<span id="cb69-9"><a href="#cb69-9"></a></span>
+<span id="cb69-10"><a href="#cb69-10"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_title(<span class="st">'Sepal lenght vs Yield'</span>)</span>
+<span id="cb69-11"><a href="#cb69-11"></a>sns.scatterplot(x<span class="op">=</span>flowers_df.sepal_length,</span>
+<span id="cb69-12"><a href="#cb69-12"></a>                y<span class="op">=</span>flowers_df.sepal_width,</span>
+<span id="cb69-13"><a href="#cb69-13"></a>                hue<span class="op">=</span>flowers_df.species, </span>
+<span id="cb69-14"><a href="#cb69-14"></a>                s<span class="op">=</span><span class="dv">100</span>, </span>
+<span id="cb69-15"><a href="#cb69-15"></a>                ax<span class="op">=</span>axes[<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb69-16"><a href="#cb69-16"></a></span>
+<span id="cb69-17"><a href="#cb69-17"></a>plt.tight_layout(pad<span class="op">=</span><span class="dv">2</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-64-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-116" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:615,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599929464898,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="aace1d49-1e05-4b1f-8b51-7327d3ba2a40" data-execution_count="64">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1"></a>axes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="64">
+<pre><code>array([[&lt;Axes: title={'center': 'Yield or Oranges'}, xlabel='Year', ylabel='Yield (tons per hectar)'&gt;,
+        &lt;Axes: title={'center': 'Sepal lenght vs Yield'}, xlabel='sepal_length', ylabel='sepal_width'&gt;,
+        &lt;Axes: &gt;],
+       [&lt;Axes: &gt;, &lt;Axes: &gt;, &lt;Axes: &gt;]], dtype=object)</code></pre>
+</div>
+</div>
+<div id="cell-117" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:701,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599929474392,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="be0e4926-2264-4f02-e5a0-5b204b80f5dd" data-execution_count="65">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1"></a>axes.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="65">
+<pre><code>(2, 3)</code></pre>
+</div>
+</div>
+<div id="cell-118" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:4063,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599929849964,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="746352b8-c177-448a-a7e5-5c63a49748c1" data-execution_count="66">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">8</span>))</span>
+<span id="cb74-2"><a href="#cb74-2"></a></span>
+<span id="cb74-3"><a href="#cb74-3"></a><span class="co"># Use the axes for plotting</span></span>
+<span id="cb74-4"><a href="#cb74-4"></a>axes[<span class="dv">0</span>,<span class="dv">0</span>].plot(years, apples, <span class="st">'s-b'</span>)</span>
+<span id="cb74-5"><a href="#cb74-5"></a>axes[<span class="dv">0</span>,<span class="dv">0</span>].plot(years, oranges, <span class="st">'o--r'</span>)</span>
+<span id="cb74-6"><a href="#cb74-6"></a>axes[<span class="dv">0</span>,<span class="dv">0</span>].set_xlabel(<span class="st">'Year'</span>)</span>
+<span id="cb74-7"><a href="#cb74-7"></a>axes[<span class="dv">0</span>,<span class="dv">0</span>].set_ylabel(<span class="st">'Yield (tons per hectare)'</span>)</span>
+<span id="cb74-8"><a href="#cb74-8"></a>axes[<span class="dv">0</span>,<span class="dv">0</span>].legend([<span class="st">'Apples'</span>, <span class="st">'Oranges'</span>])<span class="op">;</span></span>
+<span id="cb74-9"><a href="#cb74-9"></a>axes[<span class="dv">0</span>,<span class="dv">0</span>].set_title(<span class="st">'Crop Yields in Kanto'</span>)</span>
+<span id="cb74-10"><a href="#cb74-10"></a></span>
+<span id="cb74-11"><a href="#cb74-11"></a></span>
+<span id="cb74-12"><a href="#cb74-12"></a><span class="co"># Pass the axes into seaborn</span></span>
+<span id="cb74-13"><a href="#cb74-13"></a>axes[<span class="dv">0</span>,<span class="dv">1</span>].set_title(<span class="st">'Sepal Length vs. Sepal Width'</span>)</span>
+<span id="cb74-14"><a href="#cb74-14"></a>sns.scatterplot(x<span class="op">=</span>flowers_df.sepal_length, </span>
+<span id="cb74-15"><a href="#cb74-15"></a>                y<span class="op">=</span>flowers_df.sepal_width, </span>
+<span id="cb74-16"><a href="#cb74-16"></a>                hue<span class="op">=</span>flowers_df.species, </span>
+<span id="cb74-17"><a href="#cb74-17"></a>                s<span class="op">=</span><span class="dv">100</span>, </span>
+<span id="cb74-18"><a href="#cb74-18"></a>                ax<span class="op">=</span>axes[<span class="dv">0</span>,<span class="dv">1</span>])<span class="op">;</span></span>
+<span id="cb74-19"><a href="#cb74-19"></a></span>
+<span id="cb74-20"><a href="#cb74-20"></a><span class="co"># Use the axes for plotting</span></span>
+<span id="cb74-21"><a href="#cb74-21"></a>axes[<span class="dv">0</span>,<span class="dv">2</span>].set_title(<span class="st">'Distribution of Sepal Width'</span>)</span>
+<span id="cb74-22"><a href="#cb74-22"></a>axes[<span class="dv">0</span>,<span class="dv">2</span>].hist([setosa_df.sepal_width, versicolor_df.sepal_width, virginica_df.sepal_width], </span>
+<span id="cb74-23"><a href="#cb74-23"></a>         bins<span class="op">=</span>np.arange(<span class="dv">2</span>, <span class="dv">5</span>, <span class="fl">0.25</span>), </span>
+<span id="cb74-24"><a href="#cb74-24"></a>         stacked<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span>
+<span id="cb74-25"><a href="#cb74-25"></a></span>
+<span id="cb74-26"><a href="#cb74-26"></a>axes[<span class="dv">0</span>,<span class="dv">2</span>].legend([<span class="st">'Setosa'</span>, <span class="st">'Versicolor'</span>, <span class="st">'Virginica'</span>])<span class="op">;</span></span>
+<span id="cb74-27"><a href="#cb74-27"></a></span>
+<span id="cb74-28"><a href="#cb74-28"></a><span class="co"># Pass the axes into seaborn</span></span>
+<span id="cb74-29"><a href="#cb74-29"></a>axes[<span class="dv">1</span>,<span class="dv">0</span>].set_title(<span class="st">'Restaurant bills'</span>)</span>
+<span id="cb74-30"><a href="#cb74-30"></a>sns.barplot(x<span class="op">=</span><span class="st">'day'</span>, y<span class="op">=</span><span class="st">'total_bill'</span>, hue<span class="op">=</span><span class="st">'sex'</span>, data<span class="op">=</span>tips_df, ax<span class="op">=</span>axes[<span class="dv">1</span>,<span class="dv">0</span>])<span class="op">;</span></span>
+<span id="cb74-31"><a href="#cb74-31"></a></span>
+<span id="cb74-32"><a href="#cb74-32"></a><span class="co"># Pass the axes into seaborn</span></span>
+<span id="cb74-33"><a href="#cb74-33"></a>axes[<span class="dv">1</span>,<span class="dv">1</span>].set_title(<span class="st">'Flight traffic'</span>)</span>
+<span id="cb74-34"><a href="#cb74-34"></a>sns.heatmap(flights_df, cmap<span class="op">=</span><span class="st">'Blues'</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>,<span class="dv">1</span>])<span class="op">;</span></span>
+<span id="cb74-35"><a href="#cb74-35"></a></span>
+<span id="cb74-36"><a href="#cb74-36"></a><span class="co"># Plot an image using the axes</span></span>
+<span id="cb74-37"><a href="#cb74-37"></a>axes[<span class="dv">1</span>,<span class="dv">2</span>].set_title(<span class="st">'Data Science Meme'</span>)</span>
+<span id="cb74-38"><a href="#cb74-38"></a>axes[<span class="dv">1</span>,<span class="dv">2</span>].imshow(img)</span>
+<span id="cb74-39"><a href="#cb74-39"></a>axes[<span class="dv">1</span>,<span class="dv">2</span>].grid(<span class="va">False</span>)</span>
+<span id="cb74-40"><a href="#cb74-40"></a>axes[<span class="dv">1</span>,<span class="dv">2</span>].set_xticks([])</span>
+<span id="cb74-41"><a href="#cb74-41"></a>axes[<span class="dv">1</span>,<span class="dv">2</span>].set_yticks([])</span>
+<span id="cb74-42"><a href="#cb74-42"></a></span>
+<span id="cb74-43"><a href="#cb74-43"></a>plt.tight_layout(pad<span class="op">=</span><span class="dv">2</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-67-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Eine vollständige Liste der unterstützten Funktionen finden Sie auf dieser <a href="https://matplotlib.org/3.3.1/api/axes_api.html#the-axes-class">Seite</a>.</p>
+</section>
+<section id="parzellen-mit-seaborn-koppeln" class="level3" data-number="8.8.2">
+<h3 data-number="8.8.2" class="anchored" data-anchor-id="parzellen-mit-seaborn-koppeln"><span class="header-section-number">8.8.2</span> Parzellen mit Seaborn koppeln</h3>
+<p>Seaborn bietet außerdem eine Hilfsfunktion <code>sns.pairplot</code>, um automatisch verschiedene Arten von Diagrammen für Merkmalspaare innerhalb eines Data Frames zu zeichnen.</p>
+<div id="cell-121" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:7999,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599930219038,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="27ea3fb7-1c40-4471-dbc2-2a9b703ddfb5" data-execution_count="67">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1"></a>sns.pairplot(flowers_df, hue<span class="op">=</span><span class="st">'species'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-68-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-122" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:8336,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1599930222388,&quot;user&quot;:{&quot;displayName&quot;:&quot;Fozzy Ferdinand&quot;,&quot;photoUrl&quot;:&quot;https://lh3.googleusercontent.com/a-/AOh14GiwyXcvcE6WmDoI5b4bceJML_HK0x54VP6yFz-m=s64&quot;,&quot;userId&quot;:&quot;13877083701773371860&quot;},&quot;user_tz&quot;:240}}" data-outputid="8485da65-b9f7-417d-dc9c-e99d18319b27" data-execution_count="68">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1"></a>sns.pairplot(tips_df, hue<span class="op">=</span><span class="st">'sex'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="kapitel7_files/figure-html/cell-69-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="weiterführende-literatur" class="level2" data-number="8.9">
+<h2 data-number="8.9" class="anchored" data-anchor-id="weiterführende-literatur"><span class="header-section-number">8.9</span> Weiterführende Literatur</h2>
+<p>In diesem Tutorial haben wir einige der grundlegenden Konzepte und beliebten Techniken zur Datenvisualisierung mit Matplotlib und Seaborn behandelt. Datenvisualisierung ist ein weites Feld und wir haben hier kaum an der Oberfläche gekratzt. Schauen Sie sich diese Referenzen an, um mehr zu erfahren und zu entdecken:</p>
+<ul>
+<li><a href="https://seaborn.pydata.org/examples/index.html">Seaborn-Galerie</a></li>
+<li><a href="https://matplotlib.org/3.1.1/gallery/index.html">Matplotlib-Galerie</a></li>
+<li><a href="https://github.com/rougier/matplotlib-tutorial">Matplotlib-Tutorial</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./kapitel6.html" class="pagination-link" aria-label="Analyse tabellarischer Daten mit Python und Pandas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Analyse tabellarischer Daten mit Python und Pandas</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./kapitel8.html" class="pagination-link" aria-label="Explorative Datenanalyse mit Python – Eine Fallstudie">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Explorative Datenanalyse mit Python – Eine Fallstudie</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

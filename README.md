@@ -48,7 +48,7 @@ Dieses Buch nutzt:
 ## 📥 Download
 
 Alle Jupyter Notebooks können gesammelt als ZIP heruntergeladen werden:  
-*Download-Link wird ergänzt.*
+*https://github.com/thomasmaehlmann-ctrl/python-data-analysis-intro/blob/main/notebooks_data.zip*
 
 ## © Lizenz & Copyright
 

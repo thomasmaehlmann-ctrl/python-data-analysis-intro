@@ -43,7 +43,7 @@ Dieses Buch nutzt:
 ## 🌐 Online-Version
 
 👉 Das vollständige Webbuch ist hier verfügbar:  
-*Link wird ergänzt, sobald GitHub Pages aktiv ist.*
+*https://thomasmaehlmann-ctrl.github.io/python-data-analysis-intro/*
 
 ## 📥 Download
 

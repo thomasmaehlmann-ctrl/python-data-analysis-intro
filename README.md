@@ -43,12 +43,12 @@ Dieses Buch nutzt:
 ## 🌐 Online-Version
 
 👉 Das vollständige Webbuch ist hier verfügbar:  
-*Link wird ergänzt, sobald GitHub Pages aktiv ist.*
+*https://thomasmaehlmann-ctrl.github.io/python-data-analysis-intro/*
 
 ## 📥 Download
 
 Alle Jupyter Notebooks können gesammelt als ZIP heruntergeladen werden:  
-*Download-Link wird ergänzt.*
+*https://github.com/thomasmaehlmann-ctrl/python-data-analysis-intro/raw/main/notebooks_data.zip*
 
 ## © Lizenz & Copyright
 
